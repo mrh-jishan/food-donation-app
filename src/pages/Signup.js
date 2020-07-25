@@ -2,7 +2,7 @@ import { Picker } from '@react-native-community/picker';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import React from 'react';
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Button, TextInput } from 'react-native-paper';
 import Logo from '../components/Logo';
 
@@ -31,24 +31,51 @@ class Signup extends React.Component {
     handleFormSubmit = () => {
         auth()
             .createUserWithEmailAndPassword(this.state.email, this.state.password)
-            .then(() => {
+            .then(user => {
                 firestore().collection('Users').add(this.state).then(res => {
-                    console.log(res);
+                    this.props.navigation.navigate('Login');
                 }).catch(err => {
-                    console.log(err);
+                    Alert.alert(
+                        "Alert - Message",
+                        "Sorry! Something went wrong!!",
+                        [
+                            { text: "OK", onPress: () => console.log("OK Pressed") }
+                        ],
+                        { cancelable: false }
+                    );
                 })
-                console.log('User account created & signed in!');
+
             })
             .catch(error => {
                 if (error.code === 'auth/email-already-in-use') {
-                    console.log('That email address is already in use!');
-                }
-
-                if (error.code === 'auth/invalid-email') {
+                    Alert.alert(
+                        "Alert - Message",
+                        "That email address is already in use!",
+                        [
+                            { text: "OK", onPress: () => console.log("OK Pressed") }
+                        ],
+                        { cancelable: false }
+                    );
+                } else if (error.code === 'auth/invalid-email') {
+                    Alert.alert(
+                        "Alert - Message",
+                        "That email address is invalid!",
+                        [
+                            { text: "OK", onPress: () => console.log("OK Pressed") }
+                        ],
+                        { cancelable: false }
+                    );
                     console.log('That email address is invalid!');
+                } else {
+                    Alert.alert(
+                        "Alert Title",
+                        "Sorry! Something went wrong!!",
+                        [
+                            { text: "OK", onPress: () => console.log("OK Pressed") }
+                        ],
+                        { cancelable: false }
+                    );
                 }
-
-                console.error(error);
             });
     }
 
@@ -108,7 +135,6 @@ class Signup extends React.Component {
                         label="Contact"
                         style={styles.textInput}
                         value={this.state.contact}
-                        secureTextEntry={true}
                         onChangeText={text => this.setState({ contact: text })}
                     />
 

@@ -7,6 +7,7 @@ import { Provider as PaperProvider } from 'react-native-paper';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
+import Dashboard from './pages/Dashboard';
 
 
 
@@ -21,6 +22,7 @@ class App extends React.Component {
                         <Stack.Screen name="Home" component={Home} options={{ title: 'Home Page' }} />
                         <Stack.Screen name="Login" component={Login} options={{ title: 'Login Page' }} />
                         <Stack.Screen name="Signup" component={Signup} options={{ title: 'Signup Page' }} />
+                        <Stack.Screen name="Dashboard" component={Dashboard} options={{ title: 'Home Page' }} />
                     </Stack.Navigator>
                 </NavigationContainer>
             </PaperProvider>

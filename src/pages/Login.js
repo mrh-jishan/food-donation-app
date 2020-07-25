@@ -1,8 +1,8 @@
+import auth from '@react-native-firebase/auth';
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Button, TextInput } from 'react-native-paper';
 import Logo from '../components/Logo';
-import auth from '@react-native-firebase/auth';
 
 class Login extends React.Component {
 
@@ -15,7 +15,24 @@ class Login extends React.Component {
     }
 
     handleFormSubmit = () => {
-        console.log(this.state);
+
+        auth()
+            .signInWithEmailAndPassword(this.state.email, this.state.password)
+            .then(user => {
+                console.log('User: ',user);
+                this.props.navigation.navigate('Dashboard');
+            })
+            .catch(error => {
+                Alert.alert(
+                    "Alert Title",
+                    "Sorry! Unable to Login!!",
+                    [
+                        { text: "OK", onPress: () => console.log("OK Pressed") }
+                    ],
+                    { cancelable: false }
+                );
+
+            });
     }
 
     render() {
@@ -32,6 +49,7 @@ class Login extends React.Component {
                     label="Password"
                     style={styles.textInput}
                     value={this.state.password}
+                    secureTextEntry={true}
                     onChangeText={text => this.setState({ password: text })}
                 />
 
@@ -41,7 +59,7 @@ class Login extends React.Component {
                         width: '100%',
                         marginVertical: 10,
                     }}
-                    onPress={() => console.log('Pressed')}>
+                    onPress={this.handleFormSubmit}>
                     Login
                 </Button>
 
