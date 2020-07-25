@@ -1,13 +1,7 @@
 import { Picker } from '@react-native-community/picker';
 import React from 'react';
-import {
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
-    ScrollView
-} from 'react-native';
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Button, TextInput } from 'react-native-paper';
 import Logo from '../components/Logo';
 
 
@@ -26,10 +20,9 @@ class Signup extends React.Component {
         super(props)
         this.state = {
             email: '',
-            username: '',
-            pnumber: '',
+            name: '',
+            contact: '',
             password: '',
-            cpassword: '',
             type: ''
         }
     }
@@ -45,14 +38,19 @@ class Signup extends React.Component {
                 <View style={styles.container}>
                     <Logo />
                     <View style={{
-                        borderRadius: 25,
+                        borderRadius: 5,
                         borderWidth: 1,
                         borderColor: 'rgba(255,255,255,0.3)',
-                        overflow: 'hidden'
+                        overflow: 'hidden',
+                        width: "100%"
                     }}>
                         <Picker
                             selectedValue={this.state.type}
-                            style={{ ...styles.inputBox, marginVertical: 0 }}
+                            style={{
+                                ...styles.textInput,
+                                color: '#CCC',
+                                marginVertical: 0
+                            }}
                             mode='dropdown'
                             onValueChange={(itemValue, itemIndex) =>
                                 this.setState({ type: itemValue })
@@ -63,58 +61,50 @@ class Signup extends React.Component {
                         </Picker>
                     </View>
 
-                    <TextInput style={styles.inputBox}
-                        underlineColorAndroid='rgba(0,0,0,0)'
-                        placeholder="Email"
-                        placeholderTextColor="#ffffff"
-                        selectionColor="#fff"
-                        keyboardType="email-address"
+                    <TextInput
+                        label="Name"
+                        style={styles.textInput}
+                        value={this.state.name}
+                        onChangeText={text => this.setState({ name: text })}
+                    />
+
+                    <TextInput
+                        label="Email"
+                        style={styles.textInput}
                         value={this.state.email}
                         onChangeText={text => this.setState({ email: text })}
-                        onSubmitEditing={() => this.username.focus} />
+                    />
 
-                    <TextInput style={styles.inputBox}
-                        underlineColorAndroid='rgba(0,0,0,0)'
-                        placeholder="Username"
-                        placeholderTextColor="#ffffff"
-                        selectionColor="#fff"
-                        value={this.state.username}
-                        onChangeText={text => this.setState({ username: text })}
-                        onSubmitEditing={() => this.contact.focus} />
-
-                    <TextInput style={styles.inputBox}
-                        underlineColorAndroid='rgba(0,0,0,0)'
-                        placeholder="Phone Number"
-                        placeholderTextColor="#ffffff"
-                        selectionColor="#fff"
-                        value={this.state.pnumber}
-                        onChangeText={text => this.setState({ pnumber: text })}
-                        onSubmitEditing={() => this.password.focus} />
-
-                    <TextInput style={styles.inputBox}
-                        underlineColorAndroid='rgba(0,0,0,0)'
-                        placeholder="Password"
-                        secureTextEntry={true}
-                        placeholderTextColor="#ffffff"
+                    <TextInput
+                        label="Password"
+                        style={styles.textInput}
                         value={this.state.password}
-                        onChangeText={text => this.setState({ password: text })}
-                        ref={(input) => this.password = input}
-                        onSubmitEditing={() => this.cpassword.focus} />
-
-                    <TextInput style={styles.inputBox}
-                        underlineColorAndroid='rgba(0,0,0,0)'
-                        placeholder="Confirm Password"
                         secureTextEntry={true}
-                        placeholderTextColor="#ffffff"
-                        value={this.state.cpassword}
-                        onChangeText={text => this.setState({ cpassword: text })}
-                        ref={(input) => this.cpassword = input} />
-                    {/* <Form type="Login" auth={this.state.auth}/> */}
+                        onChangeText={text => this.setState({ password: text })}
+                    />
 
-                    <TouchableOpacity style={styles.button}
+                    <TextInput
+                        label="Contact"
+                        style={styles.textInput}
+                        value={this.state.contact}
+                        secureTextEntry={true}
+                        onChangeText={text => this.setState({ contact: text })}
+                    />
+
+                    <Button
+                        mode="contained"
+                        style={{
+                            width: '100%',
+                            marginVertical: 10,
+                        }}
+                        onPress={this.handleFormSubmit}>
+                        Register
+                    </Button>
+
+                    {/* <TouchableOpacity style={styles.button}
                         onPress={this.handleFormSubmit.bind(this)}>
                         <Text style={styles.buttonText}>Sign Up</Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
 
                     <View style={styles.signupTextCont}>
                         <Text style={styles.signupText}>Already have an account?</Text>
@@ -133,9 +123,13 @@ const styles = StyleSheet.create({
         backgroundColor: '#455a64',
         alignItems: 'center',
         justifyContent: 'center',
-        padding: 20,
+        padding: 15,
     },
+    textInput: {
+        width: "100%",
+        marginVertical: 10,
 
+    },
     signupTextCont: {
         flexGrow: 1,
         alignItems: 'flex-end',
@@ -148,7 +142,6 @@ const styles = StyleSheet.create({
         color: 'rgba(255,255,255,0.6)',
         fontSize: 18
     },
-
     signupButton: {
         color: '#ffffff',
         fontSize: 16,
@@ -156,30 +149,5 @@ const styles = StyleSheet.create({
         marginLeft: 6,
 
     },
-
-    inputBox: {
-        width: 300,
-        backgroundColor: 'rgba(255,255,255,0.3)',
-        borderRadius: 25,
-        paddingHorizontal: 16,
-        fontSize: 16,
-        color: '#ffffff',
-        marginVertical: 10
-    },
-
-    button: {
-        width: 300,
-        backgroundColor: "#1c313a",
-        borderRadius: 25,
-        marginVertical: 10,
-        paddingVertical: 12,
-    },
-
-    buttonText: {
-        fontSize: 16,
-        fontWeight: '500',
-        color: '#ffffff',
-        textAlign: "center"
-    }
 });
 export default Signup;
