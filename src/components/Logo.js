@@ -22,8 +22,7 @@ class Logo extends React.Component{
 
 const styles = StyleSheet.create({
     container:{
-        flexGrow: 1,
-        justifyContent:'flex-end',
+        marginTop: 30,
         alignItems:'center'
     },
     logoText : {
