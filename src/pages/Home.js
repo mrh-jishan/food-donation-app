@@ -18,7 +18,7 @@ class Home extends React.Component{
                 />
                 <Text style={{color:'#ffffff', fontSize:18}}>Hi friend</Text>
                 <Button title="Go TO LOGIN" onPress={() =>this.props.navigation.navigate('Login')} />
-                <Button title="Go TO Register" onPress={() =>this.props.navigation.navigate('Register')} />
+                <Button title="Go TO Register" onPress={() =>this.props.navigation.navigate('Signup')} />
             </View>
         )
     }
