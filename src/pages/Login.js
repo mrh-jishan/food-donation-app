@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Button, TextInput } from 'react-native-paper';
 import Logo from '../components/Logo';
+import auth from '@react-native-firebase/auth';
 
 class Login extends React.Component {
 

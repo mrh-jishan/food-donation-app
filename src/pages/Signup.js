@@ -1,9 +1,10 @@
 import { Picker } from '@react-native-community/picker';
+import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
 import React from 'react';
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Button, TextInput } from 'react-native-paper';
 import Logo from '../components/Logo';
-
 
 const user = [{
     label: 'Donor',
@@ -28,7 +29,27 @@ class Signup extends React.Component {
     }
 
     handleFormSubmit = () => {
-        console.log(this.state);
+        auth()
+            .createUserWithEmailAndPassword(this.state.email, this.state.password)
+            .then(() => {
+                firestore().collection('Users').add(this.state).then(res => {
+                    console.log(res);
+                }).catch(err => {
+                    console.log(err);
+                })
+                console.log('User account created & signed in!');
+            })
+            .catch(error => {
+                if (error.code === 'auth/email-already-in-use') {
+                    console.log('That email address is already in use!');
+                }
+
+                if (error.code === 'auth/invalid-email') {
+                    console.log('That email address is invalid!');
+                }
+
+                console.error(error);
+            });
     }
 
     render() {
