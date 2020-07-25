@@ -2,7 +2,14 @@ import auth from '@react-native-firebase/auth';
 import React from 'react';
 import { Alert, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Button, TextInput } from 'react-native-paper';
+import * as yup from 'yup';
 import Logo from '../components/Logo';
+
+
+const schema = yup.object().shape({
+    email: yup.string().email().required(),
+    password: yup.string().min(6).required(),
+});
 
 class Login extends React.Component {
 
@@ -16,23 +23,39 @@ class Login extends React.Component {
 
     handleFormSubmit = () => {
 
-        auth()
-            .signInWithEmailAndPassword(this.state.email, this.state.password)
-            .then(user => {
-                console.log('User: ',user);
-                this.props.navigation.navigate('Dashboard');
-            })
-            .catch(error => {
-                Alert.alert(
-                    "Alert Title",
-                    "Sorry! Unable to Login!!",
-                    [
-                        { text: "OK", onPress: () => console.log("OK Pressed") }
-                    ],
-                    { cancelable: false }
-                );
+        schema.validate(this.state).then(valid => {
+            console.log(valid);
+            auth()
+                .signInWithEmailAndPassword(this.state.email, this.state.password)
+                .then(user => {
+                    console.log('User: ', user);
+                    this.props.navigation.navigate('Dashboard');
+                })
+                .catch(error => {
+                    Alert.alert(
+                        "Alert Title",
+                        "Sorry! Unable to Login!!",
+                        [
+                            { text: "OK", onPress: () => console.log("OK Pressed") }
+                        ],
+                        { cancelable: false }
+                    );
 
-            });
+                });
+        }).catch(err => {
+            console.log(err);
+            Alert.alert(
+                "Alert Title",
+                err.errors[0],
+                [
+                    { text: "OK", onPress: () => console.log("OK Pressed") }
+                ],
+                { cancelable: false }
+            );
+        });
+
+
+
     }
 
     render() {
