@@ -6,19 +6,31 @@ import {
     TextInput, 
     StatusBar,
     StyleSheet,
-    TouchableOpacity
+    TouchableOpacity 
 } from 'react-native';
 
 import Logo from '../components/Logo'
 // import Form from '../components/Form'
 
-class Login extends React.Component{
+const user = [{
+    label: 'Donor',
+    value: 1
+},
+{
+    label: 'Receiver',
+    value: 2
+}];
+
+class Signup extends React.Component{
 
     constructor(props){
         super(props)
         this.state = {
             email: '',
-            password: ''
+            username: '',
+            pnumber: '',
+            password: '',
+            cpassword: ''
         }
     }
 
@@ -27,7 +39,11 @@ class Login extends React.Component{
     }
 
     render(){
+      
         return(
+            <>
+                <Dropdown label='Sign Up As:' data={this.user} />
+           
             <View style={styles.container}>
                 <Logo/>
                 <TextInput style={styles.inputBox} 
@@ -38,7 +54,25 @@ class Login extends React.Component{
                keyboardType="email-address"
                value={this.state.email}
                onChangeText={text=> this.setState({email: text})}
-               onSubmitEditing={() => this.password.focus}/>
+               onSubmitEditing={() => this.username.focus}/>
+
+                <TextInput style={styles.inputBox} 
+               underlineColorAndroid='rgba(0,0,0,0)' 
+               placeholder="Username"
+               placeholderTextColor="#ffffff"
+               selectionColor="#fff"
+               value={this.state.username}
+               onChangeText={text=> this.setState({username: text})}
+               onSubmitEditing={() => this.contact.focus}/> 
+
+                <TextInput style={styles.inputBox} 
+               underlineColorAndroid='rgba(0,0,0,0)' 
+               placeholder="Phone Number"
+               placeholderTextColor="#ffffff"
+               selectionColor="#fff"
+               value={this.state.pnumber}
+               onChangeText={text=> this.setState({pnumber: text})}
+               onSubmitEditing={() => this.password.focus}/>        
 
                 <TextInput style={styles.inputBox} 
                underlineColorAndroid='rgba(0,0,0,0)' 
@@ -47,21 +81,32 @@ class Login extends React.Component{
                placeholderTextColor="#ffffff"
                value={this.state.password}
                onChangeText={text=> this.setState({password: text})}   
-               ref={(input) => this.password = input}/>
+               ref={(input) => this.password = input}
+               onSubmitEditing={() => this.cpassword.focus}/> 
+                {/* <Form type="Login" auth={this.state.auth}/> */}
+
+                <TextInput style={styles.inputBox} 
+               underlineColorAndroid='rgba(0,0,0,0)' 
+               placeholder="Confirm Password"
+               secureTextEntry={true}
+               placeholderTextColor="#ffffff"
+               value={this.state.cpassword}
+               onChangeText={text=> this.setState({cpassword: text})}   
+               ref={(input) => this.cpassword = input}/>
                 {/* <Form type="Login" auth={this.state.auth}/> */}
                
                 <TouchableOpacity style={styles.button}
                     onPress={this.handleFormSubmit.bind(this)}>
-                    <Text style={styles.buttonText}>Login</Text>
+                    <Text style={styles.buttonText}>Sign Up</Text>
                 </TouchableOpacity>
 
                 <View style={styles.signupTextCont}>
-                    <Text style={styles.signupText}>Don't have an account?</Text>
-                    <TouchableOpacity onPress={() =>this.props.navigation.navigate('Signup')}><Text style={styles.signupButton}>Signup</Text></TouchableOpacity>
+                    <Text style={styles.signupText}>Already have an account?</Text>
+                    <TouchableOpacity onPress={() =>this.props.navigation.navigate('Login')}>
+                        <Text style={styles.signupButton}>Sign In</Text></TouchableOpacity>
                 </View>
-
-                
             </View>
+            </>
         )
     }
 }
@@ -94,6 +139,7 @@ const styles = StyleSheet.create({
         marginLeft:6,
 
     },
+    
     inputBox: {
         width:300,
         backgroundColor:'rgba(255,255,255,0.3)',
@@ -119,4 +165,4 @@ const styles = StyleSheet.create({
         textAlign: "center"
     }
 });
-export default Login;
+export default Signup;

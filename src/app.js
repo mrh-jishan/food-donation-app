@@ -8,6 +8,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import Login from './pages/Login'
 import Register from './pages/Register';
+import Signup from './pages/Signup'
 
 const Stack = createStackNavigator();
 
@@ -18,7 +19,7 @@ class App extends React.Component{
             <Stack.Navigator initialRouteName="Home">
               <Stack.Screen  name="Home" component={Home} options={{ title: 'Home Page' }}  />
               <Stack.Screen  name="Login" component={Login} options={{ title: 'Login Page' }}  />
-              <Stack.Screen  name="Register" component={Register} options={{ title: 'Register Page' }}  />
+              <Stack.Screen  name="Signup" component={Signup} options={{ title: 'Signup Page' }}  />
             </Stack.Navigator>
           </NavigationContainer>
         )
