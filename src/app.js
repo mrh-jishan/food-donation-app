@@ -13,6 +13,7 @@ import Login from './pages/Login';
 import Profile from './pages/Profile';
 import Signup from './pages/Signup';
 import PostFood from './pages/PostFood';
+import ReceiverDashboard from './pages/ReceiverDashboard';
 
 
 const Tab = createBottomTabNavigator();
@@ -94,7 +95,7 @@ const DonorTabs = () => {
 const ReceiverTabs = () => {
     return (
         <Tab.Navigator
-            initialRouteName="DonorDashboard"
+            initialRouteName="ReceiverDashboard"
             tabBarOptions={{
                 activeTintColor: "#7444C0",
                 inactiveTintColor: "#363636",
@@ -115,8 +116,8 @@ const ReceiverTabs = () => {
             }}
         >
             <Tab.Screen
-                name="DonorDashboard"
-                component={DonorDashboard}
+                name="ReceiverDashboard"
+                component={ReceiverDashboard}
                 options={{
                     tabBarLabel: 'Home',
                     tabBarIcon: ({ color }) => (
