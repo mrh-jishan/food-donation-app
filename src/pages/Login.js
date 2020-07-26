@@ -16,8 +16,8 @@ class Login extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            email: '',
-            password: ''
+            email: 'user1@gmai.com',
+            password: 'User121032',
         }
     }
 
@@ -25,13 +25,11 @@ class Login extends React.Component {
 
         schema.validate(this.state).then(valid => {
             console.log(valid);
-            auth()
-                .signInWithEmailAndPassword(this.state.email, this.state.password)
+            auth().signInWithEmailAndPassword(this.state.email, this.state.password)
                 .then(user => {
                     console.log('User: ', user);
                     this.props.navigation.navigate('Dashboard');
-                })
-                .catch(error => {
+                }).catch(error => {
                     Alert.alert(
                         "Alert Title",
                         "Sorry! Unable to Login!!",

@@ -20,30 +20,32 @@ class Signup extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            email: '',
-            name: '',
-            contact: '',
-            password: '',
-            type: ''
+            name: 'user1',
+            contact: '020394837',
+            email: 'user1@gmai.com',
+            password: 'User121032',
+            type: 'donor'
         }
     }
 
     handleFormSubmit = () => {
-        auth()
-            .createUserWithEmailAndPassword(this.state.email, this.state.password)
-            .then(user => {
-                firestore().collection('Users').add(this.state).then(res => {
-                    this.props.navigation.navigate('Login');
-                }).catch(err => {
-                    Alert.alert(
-                        "Alert - Message",
-                        "Sorry! Something went wrong!!",
-                        [
-                            { text: "OK", onPress: () => console.log("OK Pressed") }
-                        ],
-                        { cancelable: false }
-                    );
-                })
+        auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
+            .then(({ user }) => {
+                console.log('user Id: ', user.uid);
+                firestore().collection('Users').add({ ...this.state, uid: user.uid })
+                    .then(res => {
+                        this.props.navigation.navigate('Login');
+                    }).catch(err => {
+                        console.log('error: ', err);
+                        Alert.alert(
+                            "Alert - Message",
+                            "Sorry! Something went wrong!!",
+                            [
+                                { text: "OK", onPress: () => console.log("OK Pressed") }
+                            ],
+                            { cancelable: false }
+                        );
+                    })
 
             })
             .catch(error => {
@@ -104,8 +106,8 @@ class Signup extends React.Component {
                                 this.setState({ type: itemValue })
                             }>
                             <Picker.Item label="Select User Type" value="" />
-                            <Picker.Item label="Donor" value="Donor" />
-                            <Picker.Item label="Receiver" value="Receiver" />
+                            <Picker.Item label="Donor" value="donor" />
+                            <Picker.Item label="Receiver" value="receiver" />
                         </Picker>
                     </View>
 

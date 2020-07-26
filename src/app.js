@@ -4,11 +4,12 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 import 'react-native-gesture-handler';
 import { Provider as PaperProvider } from 'react-native-paper';
+import Dashboard from './pages/ReceiverDashboard';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
-import Dashboard from './pages/Dashboard';
-
+import DonorDashboard from './pages/DonorDashboard';
+import ReceiverDashboard from './pages/ReceiverDashboard';
 
 
 const Stack = createStackNavigator();
@@ -22,7 +23,8 @@ class App extends React.Component {
                         <Stack.Screen name="Home" component={Home} options={{ title: 'Home Page' }} />
                         <Stack.Screen name="Login" component={Login} options={{ title: 'Login Page' }} />
                         <Stack.Screen name="Signup" component={Signup} options={{ title: 'Signup Page' }} />
-                        <Stack.Screen name="Dashboard" component={Dashboard} options={{ title: 'Home Page' }} />
+                        <Stack.Screen name="Donor" component={DonorDashboard} options={{ title: 'Donor Page' }} />
+                        <Stack.Screen name="Receiver" component={ReceiverDashboard} options={{ title: 'Receiver Page' }} />
                     </Stack.Navigator>
                 </NavigationContainer>
             </PaperProvider>
