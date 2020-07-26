@@ -6,12 +6,13 @@ import { StyleSheet } from 'react-native';
 import 'react-native-gesture-handler';
 import { Provider as PaperProvider } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import Contact from './pages/Contact';
 import DonorDashboard from './pages/DonorDashboard';
 import Home from './pages/Home';
 import Login from './pages/Login';
-import Signup from './pages/Signup';
-import Contact from './pages/Contact';
 import Profile from './pages/Profile';
+import Signup from './pages/Signup';
+import PostFood from './pages/PostFood';
 
 
 const Tab = createBottomTabNavigator();
@@ -192,6 +193,9 @@ class App extends React.Component {
                                 headerLeft: () => { disabled: true },
                                 headerTitleAlign: 'center'
                             }} />
+
+
+                        <Stack.Screen name="PostFood" component={PostFood} options={{ title: 'Post Food' }} />
                     </Stack.Navigator>
                 </NavigationContainer>
             </PaperProvider>
