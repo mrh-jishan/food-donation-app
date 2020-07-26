@@ -4,6 +4,7 @@ import { Alert, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Button, TextInput } from 'react-native-paper';
 import * as yup from 'yup';
 import Logo from '../components/Logo';
+import firestore from '@react-native-firebase/firestore';
 
 
 const schema = yup.object().shape({
@@ -16,8 +17,8 @@ class Login extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            email: 'user1@gmai.com',
-            password: 'User121032',
+            email: '',
+            password: '',
         }
     }
 
@@ -26,9 +27,20 @@ class Login extends React.Component {
         schema.validate(this.state).then(valid => {
             console.log(valid);
             auth().signInWithEmailAndPassword(this.state.email, this.state.password)
-                .then(user => {
-                    console.log('User: ', user);
-                    this.props.navigation.navigate('Dashboard');
+                .then(({ user }) => {
+                    console.log('user: ', user);
+                    if (user) {
+                        firestore().collection('Users').where('email', '==', user.email).get()
+                            .then(snap => {
+                                const cUser = snap.docs[0].data();
+                                if (cUser.type == 'donor') {
+                                    this.props.navigation.navigate('Donor');
+                                } else if (cUser.type == 'receiver') {
+                                    this.props.navigation.navigate('Receiver');
+                                }
+                            })
+                    }
+                    // this.props.navigation.navigate('Dashboard');
                 }).catch(error => {
                     Alert.alert(
                         "Alert Title",

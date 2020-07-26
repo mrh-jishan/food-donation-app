@@ -3,10 +3,16 @@ import { View, Text } from 'react-native'
 import auth from '@react-native-firebase/auth';
 
 class ReceiverDashboard extends React.Component {
-    render(){
-        return(
+    logout = () => {
+        auth().signOut().then(() => {
+            this.props.navigation.navigate('Home');
+        });
+    }
+    render() {
+        return (
             <View>
-                <Text>This is ReceiverDashboard page</Text>
+                <Text>This is receiver page</Text>            
+                <Button onPress={this.logout}>Logout</Button>
             </View>
         )
     }
