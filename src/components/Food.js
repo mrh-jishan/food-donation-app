@@ -27,7 +27,7 @@ const Food = ({ food, deleteFood, navigation }) => {
             </Card.Content>
             <Card.Cover source={{ uri: uri }} />
             <Card.Actions>
-                <Button onPress={() => navigation.navigate('UpdateFood')}>Edit</Button>
+                <Button onPress={() => navigation.navigate('UpdateFood', { foodId: food.key })}>Edit</Button>
                 <Button onPress={() => deleteFood(food)}>Delete</Button>
             </Card.Actions>
         </Card>
