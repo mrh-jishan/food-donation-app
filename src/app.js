@@ -6,17 +6,16 @@ import { StyleSheet } from 'react-native';
 import 'react-native-gesture-handler';
 import { Provider as PaperProvider } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import Contact from './pages/RFeedback';
+import DFeedback from './pages/DFeedback';
 import DonorDashboard from './pages/DonorDashboard';
 import Home from './pages/Home';
 import Login from './pages/Login';
-import Profile from './pages/Profile';
-import Signup from './pages/Signup';
 import PostFood from './pages/PostFood';
+import Profile from './pages/Profile';
 import ReceiverDashboard from './pages/ReceiverDashboard';
 import RequestDonation from './pages/RequestDonation';
 import RFeedback from './pages/RFeedback';
-import DFeedback from './pages/DFeedback';
+import Signup from './pages/Signup';
 
 const Tab = createBottomTabNavigator();
 

@@ -1,12 +1,8 @@
-import { Picker } from '@react-native-community/picker';
 import firestore from '@react-native-firebase/firestore';
 import React from 'react';
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 import { Button, TextInput } from 'react-native-paper';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import Entypo from 'react-native-vector-icons/Entypo';
 
 class RequestDonation extends React.Component {
 
@@ -45,29 +41,31 @@ class RequestDonation extends React.Component {
         return (
             <ScrollView style={styles.container}>
                 {/* <Text style={{ padding: 20 }}>This is Post Food page</Text> */}
-                <Text style={{...styles.textInput , textAlign: 'center'}}>Requested Date : {this.state.dateRequested}</Text>
-                
-                <TextInput placeholder="Orphanage Home Name" 
-                onChangeText={text => this.setState({ oName: text })}
-                style={styles.textInput}
-                underlineColorAndroid='rgba(0,0,0,0)' />
+                <Text style={{ ...styles.textInput, textAlign: 'center' }}>Requested Date : {this.state.dateRequested}</Text>
+
+                <TextInput placeholder="Orphanage Home Name"
+                    onChangeText={text => this.setState({ oName: text })}
+                    style={styles.textInput}
+                    underlineColorAndroid='rgba(0,0,0,0)' />
 
                 <TextInput
-                placeholder="Care Taker Name"
-                onChangeText={text => this.setState({ cName: text })}
-                style={styles.textInput} 
-                underlineColorAndroid='rgba(0,0,0,0)'/>
+                    placeholder="Care Taker Name"
+                    onChangeText={text => this.setState({ cName: text })}
+                    style={styles.textInput}
+                    underlineColorAndroid='rgba(0,0,0,0)' />
 
                 <TextInput style={styles.textInput} multiline={true} numberOfLines={4}
-                 placeholder="Donation Description"
-                 onChangeText={text => this.setState({ description: text })}
-                 />
+                    placeholder="Donation Description"
+                    onChangeText={text => this.setState({ description: text })}
+                />
 
                 <TouchableOpacity onPress={() => this.toggleNeededDate('')}>
                     <TextInput
                         placeholder="Needed Before"
-                        style={{...styles.textInput,
-                            color: '#595959',}}
+                        style={{
+                            ...styles.textInput,
+                            color: '#595959',
+                        }}
                         value={this.state.neededDateVal}
                         disabled={true} />
                 </TouchableOpacity>
@@ -85,9 +83,9 @@ class RequestDonation extends React.Component {
                     <Text style={styles.buttonText}>Location</Text>
                 </Button> */}
 
-               
-               
-                <Button mode="contained" style={styles.button} onPress={this.requestDonationHandle}>        
+
+
+                <Button mode="contained" style={styles.button} onPress={this.requestDonationHandle}>
                     <Text style={styles.buttonText}>Request Donation</Text>
                 </Button>
             </ScrollView>
@@ -108,29 +106,29 @@ const styles = StyleSheet.create({
         marginVertical: 10,
         color: '#595959',
         fontSize: 18,
-       // width:300,
-       // borderRadius: 25,
+        // width:300,
+        // borderRadius: 25,
         paddingHorizontal: 16
 
     },
 
     button: {
-        width:300,
-        backgroundColor:"#006666",
+        width: 300,
+        backgroundColor: "#006666",
         borderRadius: 25,
         marginVertical: 16,
         paddingVertical: 12,
         marginLeft: 30
 
     },
-    
+
     buttonText: {
-        fontSize:16,
-        fontWeight:'500',
-        color:'#ffffff',
+        fontSize: 16,
+        fontWeight: '500',
+        color: '#ffffff',
         textAlign: "center"
     },
-    
+
 
 });
 export default RequestDonation;

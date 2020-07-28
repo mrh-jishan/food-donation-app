@@ -1,6 +1,6 @@
-import React from 'react'
-import { View, Text, StyleSheet} from 'react-native'
 import auth from '@react-native-firebase/auth';
+import React from 'react';
+import { StyleSheet, Text, View } from 'react-native';
 import { Button } from 'react-native-paper';
 
 class ReceiverDashboard extends React.Component {
@@ -15,15 +15,15 @@ class ReceiverDashboard extends React.Component {
                 <Text style={styles.Text}>Looking for Donation?</Text>
                 <Text style={styles.Text1}>Start Requesting in an Easy Way</Text>
 
-                
+
                 <Button style={styles.button} onPress={() => this.props.navigation.navigate('RequestDonation')}>
                     <Text style={styles.buttonText}>Request Donation</Text>
                 </Button>
-                
+
                 <Button style={styles.button} onPress={() => this.props.navigation.navigate('')}>
                     <Text style={styles.buttonText}>Manage Request</Text>
                 </Button>
-               
+
                 <Button style={styles.button} onPress={() => this.props.navigation.navigate('')}>
                     <Text style={styles.buttonText}>Display Accepted Request</Text>
                 </Button>
@@ -53,45 +53,45 @@ const styles = StyleSheet.create({
         padding: 15,
     },
 
-Text: {
-    color: '#2F4F4F',
-    // 'rgba(255,255,255,0.6)',
-    fontSize: 22,
-    marginBottom: 3
-},
+    Text: {
+        color: '#2F4F4F',
+        // 'rgba(255,255,255,0.6)',
+        fontSize: 22,
+        marginBottom: 3
+    },
 
-Text1: {
-    color: '#696969',
-    // 'rgba(255,255,255,0.6)',
-    fontSize: 18,
-    marginBottom: 20
-},
-signupButton: {
-    color: '#ffffff',
-    fontSize: 16,
-    fontWeight: '500',
-    marginLeft: 6,
+    Text1: {
+        color: '#696969',
+        // 'rgba(255,255,255,0.6)',
+        fontSize: 18,
+        marginBottom: 20
+    },
+    signupButton: {
+        color: '#ffffff',
+        fontSize: 16,
+        fontWeight: '500',
+        marginLeft: 6,
 
-},
+    },
 
-button: {
-    width:300,
-    backgroundColor:"#1c313a",
-    borderRadius: 25,
-    marginVertical: 8,
-    paddingVertical: 12,
-    fontSize:16,
-    fontWeight:'500',
-    color:'#ffffff',
-    textAlign: "center"
-},
+    button: {
+        width: 300,
+        backgroundColor: "#1c313a",
+        borderRadius: 25,
+        marginVertical: 8,
+        paddingVertical: 12,
+        fontSize: 16,
+        fontWeight: '500',
+        color: '#ffffff',
+        textAlign: "center"
+    },
 
-buttonText: {
-    fontSize:16,
-    fontWeight:'500',
-    color:'#ffffff',
-    textAlign: "center"
-}
+    buttonText: {
+        fontSize: 16,
+        fontWeight: '500',
+        color: '#ffffff',
+        textAlign: "center"
+    }
 
 });
 
