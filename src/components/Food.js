@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Text } from 'react-native';
 import { Button, Card, Paragraph, Title } from 'react-native-paper';
 
-const Food = ({ food }) => {
+const Food = ({ food, deleteFood }) => {
 
     const [uri, setUri] = useState()
     useEffect(() => {
@@ -27,8 +27,8 @@ const Food = ({ food }) => {
             </Card.Content>
             <Card.Cover source={{ uri: uri }} />
             <Card.Actions>
-                <Button>Cancel</Button>
-                <Button>Ok</Button>
+                <Button>Edit</Button>
+                <Button onPress={() => deleteFood(food)}>Delete</Button>
             </Card.Actions>
         </Card>
     )

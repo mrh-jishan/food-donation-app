@@ -1,7 +1,7 @@
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import React from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ScrollView, StyleSheet, Text } from 'react-native';
 import Food from '../components/Food';
 
 class ViewPostedFood extends React.Component {
@@ -20,11 +20,21 @@ class ViewPostedFood extends React.Component {
             snap.forEach(food => {
                 foods.push({
                     ...food.data(),
-                    key: snap.id,
+                    key: food.id,
                 });
             });
             this.setState({ foods: foods })
         })
+    }
+
+    deleteFood = (food) => {
+        firestore()
+            .collection('Foods')
+            .doc(food.key)
+            .delete()
+            .then(() => {
+                console.log('Food deleted!');
+            });
     }
 
     render() {
@@ -32,11 +42,11 @@ class ViewPostedFood extends React.Component {
             <ScrollView style={styles.container}>
                 <Text style={{ ...styles.textInput, padding: 20, textAlign: 'center', fontSize: 22 }}>Feedback Form</Text>
 
-                <View>
-                    {this.state.foods.map(food => (
-                        <Food food={food} key={food.key}/>
-                    ))}
-                </View>
+                {this.state.foods.length > 0 && (
+                    this.state.foods.map((food, index) => (
+                        <Food food={food} deleteFood={this.deleteFood} key={index} />
+                    ))
+                )}
 
             </ScrollView>
         )
