@@ -44,7 +44,11 @@ class ViewPostedFood extends React.Component {
 
                 {this.state.foods.length > 0 && (
                     this.state.foods.map((food, index) => (
-                        <Food food={food} deleteFood={this.deleteFood} key={index} />
+                        <Food food={food}
+                            deleteFood={this.deleteFood}
+                            key={index}
+                            navigation={this.props.navigation}
+                        />
                     ))
                 )}
 
