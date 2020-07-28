@@ -16,6 +16,7 @@ import ReceiverDashboard from './pages/ReceiverDashboard';
 import RequestDonation from './pages/RequestDonation';
 import RFeedback from './pages/RFeedback';
 import Signup from './pages/Signup';
+import ViewPostedFood from './pages/ViewPostedFood';
 
 const Tab = createBottomTabNavigator();
 
@@ -199,6 +200,8 @@ class App extends React.Component {
 
                         <Stack.Screen name="PostFood" component={PostFood} options={{ title: 'Post Food' }} />
                         <Stack.Screen name="RequestDonation" component={RequestDonation} options={{ title: 'Request Donation' }} />
+
+                        <Stack.Screen name="ViewPostedFood" component={ViewPostedFood} options={{ title: 'View Posted Food' }} />
                     </Stack.Navigator>
                 </NavigationContainer>
             </PaperProvider>

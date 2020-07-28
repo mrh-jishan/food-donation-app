@@ -68,7 +68,7 @@ class PostFood extends React.Component {
                     coverage: this.state.coverage,
                     description: this.state.description,
                     img: img.metadata.fullPath,
-                    user: auth().currentUser.email
+                    email: auth().currentUser.email
                 }).then(res => {
                     this.props.navigation.navigate('DonorDashboard');
                 }).catch(err => {
