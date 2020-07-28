@@ -73,13 +73,13 @@ class RequestDonation extends React.Component {
                     <Calendar onDayPress={value => this.toggleNeededDate(value)} />
                 )}
 
-                {/* <Button mode="contained" style={styles.button} onPress={}>  
-                    <Icon name="phone-call" color={color} size={20} />       
+                {/* <Button mode="contained" style={styles.button}>
+                    <Icon name="phone" size={20}/>
                     <Text style={styles.buttonText}>Contact</Text>
                 </Button>
 
-                <Button mode="contained" style={styles.button} onPress={}>  
-                    <Icon name="google-maps" color={color} size={20} />      
+                <Button mode="contained" style={styles.button}>
+                    <Icon name="map-o" size={20} />
                     <Text style={styles.buttonText}>Location</Text>
                 </Button> */}
 
@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: '500',
         color: '#ffffff',
-        textAlign: "center"
+        textAlign: "center",
     },
 
 

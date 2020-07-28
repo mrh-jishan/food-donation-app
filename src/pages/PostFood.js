@@ -1,10 +1,31 @@
 import { Picker } from '@react-native-community/picker';
 import firestore from '@react-native-firebase/firestore';
+import storage from '@react-native-firebase/storage';
 import React from 'react';
-import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Image, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Calendar } from 'react-native-calendars';
-// import ImagePicker from 'react-native-image-picker';
+import ImagePicker from 'react-native-image-picker';
 import { Button, TextInput } from 'react-native-paper';
+import auth from '@react-native-firebase/auth';
+import RNFetchBlob from 'rn-fetch-blob';
+
+
+const options = {
+    title: 'Select Avatar',
+    customButtons: [{ name: 'fb', title: 'Choose Photo from Facebook' }],
+    storageOptions: {
+        skipBackup: true,
+        path: 'images',
+    },
+};
+
+
+const getPathForFirebaseStorage = async uri => {
+    if (Platform.OS === "ios") return uri
+    const stat = await RNFetchBlob.fs.stat(uri)
+    return stat.path
+}
+
 
 class PostFood extends React.Component {
 
@@ -21,6 +42,7 @@ class PostFood extends React.Component {
             manfData: false,
             expDate: false,
             filePath: {},
+            avatarSource: {}
         }
     }
 
@@ -33,44 +55,49 @@ class PostFood extends React.Component {
     }
 
     postFoodHandle = () => {
-        firestore().collection('Foods').add(this.state).then(res => {
-            this.props.navigation.navigate('DonorDashboard');
-        }).catch(err => {
-
-        });
+        const sessionId = new Date().getTime();
+        const imageRef = storage().ref('foods').child(`${sessionId}`);
+        getPathForFirebaseStorage(this.state.filePath.uri).then(fileUri => {
+            imageRef.putFile(fileUri).then(img => {
+                firestore().collection('Foods').add({
+                    name: this.state.name,
+                    dataPosted: this.state.dataPosted,
+                    type: this.state.type,
+                    manfDateVal: this.state.manfDateVal,
+                    expfDateVal: this.state.expfDateVal,
+                    coverage: this.state.coverage,
+                    description: this.state.description,
+                    img: img.metadata.fullPath,
+                    user: auth().currentUser.email
+                }).then(res => {
+                    this.props.navigation.navigate('DonorDashboard');
+                }).catch(err => {
+                    console.log('err: ', err);
+                });
+            }).catch(err => {
+                console.log('err: ', err);
+            })
+        })
     }
+
+
 
     //Image Picker
     chooseFile = () => {
-        var options = {
-            title: 'Select Image',
-            customButtons: [
-                { name: 'customOptionKey', title: 'Choose Photo from Custom Option' },
-            ],
-            storageOptions: {
-                skipBackup: true,
-                path: 'images',
-            },
-        };
-        // ImagePicker.showImagePicker(options, response => {
-        //     console.log('Response = ', response);
-
-        //     if (response.didCancel) {
-        //         console.log('User cancelled image picker');
-        //     } else if (response.error) {
-        //         console.log('ImagePicker Error: ', response.error);
-        //     } else if (response.customButton) {
-        //         console.log('User tapped custom button: ', response.customButton);
-        //         alert(response.customButton);
-        //     } else {
-        //         let source = response;
-        //         // You can also display the image using data:
-        //         // let source = { uri: 'data:image/jpeg;base64,' + response.data };
-        //         this.setState({
-        //             filePath: source,
-        //         });
-        //     }
-        // });
+        ImagePicker.launchImageLibrary(options, (response) => {
+            if (response.didCancel) {
+                console.log('User cancelled image picker');
+            } else if (response.error) {
+                console.log('ImagePicker Error: ', response.error);
+            } else if (response.customButton) {
+                console.log('User tapped custom button: ', response.customButton);
+            } else {
+                this.setState({
+                    avatarSource: { uri: 'data:image/jpeg;base64,' + response.data },
+                    filePath: { uri: response.uri }
+                });
+            }
+        });
     };
 
     render() {
@@ -80,25 +107,12 @@ class PostFood extends React.Component {
                 <Text style={{ ...styles.textInput, textAlign: 'center' }}> Date Posted :  {this.state.dataPosted}</Text>
 
                 <View style={styles.container1}>
-                    {/*<Image 
-                    source={{ uri: this.state.filePath.path}} 
-                    style={{width: 100, height: 100}} />*/}
                     <Image
-                        source={{
-                            uri: 'data:image/jpeg;base64,' + this.state.filePath.data,
-                        }}
+                        source={this.state.avatarSource}
                         style={{ width: 100, height: 100 }}
                     />
-                    <Image
-                        source={{ uri: this.state.filePath.uri }}
-                        style={{ width: 200, height: 200 }}
-                    />
-                    <Text style={{ alignItems: 'center', color: '#0f0f0f' }}>
-                        {this.state.filePath.uri}
-                    </Text>
-                    <Button style={styles.textInput} title="Choose File" onPress={this.chooseFile.bind(this)} />
+                    <Button onPress={this.chooseFile}>Choose File</Button>
                 </View>
-
 
                 <TextInput placeholder="Food Name"
                     onChangeText={text => this.setState({ name: text })}
