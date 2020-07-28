@@ -23,7 +23,7 @@ class Login extends React.Component {
     }
 
     handleFormSubmit = () => {
-
+        // Login Validation
         schema.validate(this.state).then(valid => {
             console.log(valid);
             auth().signInWithEmailAndPassword(this.state.email, this.state.password)
@@ -41,6 +41,7 @@ class Login extends React.Component {
                             })
                     }
                     // this.props.navigation.navigate('Dashboard');
+                    //incorrect id and password
                 }).catch(error => {
                     Alert.alert(
                         "Alert Title",
@@ -87,13 +88,14 @@ class Login extends React.Component {
                 />
 
                 <Button
+                    style={styles.button}
                     mode="contained"
-                    style={{
-                        width: '100%',
-                        marginVertical: 10,
-                    }}
+                    // style={{
+                    //     width: '100%',
+                    //     marginVertical: 10,
+                    // }}
                     onPress={this.handleFormSubmit}>
-                    Login
+                    <Text style={styles.buttonText}>Login</Text>
                 </Button>
 
                 <View style={styles.signupTextCont}>
@@ -139,5 +141,20 @@ const styles = StyleSheet.create({
         marginLeft: 6,
 
     },
+
+    button: {
+        width:300,
+        backgroundColor:"#1c313a",
+        borderRadius: 25,
+        marginVertical: 10,
+        paddingVertical: 12
+    },
+
+    buttonText: {
+        fontSize:16,
+        fontWeight:'500',
+        color:'#ffffff',
+        textAlign: "center"
+    }
 });
 export default Login;

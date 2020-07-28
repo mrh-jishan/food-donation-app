@@ -6,14 +6,7 @@ import { Alert, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'rea
 import { Button, TextInput } from 'react-native-paper';
 import Logo from '../components/Logo';
 
-const user = [{
-    label: 'Donor',
-    value: 1
-},
-{
-    label: 'Receiver',
-    value: 2
-}];
+
 
 class Signup extends React.Component {
 
@@ -141,13 +134,14 @@ class Signup extends React.Component {
                     />
 
                     <Button
+                        style={styles.button}
                         mode="contained"
-                        style={{
-                            width: '100%',
-                            marginVertical: 10,
-                        }}
+                        // style={{
+                        //     width: '100%',
+                        //     marginVertical: 10,
+                        // }}
                         onPress={this.handleFormSubmit}>
-                        Register
+                        <Text style={styles.buttonText}>Sign up</Text>
                     </Button>
 
                     <View style={styles.signupTextCont}>
@@ -178,7 +172,7 @@ const styles = StyleSheet.create({
         flexGrow: 1,
         alignItems: 'flex-end',
         justifyContent: 'center',
-        paddingVertical: 16,
+        paddingVertical: 1,
         flexDirection: 'row'
     },
 
@@ -193,5 +187,20 @@ const styles = StyleSheet.create({
         marginLeft: 6,
 
     },
+
+    button: {
+        width:300,
+        backgroundColor:"#1c313a",
+        borderRadius: 25,
+        marginVertical: 8,
+        paddingVertical: 8
+    },
+
+    buttonText: {
+        fontSize:16,
+        fontWeight:'500',
+        color:'#ffffff',
+        textAlign: "center"
+    }
 });
 export default Signup;

@@ -12,7 +12,7 @@ class Logo extends React.Component{
     render(){
         return(
             <View style={styles.container}>
-                <Image style={{width:200, height:120}}
+                <Image style={{width:250, height:80}}
                     source={require('../images/logo.png')}/>
                 <Text style={styles.logoText}>Welcome to eFeed</Text>
              </View>

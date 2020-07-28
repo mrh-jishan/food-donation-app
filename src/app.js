@@ -6,7 +6,7 @@ import { StyleSheet } from 'react-native';
 import 'react-native-gesture-handler';
 import { Provider as PaperProvider } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import Contact from './pages/Contact';
+import Contact from './pages/RFeedback';
 import DonorDashboard from './pages/DonorDashboard';
 import Home from './pages/Home';
 import Login from './pages/Login';
@@ -14,7 +14,9 @@ import Profile from './pages/Profile';
 import Signup from './pages/Signup';
 import PostFood from './pages/PostFood';
 import ReceiverDashboard from './pages/ReceiverDashboard';
-
+import RequestDonation from './pages/RequestDonation';
+import RFeedback from './pages/RFeedback';
+import DFeedback from './pages/DFeedback';
 
 const Tab = createBottomTabNavigator();
 
@@ -23,15 +25,15 @@ const DonorTabs = () => {
         <Tab.Navigator
             initialRouteName="DonorDashboard"
             tabBarOptions={{
-                activeTintColor: "#7444C0",
-                inactiveTintColor: "#363636",
+                activeTintColor: "#008B8B",
+                inactiveTintColor: "#2F4F4F",
                 labelStyle: {
                     fontSize: 15,
                     margin: 0,
                     padding: 0,
                 },
                 style: {
-                    backgroundColor: "#DDD",
+                    backgroundColor: "#DCDCDC",
                     borderTopWidth: 0,
                     marginBottom: 0,
                     shadowOpacity: 0.05,
@@ -65,10 +67,10 @@ const DonorTabs = () => {
 
 
             <Tab.Screen
-                name="Contact"
-                component={Contact}
+                name="DFeedback"
+                component={DFeedback}
                 options={{
-                    tabBarLabel: 'Contact',
+                    tabBarLabel: 'Feedback',
                     tabBarIcon: ({ color }) => (
                         <Icon name="address-card" color={color} size={20} />
                     ),
@@ -97,8 +99,8 @@ const ReceiverTabs = () => {
         <Tab.Navigator
             initialRouteName="ReceiverDashboard"
             tabBarOptions={{
-                activeTintColor: "#7444C0",
-                inactiveTintColor: "#363636",
+                activeTintColor: "#008B8B",
+                inactiveTintColor: "#2F4F4F",
                 labelStyle: {
                     fontSize: 15,
                     margin: 0,
@@ -127,10 +129,10 @@ const ReceiverTabs = () => {
             />
 
             <Tab.Screen
-                name="DonationList"
+                name="ReceivedList"
                 component={DonorDashboard}
                 options={{
-                    tabBarLabel: 'Donation',
+                    tabBarLabel: 'Received',
                     tabBarIcon: ({ color }) => (
                         <Icon name="yelp" color={color} size={20} />
                     ),
@@ -139,10 +141,10 @@ const ReceiverTabs = () => {
 
 
             <Tab.Screen
-                name="Contact"
-                component={Contact}
+                name="RFeedback"
+                component={RFeedback}
                 options={{
-                    tabBarLabel: 'Contact',
+                    tabBarLabel: 'Feedback',
                     tabBarIcon: ({ color }) => (
                         <Icon name="address-card" color={color} size={20} />
                     ),
@@ -197,6 +199,7 @@ class App extends React.Component {
 
 
                         <Stack.Screen name="PostFood" component={PostFood} options={{ title: 'Post Food' }} />
+                        <Stack.Screen name="RequestDonation" component={RequestDonation} options={{ title: 'Request Donation' }} />
                     </Stack.Navigator>
                 </NavigationContainer>
             </PaperProvider>
