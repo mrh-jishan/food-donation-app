@@ -38,9 +38,11 @@ export default function Routes() {
     return <Loading />;
   }
 
+  const page = profile.type && profile.type == 'donor' ? <DonorStack /> : <ReceiverStack />
+
   return (
     <NavigationContainer>
-      {user && profile && profile.type ? profile.type = 'donor' ? <DonorStack /> : <ReceiverStack /> : <AuthStack />}
+      {user && profile ? page : <AuthStack />}
     </NavigationContainer>
   );
 }

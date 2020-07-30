@@ -1,10 +1,10 @@
 import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
 import React from 'react';
 import { Alert, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Button, TextInput } from 'react-native-paper';
 import * as yup from 'yup';
 import Logo from '../components/Logo';
-import firestore from '@react-native-firebase/firestore';
 
 
 const schema = yup.object().shape({
@@ -28,16 +28,10 @@ class Login extends React.Component {
             console.log(valid);
             auth().signInWithEmailAndPassword(this.state.email, this.state.password)
                 .then(({ user }) => {
-                    console.log('user: ', user);
                     if (user) {
                         firestore().collection('Users').where('email', '==', user.email).get()
                             .then(snap => {
-                                const cUser = snap.docs[0].data();
-                                if (cUser.type == 'donor') {
-                                    this.props.navigation.navigate('Donor');
-                                } else if (cUser.type == 'receiver') {
-                                    this.props.navigation.navigate('Receiver');
-                                }
+                                console.log('login done');
                             })
                     }
                     // this.props.navigation.navigate('Dashboard');
@@ -143,17 +137,17 @@ const styles = StyleSheet.create({
     },
 
     button: {
-        width:300,
-        backgroundColor:"#1c313a",
+        width: 300,
+        backgroundColor: "#1c313a",
         borderRadius: 25,
         marginVertical: 10,
         paddingVertical: 12
     },
 
     buttonText: {
-        fontSize:16,
-        fontWeight:'500',
-        color:'#ffffff',
+        fontSize: 16,
+        fontWeight: '500',
+        color: '#ffffff',
         textAlign: "center"
     }
 });

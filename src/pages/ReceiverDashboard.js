@@ -6,7 +6,7 @@ import { Button } from 'react-native-paper';
 class ReceiverDashboard extends React.Component {
     logout = () => {
         auth().signOut().then(() => {
-            this.props.navigation.navigate('Home');
+            console.log('do to home');
         });
     }
     render() {

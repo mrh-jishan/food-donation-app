@@ -27,7 +27,7 @@ class Signup extends React.Component {
                 console.log('user Id: ', user.uid);
                 firestore().collection('Users').add({ ...this.state, uid: user.uid })
                     .then(res => {
-                        this.props.navigation.navigate('Login');
+                        // this.props.navigation.navigate('Login');
                     }).catch(err => {
                         console.log('error: ', err);
                         Alert.alert(
