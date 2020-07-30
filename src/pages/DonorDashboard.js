@@ -7,7 +7,7 @@ class DonorDashboard extends React.Component {
 
     logout = () => {
         auth().signOut().then(() => {
-            this.props.navigation.navigate('Home');
+            console.log("Signout to home page");
         });
     }
     render() {

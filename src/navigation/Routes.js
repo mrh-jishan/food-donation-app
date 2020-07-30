@@ -23,12 +23,10 @@ export default function Routes() {
         .then(snap => {
           const profile = snap.docs[0].data();
           setProfile(profile);
-        }).finally(() => {
-          if (initializing) setInitializing(false);
-          setLoading(false);
         })
     }
-
+    if (initializing) setInitializing(false);
+    setLoading(false)
   }
 
   useEffect(() => {
@@ -40,11 +38,9 @@ export default function Routes() {
     return <Loading />;
   }
 
-  const page = profile.type = 'donor' ? <DonorStack /> : <ReceiverStack />
-
   return (
     <NavigationContainer>
-      {user && profile ? page : <AuthStack />}
+      {user && profile && profile.type ? profile.type = 'donor' ? <DonorStack /> : <ReceiverStack /> : <AuthStack />}
     </NavigationContainer>
   );
 }
