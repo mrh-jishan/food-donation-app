@@ -5,18 +5,18 @@ import { Button, StatusBar, StyleSheet, Text, View } from 'react-native';
 
 class Home extends React.Component {
     componentDidMount() {
-        const user = auth().currentUser;
-        if (user) {
-            firestore().collection('Users').where('email', '==', user.email).get()
-                .then(snap => {
-                    const cUser = snap.docs[0].data();
-                    if (cUser.type == 'donor') {
-                        this.props.navigation.navigate('Donor');
-                    } else if (cUser.type == 'receiver') {
-                        this.props.navigation.navigate('Receiver');
-                    }
-                })
-        }
+        // const user = auth().currentUser;
+        // if (user) {
+        //     firestore().collection('Users').where('email', '==', user.email).get()
+        //         .then(snap => {
+        //             const cUser = snap.docs[0].data();
+        //             if (cUser.type == 'donor') {
+        //                 this.props.navigation.navigate('Donor');
+        //             } else if (cUser.type == 'receiver') {
+        //                 this.props.navigation.navigate('Receiver');
+        //             }
+        //         })
+        // }
     }
 
     render() {
