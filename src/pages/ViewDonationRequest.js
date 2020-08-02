@@ -2,8 +2,7 @@ import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import React from 'react';
 import { ScrollView, StyleSheet, Text } from 'react-native';
-import DonationRequest from './../components/DonationRequest'
-import RequestDonation from './RequestDonation';
+import DonationCard from '../components/DonationCard'
 
 
 
@@ -18,7 +17,8 @@ class ViewDonationRequest extends React.Component {
 
     componentDidMount() {
         const user = auth().currentUser;
-        firestore().collection('DonationRequest').where('email', '==', user.email).onSnapshot(snap => {
+        firestore().collection('DonationRequest')
+        .where('email', '==', user.email).onSnapshot(snap => {
             const dRequests = [];
             snap.forEach(res => {
                 dRequests.push({
@@ -48,7 +48,7 @@ class ViewDonationRequest extends React.Component {
 
                 {this.state.donationR.length > 0 && (
                     this.state.donationR.map((res, index) => (
-                        <DonationRequest res={res}
+                        <DonationCard dRequests={res}
                             deleteDonationRequest={this.deleteDonationRequest}
                             key={index}
                             navigation={this.props.navigation}
