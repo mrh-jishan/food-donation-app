@@ -4,23 +4,6 @@ import React from 'react';
 import { ScrollView, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 import { Button, TextInput } from 'react-native-paper';
-import RNFetchBlob from 'rn-fetch-blob';
-
-const getPathForFirebaseStorage = async uri => {
-    if (Platform.OS === "ios") return uri
-    const stat = await RNFetchBlob.fs.stat(uri)
-    return stat.path
-}
-
-const options = {
-    title: 'Select Avatar',
-    customButtons: [{ name: 'fb', title: 'Choose Photo from Facebook' }],
-    storageOptions: {
-        skipBackup: true,
-        path: 'images',
-    },
-};
-
 
 class UpdateDonationRequest extends React.Component {
     constructor(props) {
@@ -40,21 +23,21 @@ class UpdateDonationRequest extends React.Component {
     }
 
     updateDonationRequest = () => {
-                const { dRequestsId } = this.props.route.params;
-                firestore().collection('DonationRequest')
-                    .doc(dRequestsId)
-                    .update({
-                    oName: this.state.oName,
-                    cName: this.state.cName,
-                    dateRequested: this.state.dateRequested,
-                    description: this.state.description,
-                    neededDateVal: this.state.neededDateVal,
-                    email: auth().currentUser.email //detect current user
-                    }).then(success => {
-                        this.props.navigation.navigate('ReceiverDashboard');
-                    }).catch(err=>{
-                        console.log(err);
-                    });
+        const { dRequestsId } = this.props.route.params;
+        firestore().collection('DonationRequest')
+            .doc(dRequestsId)
+            .update({
+                oName: this.state.oName,
+                cName: this.state.cName,
+                dateRequested: this.state.dateRequested,
+                description: this.state.description,
+                neededDateVal: this.state.neededDateVal,
+                email: auth().currentUser.email //detect current user
+            }).then(success => {
+                this.props.navigation.navigate('ReceiverDashboard');
+            }).catch(err => {
+                console.log(err);
+            });
     }
 
     componentDidMount() {
@@ -70,50 +53,51 @@ class UpdateDonationRequest extends React.Component {
     render() {
         return (
             <ScrollView style={styles.container}>
-            <Text style={{ padding: 20, fontSize: 22, textAlign: 'center' }}>
-                Update Requested Donation
+                <Text style={{ padding: 20, fontSize: 22, textAlign: 'center' }}>
+                    Update Requested Donation
                 </Text>
-            <Text style={{ ...styles.textInput, textAlign: 'center' }}>
-                Requested Date : {this.state.dateRequested}
+                <Text style={{ ...styles.textInput, textAlign: 'center' }}>
+                    Requested Date : {this.state.dateRequested}
                 </Text>
 
-            <TextInput placeholder="Orphanage Home Name"
-            value={this.state.oName}
-                onChangeText={text => this.setState({ oName: text })}
-                style={styles.textInput}
-                underlineColorAndroid='rgba(0,0,0,0)' />
+                <TextInput placeholder="Orphanage Home Name"
+                    value={this.state.oName}
+                    onChangeText={text => this.setState({ oName: text })}
+                    style={styles.textInput}
+                    underlineColorAndroid='rgba(0,0,0,0)' />
 
-            <TextInput
-                placeholder="Care Taker Name"
-                value={this.state.cName}
-                onChangeText={text => this.setState({ cName: text })}
-                style={styles.textInput}
-                underlineColorAndroid='rgba(0,0,0,0)' />
-
-            <TextInput style={styles.textInput} multiline={true} numberOfLines={4}
-                placeholder="Donation Description"
-                value={this.state.description}
-                onChangeText={text => this.setState({ description: text })}
-            />
-
-            <TouchableOpacity onPress={() => this.toggleNeededDate('')}>
                 <TextInput
-                    placeholder="Needed Before"
-                    style={{
-                        ...styles.textInput,
-                        color: '#595959',
-                    }}
-                    value={this.state.neededDateVal}
-                    disabled={true} />
-            </TouchableOpacity>
-            {this.state.neededDate && (
-                <Calendar onDayPress={value => this.toggleNeededDate(value)} />
-            )}
+                    placeholder="Care Taker Name"
+                    value={this.state.cName}
+                    onChangeText={text => this.setState({ cName: text })}
+                    style={styles.textInput}
+                    underlineColorAndroid='rgba(0,0,0,0)' />
 
-            <Button mode="contained" style={styles.button} onPress={this.updateDonationRequest}>
-                <Text style={styles.buttonText}>Update Request Donation</Text>
-            </Button>
-        </ScrollView>
+                <TextInput style={styles.textInput}
+                    multiline={true} numberOfLines={4}
+                    placeholder="Donation Description"
+                    value={this.state.description}
+                    onChangeText={text => this.setState({ description: text })}
+                />
+
+                <TouchableOpacity onPress={() => this.toggleNeededDate('')}>
+                    <TextInput
+                        placeholder="Needed Before"
+                        style={{
+                            ...styles.textInput,
+                            color: '#595959',
+                        }}
+                        value={this.state.neededDateVal}
+                        disabled={true} />
+                </TouchableOpacity>
+                {this.state.neededDate && (
+                    <Calendar onDayPress={value => this.toggleNeededDate(value)} />
+                )}
+
+                <Button mode="contained" style={styles.button} onPress={this.updateDonationRequest}>
+                    <Text style={styles.buttonText}>Update Request Donation</Text>
+                </Button>
+            </ScrollView>
         )
     }
 }

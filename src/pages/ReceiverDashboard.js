@@ -28,7 +28,7 @@ class ReceiverDashboard extends React.Component {
                     <Text style={styles.buttonText}>Display Accepted Request</Text>
                 </Button>
 
-                <Button style={styles.button} onPress={() => this.props.navigation.navigate('')}>
+                <Button style={styles.button} onPress={() => this.props.navigation.navigate('ViewPostedReceiver')}>
                     <Text style={styles.buttonText}>View Post</Text>
                 </Button>
 
