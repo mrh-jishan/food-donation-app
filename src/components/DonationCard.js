@@ -10,7 +10,7 @@ const DonationCard = ({ dRequests, deleteDonationRequest, navigation }) => {
                 <Text>Date Requested: {dRequests.dateRequested}</Text>
                 <Title>Orphanage Home Name: {dRequests.oName}</Title>
                 <Title>Care Taker Name: {dRequests.cName}</Title>
-                <Text>Needed date: {dRequests.neededDate}</Text>
+                <Text>Needed date: {dRequests.neededDateVal}</Text>
                 <Paragraph>Description: {dRequests.description}</Paragraph>
             </Card.Content>
             <Card.Actions>

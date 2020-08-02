@@ -20,8 +20,8 @@ const FoodReceiver = ({ food, acceptFood }) => {
             <Card.Content>
                 <Title>Name: {food.name}</Title>
                 <Text>Date Posted: {food.dataPosted}</Text>
-                <Text>Manuf date: {food.manfDate}</Text>
-                <Text>Exp date: {food.expDate}</Text>
+                <Text>Manuf date: {food.manfDateVal}</Text>
+                <Text>Exp date: {food.expDateVal}</Text>
                 <Text>Type: {food.type}</Text>
                 <Paragraph>Description: {food.description}</Paragraph>
             </Card.Content>

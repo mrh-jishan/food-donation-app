@@ -34,16 +34,7 @@ class RequestDonation extends React.Component {
         this.setState({ neededDate: !this.state.neededDate, neededDateVal: value.dateString });
     }
 
-    // toggleExpDate = (value) => {
-    //     this.setState({ expDate: !this.state.expDate, expfDateVal: value.dateString });
-    // }
-
     requestDonationHandle = () => {
-
-        const sessionId = new Date().getTime();
-        //const imageRef = storage().ref('DonationRequest').child(`${sessionId}`);
-        //getPathForFirebaseStorage(this.state.filePath.uri).then(fileUri => {
-            //imageRef.putFile(fileUri).then(img => {
                 firestore().collection('DonationRequest').add({
                     oName: this.state.oName,
                     cName: this.state.cName,
@@ -64,35 +55,6 @@ class RequestDonation extends React.Component {
             })
         //})
         
-        // const sessionId = new Date().getTime();
-        // const imageRef = storage().ref('DonationRequest').child(`${sessionId}`);
-        // getPathForFirebaseStorage(this.state.filePath.uri).then(fileUri => {
-        //     imageRef.putFile(fileUri).then(img => {
-        //         firestore().collection('DonationRequest').add({
-        //             oName: this.state.oName,
-        //             cName: this.state.cName,
-        //             dateRequested: this.state.dateRequested,
-        //             // location: '',
-        //             // contact: '',
-        //             description: this.state.description,
-        //             neededDateVal: this.state.neededDateVal,
-        //             email: auth().currentUser.email //detect current user
-        //         }).then(res => {
-        //             this.props.navigation.navigate('DonorDashboard');
-        //         }).catch(err => {
-        //             console.log('err: ', err);
-        //         });
-        //     }).catch(err => {
-        //         console.log('err: ', err);
-        //     })
-        // })
-    
-
-        // firestore().collection('DonationRequest').add(this.state).then(res => {
-        //     this.props.navigation.navigate('ReceiverDashboard');
-        // }).catch(err => {
-
-        // });
     }
 
     

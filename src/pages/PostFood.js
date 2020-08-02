@@ -36,7 +36,7 @@ class PostFood extends React.Component {
             dataPosted: new Date().toLocaleString(),
             type: '',
             manfDateVal: '',
-            expfDateVal: '',
+            expDateVal: '',
             coverage: '',
             description: '',
             manfData: false,
@@ -51,7 +51,7 @@ class PostFood extends React.Component {
     }
 
     toggleExpDate = (value) => {
-        this.setState({ expDate: !this.state.expDate, expfDateVal: value.dateString });
+        this.setState({ expDate: !this.state.expDate, expDateVal: value.dateString });
     }
 
     postFoodHandle = () => {
@@ -64,7 +64,7 @@ class PostFood extends React.Component {
                     dataPosted: this.state.dataPosted,
                     type: this.state.type,
                     manfDateVal: this.state.manfDateVal,
-                    expfDateVal: this.state.expfDateVal,
+                    expDateVal: this.state.expDateVal,
                     coverage: this.state.coverage,
                     description: this.state.description,
                     img: img.metadata.fullPath, //image
@@ -158,7 +158,7 @@ class PostFood extends React.Component {
                     <TextInput
                         placeholder="Expiry Date"
                         style={styles.textInput}
-                        value={this.state.expfDateVal}
+                        value={this.state.expDateVal}
                         disabled={true} />
                 </TouchableOpacity>
                 {this.state.expDate && (
