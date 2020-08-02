@@ -44,7 +44,9 @@ class ViewDonationRequest extends React.Component {
     render() {
         return (
             <ScrollView style={styles.container}>
-                <Text style={{ ...styles.textInput, padding: 20, textAlign: 'center', fontSize: 22 }}>Update Posted Food</Text>
+                <Text style={{textAlign: 'center', fontSize: 22 }}>
+                    View Donation Request
+                    </Text>
 
                 {this.state.donationR.length > 0 && (
                     this.state.donationR.map((res, index) => (
