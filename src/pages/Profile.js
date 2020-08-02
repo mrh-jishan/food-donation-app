@@ -24,9 +24,9 @@ class Profile extends React.Component {
             <View>
                 <Text>User Profile</Text>
                 <Text>Name: {this.state.user.name}</Text>
-                <Text>Name: {this.state.user.email}</Text>
-                <Text>Name: {this.state.user.type}</Text>
-                <Text>Name: {this.state.user.contact}</Text>
+                <Text>Email: {this.state.user.email}</Text>
+                <Text>User Type: {this.state.user.type}</Text>
+                <Text>Contact: {this.state.user.contact}</Text>
             </View>
         )
     }
