@@ -19,7 +19,7 @@ const options = {
     },
 };
 
-
+//what is this for
 const getPathForFirebaseStorage = async uri => {
     if (Platform.OS === "ios") return uri
     const stat = await RNFetchBlob.fs.stat(uri)
@@ -42,7 +42,7 @@ class PostFood extends React.Component {
             manfData: false,
             expDate: false,
             filePath: {},
-            avatarSource: {}
+            avatarSource: {} // what is this for
         }
     }
 
@@ -67,8 +67,8 @@ class PostFood extends React.Component {
                     expfDateVal: this.state.expfDateVal,
                     coverage: this.state.coverage,
                     description: this.state.description,
-                    img: img.metadata.fullPath,
-                    email: auth().currentUser.email
+                    img: img.metadata.fullPath, //image
+                    email: auth().currentUser.email //detect current user
                 }).then(res => {
                     this.props.navigation.navigate('DonorDashboard');
                 }).catch(err => {
@@ -105,7 +105,7 @@ class PostFood extends React.Component {
             <ScrollView style={styles.container}>
                 {/* <Text style={{ padding: 20 }}>This is Post Food page</Text> */}
                 <Text style={{ ...styles.textInput, textAlign: 'center' }}> Date Posted :  {this.state.dataPosted}</Text>
-
+                {/*for image*/}
                 <View style={styles.container1}>
                     <Image
                         source={this.state.avatarSource}

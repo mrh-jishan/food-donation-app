@@ -1,8 +1,17 @@
 import firestore from '@react-native-firebase/firestore';
+import storage from '@react-native-firebase/storage';
 import React from 'react';
 import { ScrollView, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 import { Button, TextInput } from 'react-native-paper';
+import auth from '@react-native-firebase/auth';
+import RNFetchBlob from 'rn-fetch-blob';
+
+const getPathForFirebaseStorage = async uri => {
+    if (Platform.OS === "ios") return uri
+    const stat = await RNFetchBlob.fs.stat(uri)
+    return stat.path
+}
 
 class RequestDonation extends React.Component {
 
@@ -12,8 +21,8 @@ class RequestDonation extends React.Component {
             oName: '',
             cName: '',
             dateRequested: new Date().toLocaleString(),
-            location: '',
-            contact: '',
+            // location: '',
+            // contact: '',
             description: '',
             neededDateVal: '',
             neededDate: false,
@@ -30,12 +39,63 @@ class RequestDonation extends React.Component {
     // }
 
     requestDonationHandle = () => {
-        firestore().collection('DonationRequest').add(this.state).then(res => {
-            this.props.navigation.navigate('ReceiverDashboard');
-        }).catch(err => {
 
-        });
+        const sessionId = new Date().getTime();
+        //const imageRef = storage().ref('DonationRequest').child(`${sessionId}`);
+        //getPathForFirebaseStorage(this.state.filePath.uri).then(fileUri => {
+            //imageRef.putFile(fileUri).then(img => {
+                firestore().collection('DonationRequest').add({
+                    oName: this.state.oName,
+                    cName: this.state.cName,
+                    dateRequested: this.state.dateRequested,
+                    // location: '',
+                    // contact: '',
+                    description: this.state.description,
+                    neededDateVal: this.state.neededDateVal,
+                    email: auth().currentUser.email //detect current user
+                }).then(res => {
+                    this.props.navigation.navigate('ReceiverDashboard');
+                }).catch(err => {
+                    console.log('err: ', err);
+                }).catch(err => {
+                    console.log('err: ', err);
+            // }).catch(err => {
+            //     console.log('err: ', err);
+            })
+        //})
+        
+        // const sessionId = new Date().getTime();
+        // const imageRef = storage().ref('DonationRequest').child(`${sessionId}`);
+        // getPathForFirebaseStorage(this.state.filePath.uri).then(fileUri => {
+        //     imageRef.putFile(fileUri).then(img => {
+        //         firestore().collection('DonationRequest').add({
+        //             oName: this.state.oName,
+        //             cName: this.state.cName,
+        //             dateRequested: this.state.dateRequested,
+        //             // location: '',
+        //             // contact: '',
+        //             description: this.state.description,
+        //             neededDateVal: this.state.neededDateVal,
+        //             email: auth().currentUser.email //detect current user
+        //         }).then(res => {
+        //             this.props.navigation.navigate('DonorDashboard');
+        //         }).catch(err => {
+        //             console.log('err: ', err);
+        //         });
+        //     }).catch(err => {
+        //         console.log('err: ', err);
+        //     })
+        // })
+    
+
+        // firestore().collection('DonationRequest').add(this.state).then(res => {
+        //     this.props.navigation.navigate('ReceiverDashboard');
+        // }).catch(err => {
+
+        // });
     }
+
+    
 
     render() {
         return (

@@ -2,50 +2,54 @@ import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import React from 'react';
 import { ScrollView, StyleSheet, Text } from 'react-native';
-import Food from '../components/Food';
+import DonationRequest from './../components/DonationRequest'
+import RequestDonation from './RequestDonation';
 
-class ViewPostedFood extends React.Component {
+
+
+class ViewDonationRequest extends React.Component {
 
     constructor(props) {
         super(props)
         this.state = {
-            foods: [],
+            donationR: [],
         }
     }
 
     componentDidMount() {
         const user = auth().currentUser;
-        firestore().collection('Foods').where('email', '==', user.email).onSnapshot(snap => {
-            const foods = [];
-            snap.forEach(food => {
-                foods.push({
-                    ...food.data(),
-                    key: food.id,
+        firestore().collection('DonationRequest').where('email', '==', user.email).onSnapshot(snap => {
+            const dRequests = [];
+            snap.forEach(res => {
+                dRequests.push({
+                    ...res.data(),
+                    key: res.id,
                 });
             });
-            this.setState({ foods: foods })
+            this.setState({ donationR: dRequests })
         })
     }
 
-    deleteFood = (food) => {
+    deleteDonationRequest = (dRequests) => {
         firestore()
-            .collection('Foods')
-            .doc(food.key)
+            .collection('DonationRequest')
+            .doc(dRequests.key)
             .delete()
             .then(() => {
-                console.log('Food deleted!');
+                console.log('Donation Request deleted!');
             });
     }
+
 
     render() {
         return (
             <ScrollView style={styles.container}>
                 <Text style={{ ...styles.textInput, padding: 20, textAlign: 'center', fontSize: 22 }}>Update Posted Food</Text>
 
-                {this.state.foods.length > 0 && (
-                    this.state.foods.map((food, index) => (
-                        <Food food={food}
-                            deleteFood={this.deleteFood}
+                {this.state.donationR.length > 0 && (
+                    this.state.donationR.map((res, index) => (
+                        <DonationRequest res={res}
+                            deleteDonationRequest={this.deleteDonationRequest}
                             key={index}
                             navigation={this.props.navigation}
                         />
@@ -94,4 +98,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default ViewPostedFood;
+export default ViewDonationRequest;

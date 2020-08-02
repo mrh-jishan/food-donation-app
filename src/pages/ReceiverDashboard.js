@@ -20,7 +20,7 @@ class ReceiverDashboard extends React.Component {
                     <Text style={styles.buttonText}>Request Donation</Text>
                 </Button>
 
-                <Button style={styles.button} onPress={() => this.props.navigation.navigate('')}>
+                <Button style={styles.button} onPress={() => this.props.navigation.navigate('ViewDonationRequest')}>
                     <Text style={styles.buttonText}>Manage Request</Text>
                 </Button>
 
