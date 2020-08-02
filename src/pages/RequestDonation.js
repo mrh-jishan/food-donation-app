@@ -1,10 +1,9 @@
+import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
-import storage from '@react-native-firebase/storage';
 import React from 'react';
 import { ScrollView, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 import { Button, TextInput } from 'react-native-paper';
-import auth from '@react-native-firebase/auth';
 import RNFetchBlob from 'rn-fetch-blob';
 
 const getPathForFirebaseStorage = async uri => {
@@ -35,29 +34,29 @@ class RequestDonation extends React.Component {
     }
 
     requestDonationHandle = () => {
-                firestore().collection('DonationRequest').add({
-                    oName: this.state.oName,
-                    cName: this.state.cName,
-                    dateRequested: this.state.dateRequested,
-                    // location: '',
-                    // contact: '',
-                    description: this.state.description,
-                    neededDateVal: this.state.neededDateVal,
-                    email: auth().currentUser.email //detect current user
-                }).then(res => {
-                    this.props.navigation.navigate('ReceiverDashboard');
-                }).catch(err => {
-                    console.log('err: ', err);
-                }).catch(err => {
-                    console.log('err: ', err);
+        firestore().collection('DonationRequest').add({
+            oName: this.state.oName,
+            cName: this.state.cName,
+            dateRequested: this.state.dateRequested,
+            // location: '',
+            // contact: '',
+            description: this.state.description,
+            neededDateVal: this.state.neededDateVal,
+            email: auth().currentUser.email //detect current user
+        }).then(res => {
+            this.props.navigation.navigate('ReceiverDashboard');
+        }).catch(err => {
+            console.log('err: ', err);
+        }).catch(err => {
+            console.log('err: ', err);
             // }).catch(err => {
             //     console.log('err: ', err);
-            })
+        })
         //})
-        
+
     }
 
-    
+
 
     render() {
         return (
