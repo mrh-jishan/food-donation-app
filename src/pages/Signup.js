@@ -19,12 +19,18 @@ class Signup extends React.Component {
             email: '',
             password: '',
             type: '',
-            coords: {}
+            coords: {},
+            address: '',
+            zipcode: '',
+            country: ''
         }
     }
 
-    componentDidMount() {
-        this.setState({coords: this.context.coords})
+    async componentDidMount() {
+        this.setState({ coords: this.context.coords })
+        const loc = await fetch('https://geocode.xyz/37.4219873,-122.0838832?geoit=json');
+        const data = await loc.json();
+        this.setState({ address: data.stnumber + ' - ' + data.staddress + ', ' + data.city + ', ' + data.state, zipcode: data.postal, country: data.country })
     }
 
     handleFormSubmit = () => {
@@ -139,13 +145,39 @@ class Signup extends React.Component {
                         onChangeText={text => this.setState({ contact: text })}
                     />
 
+
+                    {this.state.type == 'receiver' && (
+                        <>
+                            <TextInput
+                                label="Address"
+                                style={styles.textInput}
+                                multiline={true}
+                                numberOfLines={3}
+                                value={this.state.address}
+                                onChangeText={text => this.setState({ contact: text })}
+                            />
+
+                            <TextInput
+                                label="Zip Code"
+                                style={styles.textInput}
+                                value={this.state.zipcode}
+                                onChangeText={text => this.setState({ contact: text })}
+                            />
+
+                            <TextInput
+                                label="Country"
+                                style={styles.textInput}
+                                value={this.state.country}
+                                onChangeText={text => this.setState({ contact: text })}
+                            />
+                        </>
+                    )}
+
+
+
                     <Button
                         style={styles.button}
                         mode="contained"
-                        // style={{
-                        //     width: '100%',
-                        //     marginVertical: 10,
-                        // }}
                         onPress={this.handleFormSubmit}>
                         <Text style={styles.buttonText}>Sign up</Text>
                     </Button>
