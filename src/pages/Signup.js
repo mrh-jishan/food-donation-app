@@ -154,21 +154,21 @@ class Signup extends React.Component {
                                 multiline={true}
                                 numberOfLines={3}
                                 value={this.state.address}
-                                onChangeText={text => this.setState({ contact: text })}
+                                onChangeText={text => this.setState({ address: text })}
                             />
 
                             <TextInput
                                 label="Zip Code"
                                 style={styles.textInput}
                                 value={this.state.zipcode}
-                                onChangeText={text => this.setState({ contact: text })}
+                                onChangeText={text => this.setState({ zipcode: text })}
                             />
 
                             <TextInput
                                 label="Country"
                                 style={styles.textInput}
                                 value={this.state.country}
-                                onChangeText={text => this.setState({ contact: text })}
+                                onChangeText={text => this.setState({ country: text })}
                             />
                         </>
                     )}
