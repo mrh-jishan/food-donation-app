@@ -1,3 +1,4 @@
+import Geolocation from '@react-native-community/geolocation';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import { NavigationContainer } from '@react-navigation/native';
@@ -10,7 +11,7 @@ import ReceiverStack from './ReceiverStack';
 
 
 export default function Routes() {
-  const { user, setUser, profile, setProfile } = useContext(AuthContext);
+  const { user, setUser, profile, setProfile, setCoords } = useContext(AuthContext);
   const [loading, setLoading] = useState(true);
   const [initializing, setInitializing] = useState(true);
 
@@ -27,6 +28,10 @@ export default function Routes() {
     }
     if (initializing) setInitializing(false);
     setLoading(false)
+
+    Geolocation.getCurrentPosition(info => {
+      setCoords(info.coords);
+    });
   }
 
   useEffect(() => {

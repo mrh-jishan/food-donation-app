@@ -51,7 +51,7 @@ const ReceiverTabs = () => {
 
       <Tab.Screen
         name="ReceivedList"
-        component={DonorDashboard}
+        component={ReceiverAcceptedRequest}
         options={{
           tabBarLabel: 'Received',
           tabBarIcon: ({ color }) => (

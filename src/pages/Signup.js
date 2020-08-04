@@ -5,10 +5,11 @@ import React from 'react';
 import { Alert, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Button, TextInput } from 'react-native-paper';
 import Logo from '../components/Logo';
-
+import { AuthContext } from './../navigation/AuthProvider';
 
 
 class Signup extends React.Component {
+    static contextType = AuthContext
 
     constructor(props) {
         super(props)
@@ -17,8 +18,13 @@ class Signup extends React.Component {
             contact: '',
             email: '',
             password: '',
-            type: ''
+            type: '',
+            coords: {}
         }
+    }
+
+    componentDidMount() {
+        this.setState({coords: this.context.coords})
     }
 
     handleFormSubmit = () => {
@@ -189,17 +195,17 @@ const styles = StyleSheet.create({
     },
 
     button: {
-        width:300,
-        backgroundColor:"#1c313a",
+        width: 300,
+        backgroundColor: "#1c313a",
         borderRadius: 25,
         marginVertical: 8,
         paddingVertical: 8
     },
 
     buttonText: {
-        fontSize:16,
-        fontWeight:'500',
-        color:'#ffffff',
+        fontSize: 16,
+        fontWeight: '500',
+        color: '#ffffff',
         textAlign: "center"
     }
 });

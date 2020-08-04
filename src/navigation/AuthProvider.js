@@ -1,5 +1,5 @@
-import React, { createContext, useState } from 'react';
 import auth from '@react-native-firebase/auth';
+import React, { createContext, useState } from 'react';
 
 /**
  * This provider is created
@@ -11,6 +11,10 @@ export const AuthContext = createContext({});
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState({});
   const [profile, setProfile] = useState({});
+  const [coords, setCoords] = useState({
+    latitude: 0,
+    longitude: 0
+  });
 
   return (
     <AuthContext.Provider
@@ -19,6 +23,8 @@ export const AuthProvider = ({ children }) => {
         setUser,
         profile,
         setProfile,
+        coords,
+        setCoords,
         login: async (email, password) => {
           try {
             await auth().signInWithEmailAndPassword(email, password);
