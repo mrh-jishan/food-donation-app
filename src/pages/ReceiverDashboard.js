@@ -24,12 +24,12 @@ class ReceiverDashboard extends React.Component {
                     <Text style={styles.buttonText}>Manage Request</Text>
                 </Button>
 
-                <Button style={styles.button} onPress={() => this.props.navigation.navigate('')}>
+                <Button style={styles.button} onPress={() => this.props.navigation.navigate('ReceiverViewAcceptedRequest')}>
                     <Text style={styles.buttonText}>Display Accepted Request</Text>
                 </Button>
 
-                <Button style={styles.button} onPress={() => this.props.navigation.navigate('ViewPostedReceiver')}>
-                    <Text style={styles.buttonText}>View Post</Text>
+                <Button style={styles.button} onPress={() => this.props.navigation.navigate('ViewPostReceiver')}>
+                    <Text style={styles.buttonText}>View Posted Food</Text>
                 </Button>
 
                 <Button style={styles.button} onPress={() => this.props.navigation.navigate('ReceiverAcceptedRequest')}>

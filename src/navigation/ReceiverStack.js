@@ -9,8 +9,9 @@ import RequestDonation from './../pages/RequestDonation';
 import RFeedback from './../pages/RFeedback';
 import ViewDonationRequest from './../pages/ViewDonationRequest';
 import UpdateDonationRequest from './../pages/UpdateDonationRequest';
-import ViewPostedReceiver from '../pages/ViewPostReceiver';
+import ViewPostReceiver from '../pages/ViewPostReceiver';
 import ReceiverAcceptedRequest from '../pages/ReceiverAcceptedRequest';
+import ReceiverViewAcceptedRequest from '../pages/ReceiverViewAcceptedRequest';
 
 const Tab = createBottomTabNavigator();
 
@@ -106,8 +107,10 @@ export default function ReceiverStack() {
       <Stack.Screen name="ViewDonationRequest" component={ViewDonationRequest} options={{ title: 'View Requested Donation' }} />
       <Stack.Screen name="UpdateDonationRequest" component={UpdateDonationRequest} options={{ title: 'Update Requested Donation' }} />
       
-      <Stack.Screen name="ViewPostedReceiver" component={ViewPostedReceiver} options={{ title: 'View Posted Receiver' }} />
+      <Stack.Screen name="ViewPostReceiver" component={ViewPostReceiver} options={{ title: 'View Posted Receiver' }} />
       <Stack.Screen name="ReceiverAcceptedRequest" component={ReceiverAcceptedRequest} options={{ title: 'Receiver Accepted Request' }} />
+      
+      <Stack.Screen name="ReceiverViewAcceptedRequest" component={ReceiverViewAcceptedRequest} options={{ title: 'Receiver View Accepted Request' }} />
     </Stack.Navigator>
   );
 }

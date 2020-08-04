@@ -25,15 +25,15 @@ class DonorDashboard extends React.Component {
                     <Text style={styles.buttonText}>Manage Posted Food</Text>
                 </Button>
                
-                <Button style={styles.button} onPress={() => this.props.navigation.navigate('')}>
+                <Button style={styles.button} onPress={() => this.props.navigation.navigate('DonorViewAcceptedPost')}>
                     <Text style={styles.buttonText}>View Accepted Post</Text>
                 </Button>
 
-                <Button style={styles.button} onPress={() => this.props.navigation.navigate('')}>
+                <Button style={styles.button} onPress={() => this.props.navigation.navigate('ViewDonationRequestDonor')}>
                     <Text style={styles.buttonText}>View Donation Request</Text>
                 </Button>
 
-                <Button style={styles.button} onPress={() => this.props.navigation.navigate('')}>
+                <Button style={styles.button} onPress={() => this.props.navigation.navigate('DonorAcceptedRequest')}>
                     <Text style={styles.buttonText}>View Accepted Request</Text>
                 </Button>
 

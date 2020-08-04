@@ -2,9 +2,9 @@ import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import React from 'react';
 import { ScrollView, StyleSheet, Text } from 'react-native';
-import FoodReceiver from '../components/FoodReceiver';
+import FoodReceiverAccepted from '../components/FoodReceiverAccepted';
 
-class ViewPostReceiver extends React.Component {
+class DonorViewAcceptedPost extends React.Component {
 
     constructor(props) {
         super(props)
@@ -14,11 +14,13 @@ class ViewPostReceiver extends React.Component {
     }
 
     componentDidMount() {
-        firestore().collection('Foods').onSnapshot(snap => {
+        const user = auth().currentUser;
+        firestore().collection('Foods')
+        .where('email', '==', user.email).onSnapshot(snap => {
             const foods = [];
             snap.forEach(food => {
                 const data = food.data();
-                if (data.accepted == undefined) {
+                if (data.accepted == true) {
                     foods.push({
                         ...data,
                         key: food.id,
@@ -29,15 +31,15 @@ class ViewPostReceiver extends React.Component {
         })
     }
 
-    acceptFood = (food) => {
-        firestore()
-            .collection('Foods')
-            .doc(food.key)
-            .update({ accepted: true, acceptedBy: auth().currentUser.email })
-            .then(() => {
-                console.log('Food Accepted!');
-            });
-    }
+    // acceptRequest = (res) => {
+    //     firestore()
+    //         .collection('DonationRequest')
+    //         .doc(res.key)
+    //         .update({ accepted: true, acceptedBy: auth().currentUser.email })
+    //         .then(() => {
+    //             console.log('Request Accepted!');
+    //         });
+    // }
 
     render() {
         return (
@@ -45,17 +47,17 @@ class ViewPostReceiver extends React.Component {
                 <Text style={{
                     textAlign: 'center',
                     fontSize: 22
-                }}>Update Posted Food</Text>
+                }}>Accept Donation Request</Text>
 
                 {this.state.foods.length > 0 && (
                     this.state.foods.map((food, index) => (
-                        <FoodReceiver food={food}
-                            acceptFood={this.acceptFood}
+                        <FoodReceiverAccepted food={food}
+                            //acceptFood={this.acceptFood}
                             key={index}
                             navigation={this.props.navigation}
                         />
                     ))
-                )}
+                )}              
 
             </ScrollView>
         )
@@ -99,4 +101,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default ViewPostReceiver;
+export default DonorViewAcceptedPost;

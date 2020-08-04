@@ -2,42 +2,44 @@ import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import React from 'react';
 import { ScrollView, StyleSheet, Text } from 'react-native';
-import FoodReceiver from '../components/FoodReceiver';
+import DrequestDonorAccepted from '../components/DrequestDonorAccepted';
 
-class ViewPostReceiver extends React.Component {
+class ReceiverViewAcceptedRequest extends React.Component {
 
     constructor(props) {
         super(props)
         this.state = {
-            foods: [],
+            donationR: [],
         }
     }
 
     componentDidMount() {
-        firestore().collection('Foods').onSnapshot(snap => {
-            const foods = [];
-            snap.forEach(food => {
-                const data = food.data();
-                if (data.accepted == undefined) {
-                    foods.push({
-                        ...data,
-                        key: food.id,
+        const user = auth().currentUser;
+        firestore().collection('DonationRequest')
+        .where('email', '==', user.email).onSnapshot(snap => {
+            const dRequests = [];
+            snap.forEach(res => {
+                const data = res.data();
+                if (data.accepted == true) {
+                    dRequests.push({
+                        ...res.data(),
+                        key: res.id,
                     });
                 }
             });
-            this.setState({ foods: foods })
+            this.setState({ donationR: dRequests })
         })
     }
 
-    acceptFood = (food) => {
-        firestore()
-            .collection('Foods')
-            .doc(food.key)
-            .update({ accepted: true, acceptedBy: auth().currentUser.email })
-            .then(() => {
-                console.log('Food Accepted!');
-            });
-    }
+    // acceptRequest = (res) => {
+    //     firestore()
+    //         .collection('DonationRequest')
+    //         .doc(res.key)
+    //         .update({ accepted: true, acceptedBy: auth().currentUser.email })
+    //         .then(() => {
+    //             console.log('Request Accepted!');
+    //         });
+    // }
 
     render() {
         return (
@@ -45,12 +47,12 @@ class ViewPostReceiver extends React.Component {
                 <Text style={{
                     textAlign: 'center',
                     fontSize: 22
-                }}>Update Posted Food</Text>
+                }}>Accept Donation Request</Text>
 
-                {this.state.foods.length > 0 && (
-                    this.state.foods.map((food, index) => (
-                        <FoodReceiver food={food}
-                            acceptFood={this.acceptFood}
+                {this.state.donationR.length > 0 && (
+                    this.state.donationR.map((res, index) => (
+                        <DrequestDonorAccepted dRequests={res}
+                            // acceptRequest={this.acceptRequest}
                             key={index}
                             navigation={this.props.navigation}
                         />
@@ -99,4 +101,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default ViewPostReceiver;
+export default ReceiverViewAcceptedRequest;
