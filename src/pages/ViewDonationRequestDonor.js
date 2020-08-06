@@ -19,16 +19,15 @@ class ViewDonationRequestDonor extends React.Component {
             .orderBy("neededDateVal")
             .onSnapshot(snap => {
                 const dRequests = snap.docs
-                    .map(res => res.data())
-                    .filter(data => data.accepted == undefined)
-                    .filter(data => new Date(data.neededDateVal).getTime() > nowTime)
                     .map(res => {
-                        return {
-                            ...res,
-                            key: res.id,
-                        };
 
-                    });
+                        return {
+                            ...res?.data(),
+                            key: res.id
+                        }
+                    })
+                    .filter(data => data.accepted == undefined)
+                .filter(data => new Date(data.neededDateVal).getTime() > nowTime)
                 this.setState({ donationR: dRequests })
             })
     }

@@ -23,14 +23,13 @@ class ViewDonationRequest extends React.Component {
             .where('email', '==', user.email)
             .onSnapshot(snap => {
                 const dRequests = snap.docs
-                    .filter(data => new Date(data.neededDateVal).getTime() > nowTime)
                     .map(res => {
                         return {
-                            ...res.data(),
-                            key: res.id,
+                            ...res?.data(),
+                            key: res.id
                         }
-                    });
-
+                    })
+                    .filter(data => new Date(data.neededDateVal).getTime() > nowTime);
 
                 this.setState({ donationR: dRequests.sort((obj1, obj2) => new Date(obj1.neededDateVal).getTime() - new Date(obj2.neededDateVal).getTime()) })
             })
