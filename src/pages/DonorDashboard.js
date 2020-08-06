@@ -37,7 +37,7 @@ class DonorDashboard extends React.Component {
                     <Text style={styles.buttonText}>View Accepted Request</Text>
                 </Button>
 
-                <Button style={styles.button} onPress={() => this.props.navigation.navigate('')}>
+                <Button style={styles.button} onPress={() => this.props.navigation.navigate('DonorViewNearestHome')}>
                     <Text style={styles.buttonText}>Nearest Orphanage Home</Text>
                 </Button>
                 

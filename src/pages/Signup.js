@@ -19,6 +19,7 @@ class Signup extends React.Component {
             email: '',
             password: '',
             type: '',
+            oName: '',
             coords: {},
             address: '',
             zipcode: '',
@@ -148,6 +149,13 @@ class Signup extends React.Component {
 
                     {this.state.type == 'receiver' && (
                         <>
+                            <TextInput
+                                label="Orphanage Home Name"
+                                style={styles.textInput}
+                                value={this.state.oName}
+                                onChangeText={text => this.setState({ oName: text })}
+                            />
+
                             <TextInput
                                 label="Address"
                                 style={styles.textInput}

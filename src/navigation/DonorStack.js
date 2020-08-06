@@ -12,6 +12,7 @@ import ViewPostedFood from './../pages/ViewPostedFood';
 import DonorAcceptedRequest from './../pages/DonorAcceptedRequest';
 import ViewDonationRequestDonor from './../pages/ViewDonationRequestDonor';
 import DonorViewAcceptedPost from './../pages/DonorViewAcceptedPost';
+import DonorViewNearestHome from './../pages/DonorViewNearestHome';
 
 const Tab = createBottomTabNavigator();
 
@@ -100,6 +101,7 @@ export default function DonorStack() {
       <Stack.Screen name="ViewDonationRequestDonor" component={ViewDonationRequestDonor} options={{ title: 'View Donation Request Donor' }} />
       <Stack.Screen name="DonorAcceptedRequest" component={DonorAcceptedRequest} options={{ title: 'Donor Accepted Request' }} />
       <Stack.Screen name="DonorViewAcceptedPost" component={DonorViewAcceptedPost} options={{ title: 'Donor View Accepted Post' }} />
+      <Stack.Screen name="DonorViewNearestHome" component={DonorViewNearestHome} options={{ title: 'Donor View Nearest Home' }} />
     </Stack.Navigator>
   );
 }
