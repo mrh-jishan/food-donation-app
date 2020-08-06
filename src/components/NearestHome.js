@@ -1,7 +1,6 @@
-import storage from '@react-native-firebase/storage';
-import React, { useEffect, useState } from 'react';
-import { Text } from 'react-native';
-import { Button, Card, Paragraph, Title } from 'react-native-paper';
+import React from 'react';
+import { Linking, Text } from 'react-native';
+import { Button, Card, Title } from 'react-native-paper';
 
 const NearestHome = ({ vHome, acceptRequest }) => {
 
@@ -15,9 +14,12 @@ const NearestHome = ({ vHome, acceptRequest }) => {
                 <Title>Care Taker Name: {vHome.Name}</Title>
                 <Title>Email: {vHome.email}</Title>
                 <Title>Contact: {vHome.contact}</Title>
+                <Text>Address: {vHome.address}</Text>
+                <Text>Distance: {vHome.distance} KM</Text>
+                <Text>Coords: {vHome.coords.longitude}, {vHome.coords.latitude}</Text>
             </Card.Content>
             <Card.Actions>
-                {/* <Button onPress={() => acceptRequest(nearestH)}>Accept</Button> */}
+                <Button onPress={() => Linking.openURL('google.navigation:q=' + vHome.coords.latitude + '+' + vHome.coords.longitude)}>Follow In Map</Button>
             </Card.Actions>
         </Card>
     )
