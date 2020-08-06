@@ -14,20 +14,21 @@ class ViewDonationRequestDonor extends React.Component {
     }
 
     componentDidMount() {
-        firestore().collection('DonationRequest').onSnapshot(snap => {
-            const dRequests = [];
-            snap.forEach(res => {
-                const data = res.data();
-                if (data.accepted == undefined) {
-                    dRequests.push({
-                        ...res.data(),
-                        key: res.id,
+        firestore().collection('DonationRequest')
+            .orderBy("neededDateVal")
+            .onSnapshot(snap => {
+                const dRequests = snap.docs
+                    .map(res => res.data())
+                    .filter(data => data.accepted == undefined)
+                    .map(res => {
+                        return {
+                            ...res,
+                            key: res.id,
+                        };
+
                     });
-                }
-                
-            });
-            this.setState({ donationR: dRequests })
-        })
+                this.setState({ donationR: dRequests })
+            })
     }
 
     acceptRequest = (res) => {

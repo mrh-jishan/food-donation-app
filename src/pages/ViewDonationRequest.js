@@ -2,7 +2,7 @@ import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import React from 'react';
 import { ScrollView, StyleSheet, Text } from 'react-native';
-import DonationCard from '../components/DonationCard'
+import DonationCard from '../components/DonationCard';
 
 
 
@@ -18,16 +18,19 @@ class ViewDonationRequest extends React.Component {
     componentDidMount() {
         const user = auth().currentUser;
         firestore().collection('DonationRequest')
-        .where('email', '==', user.email).onSnapshot(snap => {
-            const dRequests = [];
-            snap.forEach(res => {
-                dRequests.push({
-                    ...res.data(),
-                    key: res.id,
+            .orderBy("neededDateVal")
+            .where('email', '==', user.email)
+            .onSnapshot(snap => {
+                const dRequests = snap.docs.map(res => {
+                    return {
+                        ...res.data(),
+                        key: res.id,
+                    }
                 });
-            });
-            this.setState({ donationR: dRequests })
-        })
+
+
+                this.setState({ donationR: dRequests.sort((obj1, obj2) => new Date(obj1.neededDateVal).getTime() - new Date(obj2.neededDateVal).getTime()) })
+            })
     }
 
     deleteDonationRequest = (dRequests) => {
@@ -44,7 +47,7 @@ class ViewDonationRequest extends React.Component {
     render() {
         return (
             <ScrollView style={styles.container}>
-                <Text style={{textAlign: 'center', fontSize: 22 }}>
+                <Text style={{ textAlign: 'center', fontSize: 22 }}>
                     View Donation Request
                     </Text>
 
