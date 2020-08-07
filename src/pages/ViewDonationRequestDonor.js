@@ -16,18 +16,17 @@ class ViewDonationRequestDonor extends React.Component {
     componentDidMount() {
         const nowTime = new Date().getTime();
         firestore().collection('DonationRequest')
-            .orderBy("neededDateVal")
+            // .orderBy("neededDateVal")
             .onSnapshot(snap => {
                 const dRequests = snap.docs
                     .map(res => {
-
                         return {
                             ...res?.data(),
                             key: res.id
                         }
                     })
                     .filter(data => data.accepted == undefined)
-                .filter(data => new Date(data.neededDateVal).getTime() > nowTime)
+                    .filter(data => new Date(data.neededDateVal).getTime() > nowTime)
                 this.setState({ donationR: dRequests })
             })
     }

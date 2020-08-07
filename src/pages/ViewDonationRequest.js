@@ -19,7 +19,6 @@ class ViewDonationRequest extends React.Component {
         const user = auth().currentUser;
         const nowTime = new Date().getTime();
         firestore().collection('DonationRequest')
-            .orderBy("neededDateVal")
             .where('email', '==', user.email)
             .onSnapshot(snap => {
                 const dRequests = snap.docs
