@@ -13,7 +13,7 @@ const QRdialog = ({ visible, hideDialog, food }) => {
                         <QRCode
                             logoSize={350}
                             size={200}
-                            value={JSON.stringify(food.key)}
+                            value={food.key}
                         />
 
                     </Dialog.Content>
