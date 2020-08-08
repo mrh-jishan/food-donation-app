@@ -8,7 +8,7 @@ const FoodReceiverAccepted = ({ food }) => {
 
     const [uri, setUri] = useState();
     const [receiver, setReceiver] = useState({
-        phoneNumber: '',
+        contact: '',
         coords: {
             latitude: '',
             longitude: ''
@@ -20,15 +20,13 @@ const FoodReceiverAccepted = ({ food }) => {
             .getDownloadURL().then(url => {
                 setUri(url)
             });
-        firestore().collection('Users')
+            firestore().collection('Users')
             .where('email', '==', food.acceptedBy).get()
             .then(snap => {
                 const profile = snap.docs[0].data();
-                console.log('profile: ', profile);
                 setReceiver(profile)
             })
-
-    });
+    }, [food]);
 
 
     return (
@@ -46,7 +44,7 @@ const FoodReceiverAccepted = ({ food }) => {
             <Card.Cover source={{ uri: uri }} />
             <Card.Actions>
                 <Button onPress={() => Linking.openURL('google.navigation:q=' + receiver.coords.latitude + '+' + receiver.coords.longitude)}>Follow In Map</Button>
-                <Button onPress={() => Linking.openURL(`tel:${receiver.phoneNumber}`)}>Call User</Button>
+                <Button onPress={() => Linking.openURL(`tel:${receiver.contact}`)}>Call User</Button>
             </Card.Actions>
         </Card>
     )
