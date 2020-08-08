@@ -17,7 +17,7 @@ class ViewPostedFood extends React.Component {
         const user = auth().currentUser;
         const nowTime = new Date().getTime();
         firestore().collection('Foods')
-            .orderBy("expDateVal")
+            // .orderBy("expDateVal")
             .where('email', '==', user.email)
             .onSnapshot(snap => {
                 const foods = snap.docs

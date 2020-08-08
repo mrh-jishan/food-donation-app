@@ -16,7 +16,8 @@ class DonorViewAcceptedPost extends React.Component {
     componentDidMount() {
         const user = auth().currentUser;
         firestore().collection('Foods')
-        .where('email', '==', user.email).onSnapshot(snap => {
+        .where('email', '==', user.email)
+        .onSnapshot(snap => {
             const foods = [];
             snap.forEach(food => {
                 const data = food.data();
