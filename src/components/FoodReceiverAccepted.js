@@ -3,8 +3,16 @@ import storage from '@react-native-firebase/storage';
 import React, { useEffect, useState } from 'react';
 import { Linking, Text } from 'react-native';
 import { Button, Card, Paragraph, Title } from 'react-native-paper';
+import QRdialog from './QRdialog';
 
 const FoodReceiverAccepted = ({ food }) => {
+
+    const [visible, setVisible] = React.useState(false);
+
+    const showDialog = () => setVisible(true);
+
+    const hideDialog = () => setVisible(false);
+
 
     const [uri, setUri] = useState();
     const [receiver, setReceiver] = useState({
@@ -20,7 +28,7 @@ const FoodReceiverAccepted = ({ food }) => {
             .getDownloadURL().then(url => {
                 setUri(url)
             });
-            firestore().collection('Users')
+        firestore().collection('Users')
             .where('email', '==', food.acceptedBy).get()
             .then(snap => {
                 const profile = snap.docs[0].data();
@@ -45,6 +53,8 @@ const FoodReceiverAccepted = ({ food }) => {
             <Card.Actions>
                 <Button onPress={() => Linking.openURL('google.navigation:q=' + receiver.coords.latitude + '+' + receiver.coords.longitude)}>Follow In Map</Button>
                 <Button onPress={() => Linking.openURL(`tel:${receiver.contact}`)}>Call User</Button>
+                <Button onPress={showDialog}>View QR</Button>
+                <QRdialog visible={visible} showDialog={showDialog} hideDialog={hideDialog} food={food} />
             </Card.Actions>
         </Card>
     )
