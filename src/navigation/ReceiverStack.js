@@ -13,6 +13,7 @@ import UpdateDonationRequest from './../pages/UpdateDonationRequest';
 import ViewPostReceiver from '../pages/ViewPostReceiver';
 import ReceiverAcceptedRequest from '../pages/ReceiverAcceptedRequest';
 import ReceiverViewAcceptedRequest from '../pages/ReceiverViewAcceptedRequest';
+import QRscanner from '../pages/QRscanner';
 
 const Tab = createBottomTabNavigator();
 
@@ -110,6 +111,9 @@ export default function ReceiverStack() {
       <Stack.Screen name="UpdateDonationRequest" component={UpdateDonationRequest} options={{ title: 'Update Requested Donation' }} />
       
       <Stack.Screen name="ViewPostReceiver" component={ViewPostReceiver} options={{ title: 'View Posted Receiver' }} />
+
+      <Stack.Screen name="QRscannerPage" component={QRscanner} options={{ title: 'Scan QR Code' }} />
+
       <Stack.Screen name="ReceiverAcceptedRequest" component={ReceiverAcceptedRequest} options={{ title: 'Receiver Accepted Request' }} />
       
       <Stack.Screen name="ReceiverViewAcceptedRequest" component={ReceiverViewAcceptedRequest} options={{ title: 'Receiver View Accepted Request' }} />

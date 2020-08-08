@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import { Button, Dialog, Portal } from 'react-native-paper';
 import QRCode from 'react-native-qrcode-svg';
 
-const QRdialog = ({ visible, showDialog, hideDialog, food }) => {
+const QRdialog = ({ visible, hideDialog, food }) => {
     return (
         <View>
             <Portal>
@@ -13,7 +13,7 @@ const QRdialog = ({ visible, showDialog, hideDialog, food }) => {
                         <QRCode
                             logoSize={350}
                             size={200}
-                            value={JSON.stringify(food)}
+                            value={JSON.stringify(food.key)}
                         />
 
                     </Dialog.Content>

@@ -2,6 +2,7 @@ import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import React from 'react';
 import { ScrollView, StyleSheet, Text } from 'react-native';
+import { Button } from 'react-native-paper';
 import DrequestDonorAccepted from '../components/DrequestDonorAccepted';
 
 class ReceiverViewAcceptedRequest extends React.Component {
@@ -16,30 +17,20 @@ class ReceiverViewAcceptedRequest extends React.Component {
     componentDidMount() {
         const user = auth().currentUser;
         firestore().collection('DonationRequest')
-        .where('email', '==', user.email).onSnapshot(snap => {
-            const dRequests = [];
-            snap.forEach(res => {
-                const data = res.data();
-                if (data.accepted == true) {
-                    dRequests.push({
-                        ...res.data(),
-                        key: res.id,
-                    });
-                }
-            });
-            this.setState({ donationR: dRequests })
-        })
+            .where('email', '==', user.email).onSnapshot(snap => {
+                const dRequests = [];
+                snap.forEach(res => {
+                    const data = res.data();
+                    if (data.accepted == true) {
+                        dRequests.push({
+                            ...res.data(),
+                            key: res.id,
+                        });
+                    }
+                });
+                this.setState({ donationR: dRequests })
+            })
     }
-
-    // acceptRequest = (res) => {
-    //     firestore()
-    //         .collection('DonationRequest')
-    //         .doc(res.key)
-    //         .update({ accepted: true, acceptedBy: auth().currentUser.email })
-    //         .then(() => {
-    //             console.log('Request Accepted!');
-    //         });
-    // }
 
     render() {
         return (
@@ -48,6 +39,8 @@ class ReceiverViewAcceptedRequest extends React.Component {
                     textAlign: 'center',
                     fontSize: 22
                 }}>Accept Donation Request</Text>
+
+                <Button mode="contained" style={{ margin: 10 }} onPress={()=>this.props.navigation.navigate('QRscannerPage')}>Scan QR</Button>
 
                 {this.state.donationR.length > 0 && (
                     this.state.donationR.map((res, index) => (
