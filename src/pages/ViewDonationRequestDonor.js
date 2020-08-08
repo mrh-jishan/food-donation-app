@@ -20,7 +20,6 @@ class ViewDonationRequestDonor extends React.Component {
             .onSnapshot(snap => {
                 const dRequests = snap.docs
                     .map(res => {
-
                         return {
                             ...res?.data(),
                             key: res.id
