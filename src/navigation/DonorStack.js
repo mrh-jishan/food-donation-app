@@ -6,7 +6,7 @@ import DonationList from '../pages/DonationList';
 import DFeedback from './../pages/DFeedback';
 import DonorDashboard from './../pages/DonorDashboard';
 import PostFood from './../pages/PostFood';
-import Profile from './../pages/Profile';
+import DonorManageProfile from './../pages/DonorManageProfile';
 import UpdateFood from './../pages/UpdateFood';
 import ViewPostedFood from './../pages/ViewPostedFood';
 import DonorAcceptedRequest from './../pages/DonorAcceptedRequest';
@@ -75,7 +75,7 @@ const DonorTabs = () => {
 
       <Tab.Screen
         name="Profile"
-        component={Profile}
+        component={DonorManageProfile}
         options={{
           tabBarLabel: 'Profile',
           tabBarIcon: ({ color }) => (

@@ -15,16 +15,23 @@ class ViewPostedFood extends React.Component {
 
     componentDidMount() {
         const user = auth().currentUser;
-        firestore().collection('Foods').where('email', '==', user.email).onSnapshot(snap => {
-            const foods = [];
-            snap.forEach(food => {
-                foods.push({
-                    ...food.data(),
-                    key: food.id,
-                });
-            });
-            this.setState({ foods: foods })
-        })
+        const nowTime = new Date().getTime();
+        firestore().collection('Foods')
+            .orderBy("expDateVal")
+            .where('email', '==', user.email)
+            .onSnapshot(snap => {
+                const foods = snap.docs
+                    .map(food => {
+
+                        return {
+                            ...food?.data(),
+                            key: food.id
+                        }
+                    })
+                   
+                .filter(data => new Date(data.expDateVal).getTime() > nowTime)
+                this.setState({ foods: foods.sort((obj1, obj2) => new Date(obj1.expDateVal).getTime() - new Date(obj2.expDateVal).getTime()) })
+            })
     }
 
     deleteFood = (food) => {

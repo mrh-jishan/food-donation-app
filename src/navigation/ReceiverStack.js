@@ -3,7 +3,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import DonorDashboard from './../pages/DonorDashboard';
-import Profile from './../pages/Profile';
+import ReceiverManageProfile from '../pages/ReceiverManageProfile';
+import ReceiverVerify from '../pages/ReceiverVerify';
 import ReceiverDashboard from './../pages/ReceiverDashboard';
 import RequestDonation from './../pages/RequestDonation';
 import RFeedback from './../pages/RFeedback';
@@ -74,7 +75,7 @@ const ReceiverTabs = () => {
 
       <Tab.Screen
         name="Profile"
-        component={Profile}
+        component={ReceiverManageProfile}
         options={{
           tabBarLabel: 'Profile',
           tabBarIcon: ({ color }) => (
@@ -103,6 +104,7 @@ export default function ReceiverStack() {
           headerTitleAlign: 'center'
         }} />
 
+      <Stack.Screen name="ReceiverVerify" component={ReceiverVerify} options={{ title: 'Receiver Verify' }} />
       <Stack.Screen name="RequestDonation" component={RequestDonation} options={{ title: 'Request Donation' }} />
       <Stack.Screen name="ViewDonationRequest" component={ViewDonationRequest} options={{ title: 'View Requested Donation' }} />
       <Stack.Screen name="UpdateDonationRequest" component={UpdateDonationRequest} options={{ title: 'Update Requested Donation' }} />

@@ -13,20 +13,39 @@ class ViewPostReceiver extends React.Component {
         }
     }
 
+    // componentDidMount() {
+    //     firestore().collection('Foods').onSnapshot(snap => {
+    //         const foods = [];
+    //         snap.forEach(food => {
+    //             const data = food.data();
+    //             if (data.accepted == undefined) {
+    //                 foods.push({
+    //                     ...data,
+    //                     key: food.id,
+    //                 });
+    //             }
+    //         });
+    //         this.setState({ foods: foods })
+    //     })
+    // }
+
     componentDidMount() {
-        firestore().collection('Foods').onSnapshot(snap => {
-            const foods = [];
-            snap.forEach(food => {
-                const data = food.data();
-                if (data.accepted == undefined) {
-                    foods.push({
-                        ...data,
-                        key: food.id,
-                    });
-                }
-            });
-            this.setState({ foods: foods })
-        })
+        const nowTime = new Date().getTime();
+        firestore().collection('Foods')
+            //.orderBy("expDateVal")
+            .onSnapshot(snap => {
+                const foods = snap.docs
+                    .map(food => {
+
+                        return {
+                            ...food?.data(),
+                            key: food.id
+                        }
+                    })
+                    .filter(data => data.accepted == undefined)
+                .filter(data => new Date(data.expDateVal).getTime() > nowTime)
+                this.setState({ foods: foods.sort((obj1, obj2) => new Date(obj1.expDateVal).getTime() - new Date(obj2.expDateVal).getTime()) })
+            })
     }
 
     acceptFood = (food) => {

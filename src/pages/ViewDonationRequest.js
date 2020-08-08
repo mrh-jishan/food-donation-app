@@ -19,18 +19,25 @@ class ViewDonationRequest extends React.Component {
         const user = auth().currentUser;
         const nowTime = new Date().getTime();
         firestore().collection('DonationRequest')
-            .orderBy("neededDateVal")
+            //.orderBy("neededDateVal")
             .where('email', '==', user.email)
             .onSnapshot(snap => {
-                const dRequests = snap.docs
+                const dRequests = [];
+                 snap.docs
+
                     .map(res => {
                         return {
                             ...res?.data(),
                             key: res.id
                         }
                     })
-                    .filter(data => new Date(data.neededDateVal).getTime() > nowTime);
-
+                    .filter(data => new Date(data.neededDateVal).getTime() > nowTime)
+                    .forEach(r=>{
+                        console.log(r);
+                        dRequests.push(r)
+                    });
+                
+                
                 this.setState({ donationR: dRequests.sort((obj1, obj2) => new Date(obj1.neededDateVal).getTime() - new Date(obj2.neededDateVal).getTime()) })
             })
     }
@@ -51,7 +58,7 @@ class ViewDonationRequest extends React.Component {
             <ScrollView style={styles.container}>
                 <Text style={{ textAlign: 'center', fontSize: 22 }}>
                     View Donation Request
-                    </Text>
+                </Text>
 
                 {this.state.donationR.length > 0 && (
                     this.state.donationR.map((res, index) => (
