@@ -1,6 +1,6 @@
 import auth from '@react-native-firebase/auth';
 import React from 'react';
-import { Text, View, StyleSheet} from 'react-native';
+import { Text, View, StyleSheet, ScrollView} from 'react-native';
 import { Button } from 'react-native-paper';
 
 class DonorDashboard extends React.Component {
@@ -12,7 +12,7 @@ class DonorDashboard extends React.Component {
     }
     render() {
         return (
-            <View style={styles.container}>
+            <ScrollView style={styles.container}>
                 <Text style={styles.Text}>Want to Donate?</Text>
                 <Text style={styles.Text1}>Start Donating with an Easy Process</Text>
 
@@ -44,7 +44,7 @@ class DonorDashboard extends React.Component {
 
 
                 <Button onPress={this.logout}>Logout</Button>
-            </View>
+            </ScrollView>
         )
     }
 }

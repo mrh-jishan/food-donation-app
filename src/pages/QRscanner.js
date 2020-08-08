@@ -8,9 +8,10 @@ import firestore from '@react-native-firebase/firestore';
 
 class QRscanner extends Component {
     onSuccess = key => {
-        firestore().collection('Foods').doc(key).update({isAccepted: true}).then(res=>{
+        console.log('ket send', key);
+        firestore().collection('Foods').doc(key.data).update({isAccepted: true}).then(res=>{
             console.log('success',res);
-            this.props.navigation.navigate('Receiver');
+            this.props.navigation.navigate('ReceiverDashboard');
         }).catch(err=>{
             console.log('err: ', err);
         })
