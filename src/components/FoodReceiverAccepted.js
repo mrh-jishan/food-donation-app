@@ -47,6 +47,7 @@ const FoodReceiverAccepted = ({ food }) => {
                 <Text>Type: {food.type}</Text>
                 <Text>Accepted: {food.accepted ? 'YES' : 'NO'}</Text>
                 <Text>Accepted By: {food.acceptedBy}</Text>
+                <Text>Is Approved: {food.isApproved == undefined? 'NO': 'YES'}</Text>
                 <Paragraph>Description: {food.description}</Paragraph>
             </Card.Content>
             <Card.Cover source={{ uri: uri }} />
