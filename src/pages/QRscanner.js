@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Alert } from 'react-native';
 import { RNCamera } from 'react-native-camera';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import firestore from '@react-native-firebase/firestore';
@@ -11,6 +11,14 @@ class QRscanner extends Component {
         console.log('ket send', key);
         firestore().collection('Foods').doc(key.data).update({isApproved: true}).then(res=>{
             console.log('success',res);
+            Alert.alert(
+                "Alert Title",
+                "Received",
+                [
+                    { text: "OK", onPress: () => console.log("OK Pressed") }
+                ],
+                { cancelable: false }
+            );
             this.props.navigation.navigate('ReceiverDashboard');
         }).catch(err=>{
             console.log('err: ', err);
