@@ -40,7 +40,7 @@ class ReceiverViewAcceptedRequest extends React.Component {
                     fontSize: 22
                 }}>Accept Donation Request</Text>
 
-                <Button mode="contained" style={{ margin: 10 }} onPress={()=>this.props.navigation.navigate('QRscannerPage')}>Scan QR</Button>
+                <Button mode="contained" style={{ margin: 10 }} onPress={()=>this.props.navigation.navigate('QRscannerDRPage')}>Scan QR</Button>
 
                 {this.state.donationR.length > 0 && (
                     this.state.donationR.map((res, index) => (

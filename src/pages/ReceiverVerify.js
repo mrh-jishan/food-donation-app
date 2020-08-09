@@ -31,10 +31,10 @@ class ReceiverVerify extends React.Component {
                 </View>
                 
                 <View style={styles.container2}>
-
+                
                 <View style={{flexDirection:"row"}}> 
-                    <View style={{ width: '70%', flex: 1, paddingRight: 10}}>
-                        <TextInput placeholder={this.state.user.type}
+                    <View style={{ width: '70%', flex: 1, paddingRight: 15}}>
+                        <TextInput placeholder={this.state.user.email}
                         style={{
                             ...styles.textInput1
                         }}
@@ -43,35 +43,40 @@ class ReceiverVerify extends React.Component {
                     <View>
                         <TouchableOpacity style={{justifyContent: 'center',
                             alignItems: 'center',
-                            flex: 1}}>
+                            flex: 1,
+                            paddingRight: 15,
+                            paddingLeft: 15}}>
                             <Text style={{
                             ...styles.signupButton,
                             
-                        }}>Signup</Text>
+                        }}>Verify</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
-                
-                <TextInput
-                    placeholder={this.state.user.email}
-                    //value={this.state.cName}
-                    //onChangeText={text => this.setState({ cName: text })}
-                    style={styles.textInput1}
-                    underlineColorAndroid='rgba(0,0,0,0)' />
 
-                <TextInput placeholder={this.state.user.contact}
-                    // value={this.state.oName}
-                    // onChangeText={text => this.setState({ oName: text })}
-                    style={styles.textInput1}
-                    underlineColorAndroid='rgba(0,0,0,0)' />
+                <View style={{flexDirection:"row"}}> 
+                    <View style={{ width: '70%', flex: 1, paddingRight: 15}}>
+                        <TextInput placeholder={this.state.user.contact}
+                        style={{
+                            ...styles.textInput1
+                        }}
+                        underlineColorAndroid='rgba(0,0,0,0)' />
+                    </View>
+                    <View>
+                        <TouchableOpacity style={{justifyContent: 'center',
+                            alignItems: 'center',
+                            flex: 1,
+                            paddingRight: 15,
+                            paddingLeft: 15}}>
+                            <Text style={{
+                            ...styles.signupButton,
+                            
+                        }}>Verify</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
 
-                <TextInput
-                    placeholder="Location"
-                    // value={this.state.cName}
-                    // onChangeText={text => this.setState({ cName: text })}
-                    style={styles.textInput1}
-                    underlineColorAndroid='rgba(0,0,0,0)' />
-        
+     
                 </View>
             </View>
         )

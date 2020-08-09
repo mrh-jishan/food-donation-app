@@ -11,9 +11,10 @@ import RFeedback from './../pages/RFeedback';
 import ViewDonationRequest from './../pages/ViewDonationRequest';
 import UpdateDonationRequest from './../pages/UpdateDonationRequest';
 import ViewPostReceiver from '../pages/ViewPostReceiver';
-import ReceiverAcceptedRequest from '../pages/ReceiverAcceptedRequest';
+import ReceiverAcceptedFood from '../pages/ReceiverAcceptedFood';
 import ReceiverViewAcceptedRequest from '../pages/ReceiverViewAcceptedRequest';
 import QRscanner from '../pages/QRscanner';
+import QRscannerDR from '../pages/QRscannerDR';
 
 const Tab = createBottomTabNavigator();
 
@@ -53,7 +54,7 @@ const ReceiverTabs = () => {
 
       <Tab.Screen
         name="ReceivedList"
-        component={ReceiverAcceptedRequest}
+        component={ReceiverAcceptedFood}
         options={{
           tabBarLabel: 'Received',
           tabBarIcon: ({ color }) => (
@@ -113,8 +114,9 @@ export default function ReceiverStack() {
       <Stack.Screen name="ViewPostReceiver" component={ViewPostReceiver} options={{ title: 'View Posted Receiver' }} />
 
       <Stack.Screen name="QRscannerPage" component={QRscanner} options={{ title: 'Scan QR Code' }} />
+      <Stack.Screen name="QRscannerDRPage" component={QRscannerDR} options={{ title: 'Scan QR Code' }} />
 
-      <Stack.Screen name="ReceiverAcceptedRequest" component={ReceiverAcceptedRequest} options={{ title: 'Receiver Accepted Request' }} />
+      <Stack.Screen name="ReceiverAcceptedFood" component={ReceiverAcceptedFood} options={{ title: 'Receiver Accepted Food' }} />
       
       <Stack.Screen name="ReceiverViewAcceptedRequest" component={ReceiverViewAcceptedRequest} options={{ title: 'Receiver View Accepted Request' }} />
     </Stack.Navigator>

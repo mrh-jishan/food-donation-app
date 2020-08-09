@@ -2,6 +2,7 @@ import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import React from 'react';
 import { ScrollView, StyleSheet, Text } from 'react-native';
+import { Button } from 'react-native-paper';
 import FoodReceiverAccepted from '../components/FoodReceiverAccepted';
 
 class ReceiverAcceptedRequest extends React.Component {
@@ -29,15 +30,6 @@ class ReceiverAcceptedRequest extends React.Component {
         })
     }
 
-    acceptFood = (food) => {
-        firestore()
-            .collection('Foods')
-            .doc(food.key)
-            .update({ accepted: true, acceptedBy: auth().currentUser.email })
-            .then(() => {
-                console.log('Food updated!');
-            });
-    }
 
     render() {
         return (
@@ -45,12 +37,14 @@ class ReceiverAcceptedRequest extends React.Component {
                 <Text style={{
                     textAlign: 'center',
                     fontSize: 22
-                }}>Receiver Accepted Request</Text>
+                }}>Receiver Accepted Food</Text>
+
+            <Button mode="contained" style={{ margin: 10 }} onPress={()=>this.props.navigation.navigate('QRscannerPage')}>Scan QR</Button>
 
                 {this.state.foods.length > 0 && (
                     this.state.foods.map((food, index) => (
                         <FoodReceiverAccepted food={food}
-                            acceptFood={this.acceptFood}
+
                             key={index}
                             navigation={this.props.navigation}
                         />

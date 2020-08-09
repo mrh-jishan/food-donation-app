@@ -38,8 +38,6 @@ class RequestDonation extends React.Component {
             oName: this.state.oName,
             cName: this.state.cName,
             dateRequested: this.state.dateRequested,
-            // location: '',
-            // contact: '',
             description: this.state.description,
             neededDateVal: this.state.neededDateVal,
             email: auth().currentUser.email //detect current user
