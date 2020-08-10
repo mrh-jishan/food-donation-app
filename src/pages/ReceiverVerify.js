@@ -90,6 +90,25 @@ class ReceiverVerify extends React.Component {
             if (this.state.user.contactVerification.code == this.state.code) {
                 console.log('contac final');
                 success = true;
+                Alert.alert(
+                    "Alert Title",
+                    "Success!!",
+                    [
+                        { text: "OK", onPress: () => console.log("OK Pressed") }
+                    ],
+                    { cancelable: false }
+                );
+
+                firestore().collection('Users').doc(this.state.key).update({
+                    contact: this.state.user.contact,
+                    contactVerification: {
+                        isVerified: true
+                    }
+                }).then(res => {
+
+                }).catch(err => {
+                    console.log('err', err);
+                })
             }
 
         } else if (this.state.type == 'emailVerification') {
@@ -97,23 +116,32 @@ class ReceiverVerify extends React.Component {
             if (this.state.user.emailVerification.code == this.state.code) {
                 console.log('email final');
                 success = true;
+                Alert.alert(
+                    "Alert Title",
+                    "Success!!",
+                    [
+                        { text: "OK", onPress: () => console.log("OK Pressed") }
+                    ],
+                    { cancelable: false }
+                );
+
+                firestore().collection('Users').doc(this.state.key).update({
+                    email: this.state.user.email,
+                    emailVerification: {
+                        isVerified: true
+                    }
+                }).then(res => {
+
+                }).catch(err => {
+                    console.log('err', err);
+                })
             }
-
-
         }
 
+        
+        this.hideDialog();
 
-        if (success) {
-            this.hideDialog();
-            Alert.alert(
-                "Alert Title",
-                "Success!!",
-                [
-                    { text: "OK", onPress: () => console.log("OK Pressed") }
-                ],
-                { cancelable: false }
-            );
-        } else {
+        if (!success) {
             Alert.alert(
                 "Alert Title",
                 "Code is not valid!!",
@@ -137,7 +165,7 @@ class ReceiverVerify extends React.Component {
         var data = JSON.stringify({
             "from": "Food Donation",
             "text": code + " Use this code for verification",
-            "to": "+601133080788",
+            "to": this.state.user.contact,
             "api_key": "4d8c8223",
             "api_secret": "dtHPgYdUoYXrUTs5"
         });
@@ -188,7 +216,9 @@ class ReceiverVerify extends React.Component {
                                 flex: 1,
                                 paddingRight: 15,
                                 paddingLeft: 15
-                            }} onPress={this.verifyEmail.bind(this)}>
+                            }} onPress={this.verifyEmail.bind(this)}
+                                disabled={this.state.user.emailVerification?.isVerified}
+                            >
                                 <Text style={{
                                     ...styles.signupButton,
 
@@ -201,7 +231,7 @@ class ReceiverVerify extends React.Component {
                         <View style={{ width: '70%', flex: 1, paddingRight: 15 }}>
                             <TextInput placeholder="Contact Number"
                                 value={this.state.user.contact}
-
+                                onChangeText={(value)=> this.setState({user: {contact: value}})}
                                 style={{
                                     ...styles.textInput1
                                 }}
