@@ -49,8 +49,17 @@ const DrequestDonorAccepted = ({ dRequests}) => {
             <Card.Actions>
                 <Button onPress={() => Linking.openURL('google.navigation:q=' + receiver.coords.latitude + '+' + receiver.coords.longitude)}>Follow In Map</Button>
                 <Button onPress={() => Linking.openURL(`tel:${receiver.contact}`)}>Call User</Button>
-                <Button onPress={showDialog}>View QR</Button>
-                <DRequestQRdialog visible={visible} showDialog={showDialog} hideDialog={hideDialog} dRequests={dRequests} />
+                {/* <Button onPress={showDialog}>View QR</Button>
+                <DRequestQRdialog visible={visible} showDialog={showDialog} hideDialog={hideDialog} dRequests={dRequests} /> */}
+                
+                 {(dRequests.isApproved == undefined || dRequests.isApproved == false) && (
+                    <>
+                        <Button onPress={showDialog}>View QR</Button>
+                        <DRequestQRdialog visible={visible} showDialog={showDialog} hideDialog={hideDialog} dRequests={dRequests} />
+                    </>
+                )} 
+            
+            
             </Card.Actions>
         </Card>
     )
