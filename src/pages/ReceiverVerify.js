@@ -263,6 +263,7 @@ class ReceiverVerify extends React.Component {
                     <View style={{ flexDirection: "row" }}>
                         <View style={{ width: '70%', flex: 1, paddingRight: 15 }}>
                             <TextInput placeholder="email address"
+                                disabled={true}
                                 onChangeText={value=>this.setState({user: {email: value}})}
                                 value={this.state.user.email}
                                 style={{
@@ -283,7 +284,7 @@ class ReceiverVerify extends React.Component {
                                 <Text style={{
                                     ...styles.signupButton,
 
-                                }}>Verify</Text>
+                                }}>{this.state.user.emailVerification?.isVerified == true? 'Verified': 'Verify'}</Text>
                             </TouchableOpacity>
                         </View>
                     </View>

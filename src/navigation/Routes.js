@@ -23,6 +23,7 @@ export default function Routes() {
         .where('email', '==', user.email).get()
         .then(snap => {
           const profile = snap.docs[0].data();
+          console.log('profile: ', profile);
           setProfile(profile);
         })
     }
