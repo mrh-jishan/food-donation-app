@@ -71,7 +71,15 @@ class ReceiverVerify extends React.Component {
             }
         }).then(res => {
             this.showDialog('emailVerification')
-            this.setState({ type: 'emailVerification', user: { emailVerification: { code: emailCode } } })
+            this.setState({
+                type: 'emailVerification',
+                user: {
+                    ...this.state.user,
+                    emailVerification: {
+                        code: emailCode
+                    }
+                }
+            })
         }).catch(err => {
             console.log('err', err);
         })
@@ -87,7 +95,13 @@ class ReceiverVerify extends React.Component {
         }).then(res => {
             this.sendSMS(smsCode);
             this.showDialog('contactVerification')
-            this.setState({ type: 'contactVerification', user: { contactVerification: { code: smsCode } } })
+            this.setState({
+                type: 'contactVerification',
+                user: {
+                    ...this.state.user,
+                    contactVerification: { code: smsCode }
+                }
+            })
         }).catch(err => {
             console.log('err', err);
         })
@@ -113,6 +127,8 @@ class ReceiverVerify extends React.Component {
                     ],
                     { cancelable: false }
                 );
+
+                console.log(this.state.user);
 
                 firestore().collection('Users').doc(this.state.key).update({
                     contact: this.state.user.contact,
@@ -153,7 +169,7 @@ class ReceiverVerify extends React.Component {
             }
         }
 
-        
+
         this.hideDialog();
 
         if (!success) {
@@ -246,7 +262,7 @@ class ReceiverVerify extends React.Component {
                         <View style={{ width: '70%', flex: 1, paddingRight: 15 }}>
                             <TextInput placeholder="Contact Number"
                                 value={this.state.user.contact}
-                                onChangeText={(value)=> this.setState({user: {contact: value}})}
+                                onChangeText={(value) => this.setState({ user: { contact: value } })}
                                 style={{
                                     ...styles.textInput1
                                 }}
