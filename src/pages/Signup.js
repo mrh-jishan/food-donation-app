@@ -2,26 +2,27 @@ import { Picker } from '@react-native-community/picker';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import React from 'react';
-import { Alert, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Button, TextInput } from 'react-native-paper';
 import Logo from '../components/Logo';
 import { AuthContext } from './../navigation/AuthProvider';
+import ImagePicker from 'react-native-image-picker';
 
-// const options = {
-//     title: 'Select Avatar',
-//     customButtons: [{ name: 'fb', title: 'Choose Photo from Facebook' }],
-//     storageOptions: {
-//         skipBackup: true,
-//         path: 'images',
-//     },
-// };
+const options = {
+    title: 'Select Avatar',
+    customButtons: [{ name: 'fb', title: 'Choose Photo from Facebook' }],
+    storageOptions: {
+        skipBackup: true,
+        path: 'images',
+    },
+};
 
 // //what is this for
-// const getPathForFirebaseStorage = async uri => {
-//     if (Platform.OS === "ios") return uri
-//     const stat = await RNFetchBlob.fs.stat(uri)
-//     return stat.path
-// }
+const getPathForFirebaseStorage = async uri => {
+    if (Platform.OS === "ios") return uri
+    const stat = await RNFetchBlob.fs.stat(uri)
+    return stat.path
+}
 
 class Signup extends React.Component {
     static contextType = AuthContext
@@ -42,10 +43,51 @@ class Signup extends React.Component {
             bankName: '',
             accountNum: '',
             accountHolder: '',
+            icFilePath: {},
+            ic: {},
+            licence: {},
+            licenceFilePath: {}
 
             //avatarSource: {}
         }
     }
+
+    //Image Picker
+    chooseFile1 = () => {
+        ImagePicker.launchImageLibrary(options, (response) => {
+            if (response.didCancel) {
+                console.log('User cancelled image picker');
+            } else if (response.error) {
+                console.log('ImagePicker Error: ', response.error);
+            } else if (response.customButton) {
+                console.log('User tapped custom button: ', response.customButton);
+            } else {
+                this.setState({
+                    ic: { uri: 'data:image/jpeg;base64,' + response.data },
+                    icFilePath: { uri: response.uri }
+                 });
+            }
+        });
+    };
+
+      //Image Picker
+      chooseFile2 = () => {
+        ImagePicker.launchImageLibrary(options, (response) => {
+            if (response.didCancel) {
+                console.log('User cancelled image picker');
+            } else if (response.error) {
+                console.log('ImagePicker Error: ', response.error);
+            } else if (response.customButton) {
+                console.log('User tapped custom button: ', response.customButton);
+            } else {
+                this.setState({ 
+                    licence: { uri: 'data:image/jpeg;base64,' + response.data },
+                    licenceFilePath: { uri: response.uri }
+                 });
+            }
+        });
+    };
+
 
     async componentDidMount() {
         this.setState({ coords: this.context.coords })
@@ -57,24 +99,35 @@ class Signup extends React.Component {
     handleFormSubmit = () => {
         auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
             .then(({ user }) => {
-                console.log('user Id: ', user.uid);
-                
-                // const imageRef = storage().ref('foods').child(`${sessionId}`);
-                // getPathForFirebaseStorage(this.state.filePath.uri).then(fileUri => {
-                // imageRef.putFile(fileUri).then(img => {
-                firestore().collection('Users').add({ ...this.state, uid: user.uid })
-                    .then(res => {
-                        // this.props.navigation.navigate('Login');
-                    }).catch(err => {
-                        console.log('error: ', err);
-                        Alert.alert(
-                            "Alert - Message",
-                            "Sorry! Something went wrong!!",
-                            [
-                                { text: "OK", onPress: () => console.log("OK Pressed") }
-                            ],
-                            { cancelable: false }
-                        );
+                const imageRef = storage().ref('users')
+                getPathForFirebaseStorage(this.state.icFilePath.uri)
+                    .then(fileUri => {
+                        const sessionId = new Date().getTime();
+                        imageRef.child(`${sessionId}`).putFile(fileUri).then(img => {
+                            this.setState({ ic: img.metadata.fullPath })
+                        })
+                    }).then(() => {
+                        getPathForFirebaseStorage(this.state.licenceFilePath.uri).then(fileUri => {
+                            const sessionId = new Date().getTime();
+                            imageRef.child(`${sessionId}`).putFile(fileUri).then(img => {
+                                this.setState({ licence: img.metadata.fullPath })
+                            })
+                        })
+                    }).then(() => {
+                        firestore().collection('Users').add({ ...this.state, uid: user.uid })
+                            .then(res => {
+                                // this.props.navigation.navigate('Login');
+                            }).catch(err => {
+                                console.log('error: ', err);
+                                Alert.alert(
+                                    "Alert - Message",
+                                    "Sorry! Something went wrong!!",
+                                    [
+                                        { text: "OK", onPress: () => console.log("OK Pressed") }
+                                    ],
+                                    { cancelable: false }
+                                );
+                            })
                     })
 
             })
@@ -140,6 +193,24 @@ class Signup extends React.Component {
                             <Picker.Item label="Receiver" value="receiver" />
                         </Picker>
                     </View>
+
+                    <View style={styles.container1}>
+                        <Image
+                            source={this.state.ic}
+                            style={{ width: 100, height: 100 }}
+                        />
+                        <Button onPress={this.chooseFile1}>Choose File</Button>
+                    </View>
+
+
+                    <View style={styles.container1}>
+                        <Image
+                            source={this.state.licence}
+                            style={{ width: 100, height: 100 }}
+                        />
+                        <Button onPress={this.chooseFile2}>Choose File</Button>
+                    </View>
+
 
                     <TextInput
                         label="Name"
