@@ -70,6 +70,7 @@ class ReceiverVerify extends React.Component {
                 isVerified: false
             }
         }).then(res => {
+            this.sendEmail(emailCode);
             this.showDialog('emailVerification')
             this.setState({
                 type: 'emailVerification',
@@ -221,6 +222,34 @@ class ReceiverVerify extends React.Component {
 
     }
 
+    sendEmail(code) {
+        var axios = require('axios');
+        var data = JSON.stringify({
+            "to": this.state.user.email.replace(/(\r\n|\n|\r)/gm, ""),
+            "subject": "Verify your email",
+            "html": "Plese use the code for verification, " + code
+        });
+
+        var config = {
+            method: 'post',
+            url: 'https://foodapp-711e.restdb.io/mail',
+            headers: {
+                'Content-Type': 'application/json',
+                'x-apikey': '8cb63b06b77d254e5cd092ff4b3a091e49962'
+            },
+            data: data
+        };
+
+        axios(config)
+            .then(function (response) {
+                console.log(JSON.stringify(response.data));
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+
+    }
+
 
     render() {
         return (
@@ -234,6 +263,7 @@ class ReceiverVerify extends React.Component {
                     <View style={{ flexDirection: "row" }}>
                         <View style={{ width: '70%', flex: 1, paddingRight: 15 }}>
                             <TextInput placeholder="email address"
+                                onChangeText={value=>this.setState({user: {email: value}})}
                                 value={this.state.user.email}
                                 style={{
                                     ...styles.textInput1
