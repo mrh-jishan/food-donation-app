@@ -3,10 +3,11 @@ import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import React from 'react';
 import { Alert, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import ImagePicker from 'react-native-image-picker';
 import { Button, TextInput } from 'react-native-paper';
+import * as yup from 'yup';
 import Logo from '../components/Logo';
 import { AuthContext } from './../navigation/AuthProvider';
-import ImagePicker from 'react-native-image-picker';
 
 const options = {
     title: 'Select Avatar',
@@ -16,6 +17,14 @@ const options = {
         path: 'images',
     },
 };
+
+const schema = yup.object().shape({
+    email: yup.string().email().required(),
+    name: yup.string().min(6).required(),
+    contact: yup.string().min(6).required(),
+    password: yup.string().min(6).required(),
+});
+
 
 // //what is this for
 const getPathForFirebaseStorage = async uri => {
@@ -65,13 +74,13 @@ class Signup extends React.Component {
                 this.setState({
                     ic: { uri: 'data:image/jpeg;base64,' + response.data },
                     icFilePath: { uri: response.uri }
-                 });
+                });
             }
         });
     };
 
-      //Image Picker
-      chooseFile2 = () => {
+    //Image Picker
+    chooseFile2 = () => {
         ImagePicker.launchImageLibrary(options, (response) => {
             if (response.didCancel) {
                 console.log('User cancelled image picker');
@@ -80,10 +89,10 @@ class Signup extends React.Component {
             } else if (response.customButton) {
                 console.log('User tapped custom button: ', response.customButton);
             } else {
-                this.setState({ 
+                this.setState({
                     licence: { uri: 'data:image/jpeg;base64,' + response.data },
                     licenceFilePath: { uri: response.uri }
-                 });
+                });
             }
         });
     };
@@ -97,71 +106,94 @@ class Signup extends React.Component {
     }
 
     handleFormSubmit = () => {
-        auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
-            .then(({ user }) => {
-                const imageRef = storage().ref('users')
-                getPathForFirebaseStorage(this.state.icFilePath.uri)
-                    .then(fileUri => {
-                        const sessionId = new Date().getTime();
-                        imageRef.child(`${sessionId}`).putFile(fileUri).then(img => {
-                            this.setState({ ic: img.metadata.fullPath })
-                        })
-                    }).then(() => {
-                        getPathForFirebaseStorage(this.state.licenceFilePath.uri).then(fileUri => {
+
+        schema.validate({
+            name: this.state.name,
+            email: this.state.email,
+            password: this.state.password,
+            contact: this.state.contact,
+        }).then(() => {
+
+            auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
+                .then(({ user }) => {
+                    const imageRef = storage().ref('users')
+                    getPathForFirebaseStorage(this.state.icFilePath.uri)
+                        .then(fileUri => {
                             const sessionId = new Date().getTime();
                             imageRef.child(`${sessionId}`).putFile(fileUri).then(img => {
-                                this.setState({ licence: img.metadata.fullPath })
+                                this.setState({ ic: img.metadata.fullPath })
                             })
+                        }).then(() => {
+                            getPathForFirebaseStorage(this.state.licenceFilePath.uri).then(fileUri => {
+                                const sessionId = new Date().getTime();
+                                imageRef.child(`${sessionId}`).putFile(fileUri).then(img => {
+                                    this.setState({ licence: img.metadata.fullPath })
+                                })
+                            })
+                        }).then(() => {
+                            firestore().collection('Users').add({ ...this.state, uid: user.uid })
+                                .then(res => {
+                                    // this.props.navigation.navigate('Login');
+                                }).catch(err => {
+                                    console.log('error: ', err);
+                                    Alert.alert(
+                                        "Alert - Message",
+                                        "Sorry! Something went wrong!!",
+                                        [
+                                            { text: "OK", onPress: () => console.log("OK Pressed") }
+                                        ],
+                                        { cancelable: false }
+                                    );
+                                })
                         })
-                    }).then(() => {
-                        firestore().collection('Users').add({ ...this.state, uid: user.uid })
-                            .then(res => {
-                                // this.props.navigation.navigate('Login');
-                            }).catch(err => {
-                                console.log('error: ', err);
-                                Alert.alert(
-                                    "Alert - Message",
-                                    "Sorry! Something went wrong!!",
-                                    [
-                                        { text: "OK", onPress: () => console.log("OK Pressed") }
-                                    ],
-                                    { cancelable: false }
-                                );
-                            })
-                    })
 
-            })
-            .catch(error => {
-                if (error.code === 'auth/email-already-in-use') {
-                    Alert.alert(
-                        "Alert - Message",
-                        "That email address is already in use!",
-                        [
-                            { text: "OK", onPress: () => console.log("OK Pressed") }
-                        ],
-                        { cancelable: false }
-                    );
-                } else if (error.code === 'auth/invalid-email') {
-                    Alert.alert(
-                        "Alert - Message",
-                        "That email address is invalid!",
-                        [
-                            { text: "OK", onPress: () => console.log("OK Pressed") }
-                        ],
-                        { cancelable: false }
-                    );
-                    console.log('That email address is invalid!');
-                } else {
-                    Alert.alert(
-                        "Alert Title",
-                        "Sorry! Something went wrong!!",
-                        [
-                            { text: "OK", onPress: () => console.log("OK Pressed") }
-                        ],
-                        { cancelable: false }
-                    );
-                }
-            });
+                })
+                .catch(error => {
+                    if (error.code === 'auth/email-already-in-use') {
+                        Alert.alert(
+                            "Alert - Message",
+                            "That email address is already in use!",
+                            [
+                                { text: "OK", onPress: () => console.log("OK Pressed") }
+                            ],
+                            { cancelable: false }
+                        );
+                    } else if (error.code === 'auth/invalid-email') {
+                        Alert.alert(
+                            "Alert - Message",
+                            "That email address is invalid!",
+                            [
+                                { text: "OK", onPress: () => console.log("OK Pressed") }
+                            ],
+                            { cancelable: false }
+                        );
+                        console.log('That email address is invalid!');
+                    } else {
+                        Alert.alert(
+                            "Alert Title",
+                            "Sorry! Something went wrong!!",
+                            [
+                                { text: "OK", onPress: () => console.log("OK Pressed") }
+                            ],
+                            { cancelable: false }
+                        );
+                    }
+                });
+
+        }).catch(err => {
+            console.log(err);
+            Alert.alert(
+                "Alert Title",
+                err.errors[0],
+                [
+                    { text: "OK", onPress: () => console.log("OK Pressed") }
+                ],
+                { cancelable: false }
+            );
+        })
+
+        // make sure validation is done
+
     }
 
     render() {
