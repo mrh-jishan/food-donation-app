@@ -2,17 +2,18 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import ChangePassword from '../pages/ChangePassword';
 import DonationList from '../pages/DonationList';
 import DFeedback from './../pages/DFeedback';
-import DonorDashboard from './../pages/DonorDashboard';
-import PostFood from './../pages/PostFood';
-import DonorManageProfile from './../pages/DonorManageProfile';
-import UpdateFood from './../pages/UpdateFood';
-import ViewPostedFood from './../pages/ViewPostedFood';
 import DonorAcceptedRequest from './../pages/DonorAcceptedRequest';
-import ViewDonationRequestDonor from './../pages/ViewDonationRequestDonor';
+import DonorDashboard from './../pages/DonorDashboard';
+import DonorManageProfile from './../pages/DonorManageProfile';
 import DonorViewAcceptedPost from './../pages/DonorViewAcceptedPost';
 import DonorViewNearestHome from './../pages/DonorViewNearestHome';
+import PostFood from './../pages/PostFood';
+import UpdateFood from './../pages/UpdateFood';
+import ViewDonationRequestDonor from './../pages/ViewDonationRequestDonor';
+import ViewPostedFood from './../pages/ViewPostedFood';
 
 const Tab = createBottomTabNavigator();
 
@@ -93,6 +94,7 @@ const Stack = createStackNavigator();
 export default function DonorStack() {
   return (
     <Stack.Navigator initialRouteName='Donor'>
+      <Stack.Screen name="ChangePassword" component={ChangePassword} options={{ title: 'Receiver Change Password' }} />
       <Stack.Screen name="Donor" component={DonorTabs} options={{ title: 'Donor Page', headerLeft: () => { disabled: true }, headerTitleAlign: 'center' }} />
       <Stack.Screen name="PostFood" component={PostFood} options={{ title: 'Post Food' }} />
       <Stack.Screen name="ViewPostedFood" component={ViewPostedFood} options={{ title: 'View Posted Food' }} />

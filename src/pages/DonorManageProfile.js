@@ -1,9 +1,9 @@
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import React from 'react';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import { Text, View, StyleSheet, ImageBackground } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { Button } from 'react-native-paper';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 class DonorManageProfile extends React.Component {
 
@@ -24,31 +24,29 @@ class DonorManageProfile extends React.Component {
     render() {
         return (
             <View style={styles.container} >
-                    
+
                 <View style={styles.container1} >
-                    <Icon name="user-o" size={150} style={{color: 'white'}} />
+                    <Icon name="user-o" size={150} style={{ color: 'white' }} />
                     <Text style={styles.textInput}>{this.state.user.name}</Text>
                 </View>
-                
+
                 <View style={styles.container2}>
-                <Button style={styles.button} onPress={() => this.props.navigation.navigate('ReceiverVerify')}>
-                        <Icon name="check" size={20} style={{color: 'black', marginRight:'20'}}/>
+                    <Button style={styles.button} onPress={() => this.props.navigation.navigate('ReceiverVerify')}>
+                        <Icon name="check" size={20} style={{ color: 'black', marginRight: '20' }} />
                         <Text style={styles.buttonText}>  Verify Profile</Text>
                     </Button>
 
-                    <Button style={styles.button}>
-                        <Icon name="lock" size={20} style={{color: 'black', marginRight:'20'}}/>
+                    <Button style={styles.button} onPress={() => this.props.navigation.navigate('ChangePassword')}>
+                        <Icon name="lock" size={20} style={{ color: 'black', marginRight: '20' }} />
                         <Text style={styles.buttonText}>  Change Password</Text>
                     </Button>
 
-                    <Button style={styles.button}>
-                        <Icon name="sign-out" size={20} style={{color: 'black', marginRight:'20'}}/>
+                    <Button style={styles.button} onPress={() => auth().signOut().then(() => {
+                        console.log('do to home');
+                    })}>
+                        <Icon name="sign-out" size={20} style={{ color: 'black', marginRight: '20' }} />
                         <Text style={styles.buttonText}>  Logout</Text>
                     </Button>
-                {/* <Text style={styles.textInput1}>User Type: {this.state.user.type}</Text>
-                <Text style={styles.textInput1}>Email: {this.state.user.email}</Text>
-                <Text style={styles.textInput1}>Contact: {this.state.user.contact}</Text>
-                <Text style={styles.textInput1}>Location</Text> */}
                 </View>
             </View>
         )
@@ -80,8 +78,8 @@ const styles = StyleSheet.create({
         fontSize: 40,
         //paddingHorizontal: 90,
         //alignItems: "center"
-        
-        
+
+
     },
     textInput: {
         width: "100%",
