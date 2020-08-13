@@ -30,6 +30,10 @@ class ViewPostedFood extends React.Component {
                     })
                    
                 .filter(data => new Date(data.expDateVal).getTime() > nowTime)
+                .forEach(r=>{
+                    console.log(r);
+                    dRequests.push(r)
+                });
                 this.setState({ foods: foods.sort((obj1, obj2) => new Date(obj1.expDateVal).getTime() - new Date(obj2.expDateVal).getTime()) })
             })
     }

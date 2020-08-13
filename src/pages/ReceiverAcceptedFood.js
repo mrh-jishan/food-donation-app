@@ -3,7 +3,7 @@ import firestore from '@react-native-firebase/firestore';
 import React from 'react';
 import { ScrollView, StyleSheet, Text } from 'react-native';
 import { Button } from 'react-native-paper';
-import FoodReceiverAccepted from '../components/FoodReceiverAccepted';
+import ReceiverViewFoodReceiverAccepted from '../components/ReceiverViewFoodReceiverAccepted';
 
 class ReceiverAcceptedRequest extends React.Component {
 
@@ -43,7 +43,7 @@ class ReceiverAcceptedRequest extends React.Component {
 
                 {this.state.foods.length > 0 && (
                     this.state.foods.map((food, index) => (
-                        <FoodReceiverAccepted food={food}
+                        <ReceiverViewFoodReceiverAccepted food={food}
 
                             key={index}
                             navigation={this.props.navigation}

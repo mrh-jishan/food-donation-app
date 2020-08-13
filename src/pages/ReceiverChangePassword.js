@@ -3,23 +3,55 @@ import firestore from '@react-native-firebase/firestore';
 import React from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Text, View, StyleSheet, ImageBackground } from 'react-native';
-import { Button } from 'react-native-paper';
+import { Button, TextInput } from 'react-native-paper';
 
-class ReceiverManageProfile extends React.Component {
+class ReceiverChangePassword extends React.Component {
 
     constructor(props) {
         super(props)
         this.state = {
+            password: '',
             user: {}
         }
     }
 
+    updatePassword = () => {
+        const { userId } = this.props.route.params;
+        firestore().collection('User')
+            .doc(userId)
+            .update({
+                password: this.state.password,
+                email: auth().currentUser.email //detect current user
+            }).then(success => {Alert.alert(
+                "Alert Title",
+                "Password Changed"
+                [
+                    { text: "OK", onPress: () => console.log("OK Pressed") }
+                ],
+                { cancelable: false }
+            );
+
+                this.props.navigation.navigate('ReceiverDashboard');
+            }).catch(err => {
+                console.log(err);
+            });
+    }
+
     componentDidMount() {
+
         const user = auth().currentUser;
         firestore().collection('Users').where('email', '==', user.email).get()
             .then(snap => {
                 this.setState({ user: snap.docs[0].data() });
             });
+
+        // const {userId} = this.props.route.params;
+        // firestore().collection('User').doc(userId).get()
+        //     .then(snap => {
+        //     const rUser = snap.data();
+        //     console.log('user: ', rUser);
+        //     this.setState(rUser)
+        // })
     }
     render() {
         return (
@@ -31,24 +63,19 @@ class ReceiverManageProfile extends React.Component {
                 </View>
                 
                 <View style={styles.container2}>
-                <Button style={styles.button} onPress={() => this.props.navigation.navigate('ReceiverVerify')}>
-                        <Icon name="check" size={20} style={{color: 'black', marginRight:'20'}}/>
-                        <Text style={styles.buttonText}>  Verify Profile</Text>
-                    </Button>
+                    
+                    <TextInput placeholder="Password"
+                                value={this.state.user.password}
+                                style={{
+                                    ...styles.textInput1
+                                }}
+                                underlineColorAndroid='rgba(0,0,0,0)' />
 
-                    <Button style={styles.button} onPress={() => this.props.navigation.navigate('ReceiverChangePassword')}>
-                        <Icon name="lock" size={20} style={{color: 'black', marginRight:'20'}}/>
-                        <Text style={styles.buttonText}>  Change Password</Text>
-                    </Button>
 
                     <Button style={styles.button}>
-                        <Icon name="sign-out" size={20} style={{color: 'black', marginRight:'20'}}/>
-                        <Text style={styles.buttonText}>  Logout</Text>
+                        <Icon name="lock" size={20} style={{color: 'black', marginRight:'20'}}/>
+                        <Text style={styles.buttonText} onPress={this.updatePassword}>  Change Password</Text>
                     </Button>
-                {/* <Text style={styles.textInput1}>User Type: {this.state.user.type}</Text>
-                <Text style={styles.textInput1}>Email: {this.state.user.email}</Text>
-                <Text style={styles.textInput1}>Contact: {this.state.user.contact}</Text>
-                <Text style={styles.textInput1}>Location</Text> */}
                 </View>
             </View>
         )
@@ -124,4 +151,4 @@ const styles = StyleSheet.create({
 
 
 });
-export default ReceiverManageProfile;
+export default ReceiverChangePassword;

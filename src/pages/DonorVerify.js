@@ -7,21 +7,6 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import VerifyDialog from '../components/VerifyDialog';
 var axios = require('axios');
 
-// const options = {
-//     title: 'Select Avatar',
-//     customButtons: [{ name: 'fb', title: 'Choose Photo from Facebook' }],
-//     storageOptions: {
-//         skipBackup: true,
-//         path: 'images',
-//     },
-// };
-
-// const getPathForFirebaseStorage = async uri => {
-//     if (Platform.OS === "ios") return uri
-//     const stat = await RNFetchBlob.fs.stat(uri)
-//     return stat.path
-// }
-
 const makeid = (length) => {
     var result = '';
     var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -32,7 +17,7 @@ const makeid = (length) => {
     return result;
 }
 
-class ReceiverVerify extends React.Component {
+class DonorVerify extends React.Component {
 
     constructor(props) {
         super(props)
@@ -355,4 +340,4 @@ const styles = StyleSheet.create({
     },
 
 });
-export default ReceiverVerify;
+export default DonorVerify;

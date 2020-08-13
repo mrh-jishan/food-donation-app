@@ -7,6 +7,21 @@ import { Button, TextInput } from 'react-native-paper';
 import Logo from '../components/Logo';
 import { AuthContext } from './../navigation/AuthProvider';
 
+// const options = {
+//     title: 'Select Avatar',
+//     customButtons: [{ name: 'fb', title: 'Choose Photo from Facebook' }],
+//     storageOptions: {
+//         skipBackup: true,
+//         path: 'images',
+//     },
+// };
+
+// //what is this for
+// const getPathForFirebaseStorage = async uri => {
+//     if (Platform.OS === "ios") return uri
+//     const stat = await RNFetchBlob.fs.stat(uri)
+//     return stat.path
+// }
 
 class Signup extends React.Component {
     static contextType = AuthContext
@@ -23,7 +38,12 @@ class Signup extends React.Component {
             coords: {},
             address: '',
             zipcode: '',
-            country: ''
+            country: '',
+            bankName: '',
+            accountNum: '',
+            accountHolder: '',
+
+            //avatarSource: {}
         }
     }
 
@@ -38,6 +58,10 @@ class Signup extends React.Component {
         auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
             .then(({ user }) => {
                 console.log('user Id: ', user.uid);
+                
+                // const imageRef = storage().ref('foods').child(`${sessionId}`);
+                // getPathForFirebaseStorage(this.state.filePath.uri).then(fileUri => {
+                // imageRef.putFile(fileUri).then(img => {
                 firestore().collection('Users').add({ ...this.state, uid: user.uid })
                     .then(res => {
                         // this.props.navigation.navigate('Login');
@@ -177,6 +201,27 @@ class Signup extends React.Component {
                                 style={styles.textInput}
                                 value={this.state.country}
                                 onChangeText={text => this.setState({ country: text })}
+                            />
+
+                            <TextInput
+                                label="Bank Name"
+                                style={styles.textInput}
+                                value={this.state.bankName}
+                                onChangeText={text => this.setState({ bankName: text })}
+                            />
+
+                            <TextInput
+                                label="Account Holder Name"
+                                style={styles.textInput}
+                                value={this.state.accountHolder}
+                                onChangeText={text => this.setState({ accountHolder: text })}
+                            />
+
+                            <TextInput
+                                label="Account Number"
+                                style={styles.textInput}
+                                value={this.state.accountNum}
+                                onChangeText={text => this.setState({ accountNum: text })}
                             />
                         </>
                     )}

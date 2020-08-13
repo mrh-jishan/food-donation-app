@@ -5,6 +5,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import DonorDashboard from './../pages/DonorDashboard';
 import ReceiverManageProfile from '../pages/ReceiverManageProfile';
 import ReceiverVerify from '../pages/ReceiverVerify';
+import ReceiverChangePassword from '../pages/ReceiverChangePassword';
 import ReceiverDashboard from './../pages/ReceiverDashboard';
 import RequestDonation from './../pages/RequestDonation';
 import RFeedback from './../pages/RFeedback';
@@ -106,6 +107,7 @@ export default function ReceiverStack() {
           headerTitleAlign: 'center'
         }} />
 
+      <Stack.Screen name="ReceiverChangePassword" component={ReceiverChangePassword} options={{ title: 'Receiver Change Password' }} />
       <Stack.Screen name="ReceiverVerify" component={ReceiverVerify} options={{ title: 'Receiver Verify' }} />
       <Stack.Screen name="RequestDonation" component={RequestDonation} options={{ title: 'Request Donation' }} />
       <Stack.Screen name="ViewDonationRequest" component={ViewDonationRequest} options={{ title: 'View Requested Donation' }} />

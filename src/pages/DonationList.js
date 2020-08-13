@@ -1,13 +1,12 @@
-import React from 'react'
-import { Text } from 'react-native'
+import React from 'react';
+import { Text, View } from 'react-native';
 
-
-class DonationList extends React.Component{
-    render(){
-        return(
-            <Text>
-                THis i sdomation list
-            </Text>
+class DonationList extends React.Component {
+    render() {
+        return (
+            <View>
+                <Text>Hwllo</Text>
+            </View>
         )
     }
 }

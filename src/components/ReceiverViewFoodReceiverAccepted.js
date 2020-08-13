@@ -3,9 +3,9 @@ import storage from '@react-native-firebase/storage';
 import React, { useEffect, useState } from 'react';
 import { Linking, Text } from 'react-native';
 import { Button, Card, Paragraph, Title } from 'react-native-paper';
-import QRdialog from './QRdialog';
+// import QRdialog from './QRdialog';
 
-const FoodReceiverAccepted = ({ food }) => {
+const ReceiverViewFoodReceiverAccepted = ({ food }) => {
 
     const [visible, setVisible] = React.useState(false);
 
@@ -52,12 +52,10 @@ const FoodReceiverAccepted = ({ food }) => {
             </Card.Content>
             <Card.Cover source={{ uri: uri }} />
             <Card.Actions>
-                <Button onPress={() => Linking.openURL('google.navigation:q=' + receiver.coords.latitude + '+' + receiver.coords.longitude)}>Follow In Map</Button>
-                <Button onPress={() => Linking.openURL(`tel:${receiver.contact}`)}>Call User</Button>
                 {(food.isApproved == undefined || food.isApproved == false) && (
                     <>
-                        <Button onPress={showDialog}>View QR</Button>
-                        <QRdialog visible={visible} showDialog={showDialog} hideDialog={hideDialog} food={food} />
+                        <Button onPress={() => Linking.openURL('google.navigation:q=' + receiver.coords.latitude + '+' + receiver.coords.longitude)}>Follow In Map</Button>
+                        <Button onPress={() => Linking.openURL(`tel:${receiver.contact}`)}>Call User</Button>
                     </>
                 )} 
             </Card.Actions>
@@ -65,4 +63,4 @@ const FoodReceiverAccepted = ({ food }) => {
     )
 };
 
-export default FoodReceiverAccepted;
+export default ReceiverViewFoodReceiverAccepted;

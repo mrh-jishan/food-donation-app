@@ -3,7 +3,7 @@ import firestore from '@react-native-firebase/firestore';
 import React from 'react';
 import { ScrollView, StyleSheet, Text } from 'react-native';
 import { Button } from 'react-native-paper';
-import DrequestDonorAccepted from '../components/DrequestDonorAccepted';
+import ReceiverViewDRDonorAccepted from '../components/ReceiverViewDRDonorAccepted';
 
 class ReceiverViewAcceptedRequest extends React.Component {
 
@@ -44,7 +44,7 @@ class ReceiverViewAcceptedRequest extends React.Component {
 
                 {this.state.donationR.length > 0 && (
                     this.state.donationR.map((res, index) => (
-                        <DrequestDonorAccepted dRequests={res}
+                        <ReceiverViewDRDonorAccepted dRequests={res}
                             // acceptRequest={this.acceptRequest}
                             key={index}
                             navigation={this.props.navigation}
