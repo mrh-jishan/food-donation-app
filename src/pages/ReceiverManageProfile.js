@@ -31,7 +31,7 @@ class ReceiverManageProfile extends React.Component {
                 </View>
 
                 <View style={styles.container2}>
-                    <Button style={styles.button} onPress={() => this.props.navigation.navigate('ReceiverVerify')}>
+                    <Button style={styles.button} onPress={() => this.props.navigation.navigate('Verify')}>
                         <Icon name="check" size={20} style={{ color: 'black', marginRight: '20' }} />
                         <Text style={styles.buttonText}>  Verify Profile</Text>
                     </Button>

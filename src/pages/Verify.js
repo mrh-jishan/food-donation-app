@@ -32,7 +32,7 @@ const makeid = (length) => {
     return result;
 }
 
-class ReceiverVerify extends React.Component {
+class Verify extends React.Component {
 
     constructor(props) {
         super(props)
@@ -284,7 +284,8 @@ class ReceiverVerify extends React.Component {
                                 <Text style={{
                                     ...styles.signupButton,
 
-                                }}>{this.state.user.emailVerification?.isVerified == true? 'Verified': 'Verify'}</Text>
+                                }}>
+                             {this.state.user.emailVerification?.isVerified == true? 'Verified': 'Verify'}</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -402,4 +403,4 @@ const styles = StyleSheet.create({
     },
 
 });
-export default ReceiverVerify;
+export default Verify;

@@ -2,9 +2,9 @@ import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import React from 'react';
 import { ScrollView, StyleSheet, Text } from 'react-native';
-import Food from '../components/Food';
+import FoodReceiverAccepted from '../components/FoodReceiverAccepted';
 
-class ViewPostedFood extends React.Component {
+class DonorDonated extends React.Component {
 
     constructor(props) {
         super(props)
@@ -15,53 +15,50 @@ class ViewPostedFood extends React.Component {
 
     componentDidMount() {
         const user = auth().currentUser;
-        const nowTime = new Date().getTime();
         firestore().collection('Foods')
-            // .orderBy("expDateVal")
-            .where('email', '==', user.email)
-            .onSnapshot(snap => {
-                const foods = snap.docs
-                    .map(food => {
-
-                        return {
-                            ...food?.data(),
-                            key: food.id
-                        }
-                    })
-                //.filter(data => data.approved == undefined)
-                .filter(data => new Date(data.expDateVal).getTime() > nowTime)
-                // .forEach(r=>{
-                //     console.log(r);
-                //     food.push(r)
-                // });
-                this.setState({ foods: foods.sort((obj1, obj2) => new Date(obj1.expDateVal).getTime() - new Date(obj2.expDateVal).getTime()) })
-            })
-    }
-
-    deleteFood = (food) => {
-        firestore()
-            .collection('Foods')
-            .doc(food.key)
-            .delete()
-            .then(() => {
-                console.log('Food deleted!');
+        .where('email', '==', user.email)
+        .onSnapshot(snap => {
+            const foods = [];
+            snap.forEach(food => {
+                const data = food.data();
+                if (data.isApproved == true) {
+                    foods.push({
+                        ...data,
+                        key: food.id,
+                    });
+                }
             });
+            this.setState({ foods: foods })
+        })
     }
+
+    // acceptRequest = (res) => {
+    //     firestore()
+    //         .collection('DonationRequest')
+    //         .doc(res.key)
+    //         .update({ accepted: true, acceptedBy: auth().currentUser.email })
+    //         .then(() => {
+    //             console.log('Request Accepted!');
+    //         });
+    // }
 
     render() {
         return (
             <ScrollView style={styles.container}>
-                {/* <Text style={{ ...styles.textInput, padding: 20, textAlign: 'center', fontSize: 22 }}>Update Posted Food</Text> */}
+                <Text style={{
+                    textAlign: 'center',
+                    fontSize: 22
+                }}>Successfully Donated List</Text>
 
                 {this.state.foods.length > 0 && (
                     this.state.foods.map((food, index) => (
-                        <Food food={food}
-                            deleteFood={this.deleteFood}
+                        <FoodReceiverAccepted food={food}
+                            //acceptFood={this.acceptFood}
                             key={index}
                             navigation={this.props.navigation}
                         />
                     ))
-                )}
+                )}              
 
             </ScrollView>
         )
@@ -105,4 +102,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default ViewPostedFood;
+export default DonorDonated;

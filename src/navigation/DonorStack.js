@@ -14,6 +14,8 @@ import PostFood from './../pages/PostFood';
 import UpdateFood from './../pages/UpdateFood';
 import ViewDonationRequestDonor from './../pages/ViewDonationRequestDonor';
 import ViewPostedFood from './../pages/ViewPostedFood';
+import Verify from '../pages/Verify';
+import DonorDonated from '../pages/DonorDonated';
 
 const Tab = createBottomTabNavigator();
 
@@ -53,9 +55,9 @@ const DonorTabs = () => {
 
       <Tab.Screen
         name="DonationList"
-        component={DonationList}
+        component={DonorDonated}
         options={{
-          tabBarLabel: 'Donation',
+          tabBarLabel: 'Donated',
           tabBarIcon: ({ color }) => (
             <Icon name="yelp" color={color} size={20} />
           ),
@@ -100,6 +102,7 @@ export default function DonorStack() {
       <Stack.Screen name="ViewPostedFood" component={ViewPostedFood} options={{ title: 'View Posted Food' }} />
       <Stack.Screen name="UpdateFood" component={UpdateFood} options={{ title: 'Update Posted Food' }} />
 
+      <Stack.Screen name="Verify" component={Verify} options={{ title: 'Verify' }} />
       <Stack.Screen name="ViewDonationRequestDonor" component={ViewDonationRequestDonor} options={{ title: 'View Donation Request Donor' }} />
       <Stack.Screen name="DonorAcceptedRequest" component={DonorAcceptedRequest} options={{ title: 'Donor Accepted Request' }} />
       <Stack.Screen name="DonorViewAcceptedPost" component={DonorViewAcceptedPost} options={{ title: 'Donor View Accepted Post' }} />

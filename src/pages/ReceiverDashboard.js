@@ -4,11 +4,13 @@ import { StyleSheet, Text, View } from 'react-native';
 import { Button } from 'react-native-paper';
 
 class ReceiverDashboard extends React.Component {
+    
     logout = () => {
         auth().signOut().then(() => {
             console.log('do to home');
         });
     }
+    
     render() {
         return (
             <View style={styles.container}>

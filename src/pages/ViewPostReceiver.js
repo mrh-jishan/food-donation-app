@@ -61,10 +61,10 @@ class ViewPostReceiver extends React.Component {
     render() {
         return (
             <ScrollView style={styles.container}>
-                <Text style={{
+                {/* <Text style={{
                     textAlign: 'center',
                     fontSize: 22
-                }}>Update Posted Food</Text>
+                }}>Update Posted Food</Text> */}
 
                 {this.state.foods.length > 0 && (
                     this.state.foods.map((food, index) => (

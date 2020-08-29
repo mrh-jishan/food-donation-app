@@ -47,11 +47,12 @@ class ChangePassword extends React.Component {
 
                 <View style={styles.container1} >
                     <Icon name="user-o" size={150} style={{ color: 'white' }} />
-                </View>
-
-                <View>
                     <Text style={styles.textInput}>{this.state.user.email}</Text>
                 </View>
+
+                {/* <View>
+                    
+                </View> */}
 
                 <View style={styles.container2}>
 

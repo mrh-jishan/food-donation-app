@@ -10,7 +10,7 @@ class UpdateDonationRequest extends React.Component {
         super(props)
         this.state = {
             oName: '',
-            cName: '',
+            name: '',
             dateRequested: new Date().toLocaleString(),
             description: '',
             neededDateVal: '',
@@ -28,7 +28,7 @@ class UpdateDonationRequest extends React.Component {
             .doc(dRequestsId)
             .update({
                 oName: this.state.oName,
-                cName: this.state.cName,
+                name: this.state.name,
                 dateRequested: this.state.dateRequested,
                 description: this.state.description,
                 neededDateVal: this.state.neededDateVal,
@@ -68,8 +68,8 @@ class UpdateDonationRequest extends React.Component {
 
                 <TextInput
                     placeholder="Care Taker Name"
-                    value={this.state.cName}
-                    onChangeText={text => this.setState({ cName: text })}
+                    value={this.state.name}
+                    onChangeText={text => this.setState({ name: text })}
                     style={styles.textInput}
                     underlineColorAndroid='rgba(0,0,0,0)' />
 

@@ -14,21 +14,39 @@ class DonorAcceptedRequest extends React.Component {
     }
 
     componentDidMount() {
-        firestore().collection('DonationRequest').onSnapshot(snap => {
-            const dRequests = [];
-            snap.forEach(res => {
-                const data = res.data();
-                if (data.accepted == true && data.acceptedBy == auth().currentUser.email) {
-                    dRequests.push({
-                        ...res.data(),
-                        key: res.id,
-                    });
-                }
-                
-            });
-            this.setState({ donationR: dRequests })
-        })
+        const nowTime = new Date().getTime();
+        firestore().collection('DonationRequest')
+            //.orderBy("neededDateVal")
+            .onSnapshot(snap => {
+                const dRequests = snap.docs
+                    .map(res => {
+                        return {
+                            ...res?.data(),
+                            key: res.id
+                        }
+                    })
+                    .filter(data => data.accepted == true && data.acceptedBy == auth().currentUser.email && data.isApproved == undefined)
+                .filter(data => new Date(data.neededDateVal).getTime() > nowTime)
+                this.setState({ donationR: dRequests.sort((obj1, obj2) => new Date(obj1.neededDateVal).getTime() - new Date(obj2.neededDateVal).getTime()) })
+            })
     }
+
+    // componentDidMount() {
+    //     firestore().collection('DonationRequest').onSnapshot(snap => {
+    //         const dRequests = [];
+    //         snap.forEach(res => {
+    //             const data = res.data();
+    //             if (data.accepted == true && data.acceptedBy == auth().currentUser.email) {
+    //                 dRequests.push({
+    //                     ...res.data(),
+    //                     key: res.id,
+    //                 });
+    //             }
+                
+    //         });
+    //         this.setState({ donationR: dRequests })
+    //     })
+    // }
 
     acceptRequest = (res) => {
         firestore()
@@ -43,10 +61,10 @@ class DonorAcceptedRequest extends React.Component {
     render() {
         return (
             <ScrollView style={styles.container}>
-                <Text style={{
+                {/* <Text style={{
                     textAlign: 'center',
                     fontSize: 22
-                }}>Donor Accepted Request</Text>
+                }}>Donor Accepted Request</Text> */}
 
                 {this.state.donationR.length > 0 && (
                     this.state.donationR.map((res, index) => (

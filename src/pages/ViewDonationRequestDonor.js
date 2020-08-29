@@ -26,7 +26,7 @@ class ViewDonationRequestDonor extends React.Component {
                         }
                     })
                     .filter(data => data.accepted == undefined)
-                .filter(data => new Date(data.neededDateVal).getTime() > nowTime)
+                .filter(data => new Date(data.neededDateVal).getTime() >= nowTime)
                 this.setState({ donationR: dRequests.sort((obj1, obj2) => new Date(obj1.neededDateVal).getTime() - new Date(obj2.neededDateVal).getTime()) })
             })
     }
@@ -44,10 +44,10 @@ class ViewDonationRequestDonor extends React.Component {
     render() {
         return (
             <ScrollView style={styles.container}>
-                <Text style={{
+                {/* <Text style={{
                     textAlign: 'center',
                     fontSize: 22
-                }}>Accept Donation Request</Text>
+                }}>Accept Donation Request</Text> */}
 
                 {this.state.donationR.length > 0 && (
                     this.state.donationR.map((res, index) => (

@@ -2,10 +2,9 @@ import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import React from 'react';
 import { ScrollView, StyleSheet, Text } from 'react-native';
-import { Button } from 'react-native-paper';
 import ReceiverViewDRDonorAccepted from '../components/ReceiverViewDRDonorAccepted';
 
-class ReceiverViewAcceptedRequest extends React.Component {
+class ReceiverReceived extends React.Component {
 
     constructor(props) {
         super(props)
@@ -16,29 +15,47 @@ class ReceiverViewAcceptedRequest extends React.Component {
 
     componentDidMount() {
         const user = auth().currentUser;
-        const nowTime = new Date().getTime();
         firestore().collection('DonationRequest')
             .where('email', '==', user.email).onSnapshot(snap => {
-                const dRequests = snap.docs
-                    .map(res => {
-                        return {
-                            ...res?.data(),
-                            key: res.id
-                        }
-                    })
-                    .filter(data => data.accepted == true && data.isApproved == undefined)
-                .filter(data => new Date(data.neededDateVal).getTime() >= nowTime)
-                this.setState({ donationR: dRequests.sort((obj1, obj2) => new Date(obj1.neededDateVal).getTime() - new Date(obj2.neededDateVal).getTime()) })
+                const dRequests = [];
+                snap.forEach(res => {
+                    const data = res.data();
+                    if (data.isApproved == true) {
+                        dRequests.push({
+                            ...res.data(),
+                            key: res.id,
+                        });
+                    }
+                });
+                this.setState({ donationR: dRequests })
             })
     }
+
+    // componentDidMount() {
+    //     const nowTime = new Date().getTime();
+    //     firestore().collection('DonationRequest')
+    //         //.orderBy("neededDateVal")
+    //         .onSnapshot(snap => {
+    //             const dRequests = snap.docs
+    //                 .map(res => {
+    //                     return {
+    //                         ...res?.data(),
+    //                         key: res.id
+    //                     }
+    //                 })
+    //                 .filter(data => data.isApproved == true)
+    //             .filter(data => new Date(data.neededDateVal).getTime() > nowTime)
+    //             this.setState({ donationR: dRequests.sort((obj1, obj2) => new Date(obj1.neededDateVal).getTime() - new Date(obj2.neededDateVal).getTime()) })
+    //         })
+    // }
 
     render() {
         return (
             <ScrollView style={styles.container}>
-                {/* <Text style={{
+                <Text style={{
                     textAlign: 'center',
                     fontSize: 22
-                }}>Accept Donation Request</Text> */}
+                }}>Accept Donation Request</Text>
 
                 {/* <Button mode="contained" style={{ margin: 10 }} onPress={()=>this.props.navigation.navigate('QRscannerDRPage')}>Scan QR</Button> */}
 
@@ -93,5 +110,4 @@ const styles = StyleSheet.create({
 
 });
 
-
-export default ReceiverViewAcceptedRequest;
+export default ReceiverReceived;

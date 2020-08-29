@@ -6,7 +6,7 @@ import QRscanner from '../pages/QRscanner';
 import QRscannerDR from '../pages/QRscannerDR';
 import ReceiverAcceptedFood from '../pages/ReceiverAcceptedFood';
 import ReceiverManageProfile from '../pages/ReceiverManageProfile';
-import ReceiverVerify from '../pages/ReceiverVerify';
+import Verify from '../pages/Verify';
 import ReceiverViewAcceptedRequest from '../pages/ReceiverViewAcceptedRequest';
 import ViewPostReceiver from '../pages/ViewPostReceiver';
 import ReceiverDashboard from './../pages/ReceiverDashboard';
@@ -15,6 +15,7 @@ import RFeedback from './../pages/RFeedback';
 import UpdateDonationRequest from './../pages/UpdateDonationRequest';
 import ViewDonationRequest from './../pages/ViewDonationRequest';
 import ChangePassword from '../pages/ChangePassword';
+import ReceiverReceived from '../pages/ReceiverReceived';
 
 const Tab = createBottomTabNavigator();
 
@@ -54,7 +55,7 @@ const ReceiverTabs = () => {
 
       <Tab.Screen
         name="ReceivedList"
-        component={ReceiverAcceptedFood}
+        component={ReceiverReceived}
         options={{
           tabBarLabel: 'Received',
           tabBarIcon: ({ color }) => (
@@ -107,7 +108,7 @@ export default function ReceiverStack() {
         }} />
 
       <Stack.Screen name="ChangePassword" component={ChangePassword} options={{ title: 'Receiver Change Password' }} />
-      <Stack.Screen name="ReceiverVerify" component={ReceiverVerify} options={{ title: 'Receiver Verify' }} />
+      <Stack.Screen name="Verify" component={Verify} options={{ title: 'Verify' }} />
       <Stack.Screen name="RequestDonation" component={RequestDonation} options={{ title: 'Request Donation' }} />
       <Stack.Screen name="ViewDonationRequest" component={ViewDonationRequest} options={{ title: 'View Requested Donation' }} />
       <Stack.Screen name="UpdateDonationRequest" component={UpdateDonationRequest} options={{ title: 'Update Requested Donation' }} />

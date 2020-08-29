@@ -229,19 +229,13 @@ class Signup extends React.Component {
                     <View style={styles.container1}>
                         <Image
                             source={this.state.ic}
-                            style={{ width: 100, height: 100 }}
+                            style={{ width: 360, height: 100 }}
                         />
-                        <Button onPress={this.chooseFile1}>Choose File</Button>
+                        <Button style={styles.textInput}
+                        onPress={this.chooseFile1}>Upload IC</Button>
                     </View>
-
-
-                    <View style={styles.container1}>
-                        <Image
-                            source={this.state.licence}
-                            style={{ width: 100, height: 100 }}
-                        />
-                        <Button onPress={this.chooseFile2}>Choose File</Button>
-                    </View>
+                    
+                    
 
 
                     <TextInput
@@ -282,6 +276,15 @@ class Signup extends React.Component {
                                 value={this.state.oName}
                                 onChangeText={text => this.setState({ oName: text })}
                             />
+
+                            
+                            <View style={styles.container1}>
+                                <Image
+                                    source={this.state.licence}
+                                    style={{ width: 360, height: 100 }}
+                                />
+                                <Button onPress={this.chooseFile2}>Upload Orphanage Home Licence</Button>
+                            </View>
 
                             <TextInput
                                 label="Address"
@@ -357,9 +360,20 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         padding: 15,
     },
+
+    container1: {
+        flex: 1,
+        backgroundColor: '#fff',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginVertical: 10,
+        marginTop: 17,
+    },
+
     textInput: {
         width: "100%",
         marginVertical: 10,
+        color: '#fffeee'
 
     },
     signupTextCont: {

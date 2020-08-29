@@ -15,20 +15,21 @@ class DonorViewAcceptedPost extends React.Component {
 
     componentDidMount() {
         const user = auth().currentUser;
+        const nowTime = new Date().getTime();
         firestore().collection('Foods')
         .where('email', '==', user.email)
         .onSnapshot(snap => {
-            const foods = [];
-            snap.forEach(food => {
-                const data = food.data();
-                if (data.accepted == true) {
-                    foods.push({
-                        ...data,
-                        key: food.id,
-                    });
-                }
-            });
-            this.setState({ foods: foods })
+            const foods = snap.docs
+                .map(food => {
+
+                    return {
+                        ...food?.data(),
+                        key: food.id
+                    }
+                })
+                .filter(data => data.accepted == true && data.isApproved == undefined)
+            .filter(data => new Date(data.expDateVal).getTime() > nowTime)
+            this.setState({ foods: foods.sort((obj1, obj2) => new Date(obj1.expDateVal).getTime() - new Date(obj2.expDateVal).getTime()) })
         })
     }
 
@@ -45,10 +46,10 @@ class DonorViewAcceptedPost extends React.Component {
     render() {
         return (
             <ScrollView style={styles.container}>
-                <Text style={{
+                {/* <Text style={{
                     textAlign: 'center',
                     fontSize: 22
-                }}>Accept Donation Request</Text>
+                }}>Accept Donation Request</Text> */}
 
                 {this.state.foods.length > 0 && (
                     this.state.foods.map((food, index) => (

@@ -14,32 +14,35 @@ class ReceiverAcceptedRequest extends React.Component {
         }
     }
 
+
     componentDidMount() {
-        firestore().collection('Foods').onSnapshot(snap => {
-            const foods = [];
-            snap.forEach(food => {
-                const data = food.data();
-                if (data.accepted == true && data.acceptedBy == auth().currentUser.email) {
-                    foods.push({
-                        ...data,
-                        key: food.id,
-                    });
-                }
-            });
-            this.setState({ foods: foods })
-        })
+        const nowTime = new Date().getTime();
+        firestore().collection('Foods')
+            //.orderBy("expDateVal")
+            .onSnapshot(snap => {
+                const foods = snap.docs
+                    .map(food => {
+
+                        return {
+                            ...food?.data(),
+                            key: food.id
+                        }
+                    })
+                    .filter(data => data.accepted == true && data.acceptedBy == auth().currentUser.email && data.isApproved == undefined)
+                .filter(data => new Date(data.expDateVal).getTime() > nowTime)
+                this.setState({ foods: foods.sort((obj1, obj2) => new Date(obj1.expDateVal).getTime() - new Date(obj2.expDateVal).getTime()) })
+            })
     }
 
 
     render() {
         return (
             <ScrollView style={styles.container}>
-                <Text style={{
+                {/* <Text style={{
                     textAlign: 'center',
                     fontSize: 22
-                }}>Receiver Accepted Food</Text>
+                }}>Receiver Accepted Food</Text> */}
 
-            <Button mode="contained" style={{ margin: 10 }} onPress={()=>this.props.navigation.navigate('QRscannerPage')}>Scan QR</Button>
 
                 {this.state.foods.length > 0 && (
                     this.state.foods.map((food, index) => (

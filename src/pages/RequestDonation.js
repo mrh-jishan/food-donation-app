@@ -17,8 +17,9 @@ class RequestDonation extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            oName: '',
-            cName: '',
+            user: {},
+            // oName: '',
+            // name: '',
             dateRequested: new Date().toLocaleString(),
             // location: '',
             // contact: '',
@@ -29,14 +30,26 @@ class RequestDonation extends React.Component {
         }
     }
 
+    componentDidMount() {
+        const user = auth().currentUser;
+        firestore().collection('Users').where('email', '==', user.email).get()
+            .then(snap => {
+                const doc = snap.docs[0];
+                this.setState({
+                    user: doc.data(),
+                    key: doc.id
+                });
+            });
+    }
+
     toggleNeededDate = (value) => {
         this.setState({ neededDate: !this.state.neededDate, neededDateVal: value.dateString });
     }
 
     requestDonationHandle = () => {
         firestore().collection('DonationRequest').add({
-            oName: this.state.oName,
-            cName: this.state.cName,
+            oName: this.state.user.oName,
+            name: this.state.user.name,
             dateRequested: this.state.dateRequested,
             description: this.state.description,
             neededDateVal: this.state.neededDateVal,
@@ -63,13 +76,18 @@ class RequestDonation extends React.Component {
                 <Text style={{ ...styles.textInput, textAlign: 'center' }}>Requested Date : {this.state.dateRequested}</Text>
 
                 <TextInput placeholder="Orphanage Home Name"
-                    onChangeText={text => this.setState({ oName: text })}
+                    disabled={true}
+                    onChangeText={value=>this.setState({user: {oName: value}})}
+                    value={this.state.user.oName}
                     style={styles.textInput}
                     underlineColorAndroid='rgba(0,0,0,0)' />
 
+
                 <TextInput
                     placeholder="Care Taker Name"
-                    onChangeText={text => this.setState({ cName: text })}
+                    disabled={true}
+                    onChangeText={value=>this.setState({user: {name: value}})}
+                    value={this.state.user.name}
                     style={styles.textInput}
                     underlineColorAndroid='rgba(0,0,0,0)' />
 
