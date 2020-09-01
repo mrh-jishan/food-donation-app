@@ -8,6 +8,7 @@ import ImagePicker from 'react-native-image-picker';
 import { Button, TextInput } from 'react-native-paper';
 import auth from '@react-native-firebase/auth';
 import RNFetchBlob from 'rn-fetch-blob';
+import * as yup from 'yup';
 
 
 const options = {
@@ -26,6 +27,15 @@ const getPathForFirebaseStorage = async uri => {
     return stat.path
 }
 
+const schema = yup.object().shape({
+    name: yup.string().required(),
+    type: yup.string().required(),
+    coverage: yup.number().min(1).required(),
+    description: yup.string().required(),
+    manfDateVal: yup.date().required(),
+    expDateVal: yup.date().required(),
+
+});
 
 class PostFood extends React.Component {
 
@@ -55,28 +65,49 @@ class PostFood extends React.Component {
     }
 
     postFoodHandle = () => {
-        const sessionId = new Date().getTime();
-        const imageRef = storage().ref('foods').child(`${sessionId}`);
-        getPathForFirebaseStorage(this.state.filePath.uri).then(fileUri => {
-            imageRef.putFile(fileUri).then(img => {
-                firestore().collection('Foods').add({
-                    name: this.state.name,
-                    dataPosted: this.state.dataPosted,
-                    type: this.state.type,
-                    manfDateVal: this.state.manfDateVal,
-                    expDateVal: this.state.expDateVal,
-                    coverage: this.state.coverage,
-                    description: this.state.description,
-                    img: img.metadata.fullPath, //image
-                    email: auth().currentUser.email //detect current user
-                }).then(res => {
-                    this.props.navigation.navigate('DonorDashboard');
+        schema.validate({
+            name: this.state.name,
+            type: this.state.type,
+            manfDateVal: this.state.manfDateVal,
+            expDateVal: this.state.expDateVal,
+            coverage: this.state.coverage,
+            description: this.state.description,
+        }).then(() => {
+
+            const sessionId = new Date().getTime();
+            const imageRef = storage().ref('foods').child(`${sessionId}`);
+            getPathForFirebaseStorage(this.state.filePath.uri).then(fileUri => {
+                imageRef.putFile(fileUri).then(img => {
+                    firestore().collection('Foods').add({
+                        name: this.state.name,
+                        dataPosted: this.state.dataPosted,
+                        type: this.state.type,
+                        manfDateVal: this.state.manfDateVal,
+                        expDateVal: this.state.expDateVal,
+                        coverage: this.state.coverage,
+                        description: this.state.description,
+                        img: img.metadata.fullPath, //image
+                        email: auth().currentUser.email //detect current user
+                    }).then(res => {
+                        this.props.navigation.navigate('DonorDashboard');
+                    }).catch(err => {
+                        console.log('err: ', err);
+                    });
                 }).catch(err => {
                     console.log('err: ', err);
-                });
-            }).catch(err => {
-                console.log('err: ', err);
+                })
             })
+
+        }).catch(err => {
+            console.log(err);
+            Alert.alert(
+                "Alert Title",
+                err.errors[0],
+                [
+                    { text: "OK", onPress: () => console.log("OK Pressed") }
+                ],
+                { cancelable: false }
+            );
         })
     }
 

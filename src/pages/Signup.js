@@ -21,8 +21,16 @@ const options = {
 const schema = yup.object().shape({
     email: yup.string().email().required(),
     name: yup.string().min(6).required(),
-    contact: yup.string().min(6).required(),
+    contact: yup.number().min(8).required(),
     password: yup.string().min(6).required(),
+    type: yup.string().required(),
+    oName: yup.string().min(6).required(),
+    address: yup.string().required(),
+    zipcode: yup.string().required(),
+    country: yup.string().required(),
+    bankName: yup.string().required(),
+    accountNum: yup.number().min(5).required(),
+    accountHolder: yup.string().min(6).required(),
 });
 
 
@@ -112,6 +120,14 @@ class Signup extends React.Component {
             email: this.state.email,
             password: this.state.password,
             contact: this.state.contact,
+            type: this.state.type,
+            oName: this.state.oName,
+            address: this.state.address,
+            zipcode: this.state.zipcode,
+            country: this.state.country,
+            bankName: this.state.bankName,
+            accountNum: this.state.accountNum,
+            accountHolder: this.state.accountHolder,
         }).then(() => {
 
             auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
@@ -231,7 +247,7 @@ class Signup extends React.Component {
                             source={this.state.ic}
                             style={{ width: 360, height: 100 }}
                         />
-                        <Button style={styles.textInput}
+                        <Button style={styles.textInput} color='#FFF'
                         onPress={this.chooseFile1}>Upload IC</Button>
                     </View>
                     
@@ -373,7 +389,7 @@ const styles = StyleSheet.create({
     textInput: {
         width: "100%",
         marginVertical: 10,
-        color: '#fffeee'
+        backgroundColor: '#fffeee'
 
     },
     signupTextCont: {

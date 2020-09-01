@@ -3,6 +3,12 @@ import React from 'react';
 import { ScrollView, StyleSheet, Text } from 'react-native';
 import { Button, TextInput } from 'react-native-paper';
 
+
+const schema = yup.object().shape({
+    feedback: yup.string().required(),
+
+});
+
 class DFeedback extends React.Component {
 
     constructor(props) {
@@ -16,11 +22,27 @@ class DFeedback extends React.Component {
 
 
     feedbackHandle = () => {
-        firestore().collection('Feedback').add(this.state).then(res => {
-            this.props.navigation.navigate('DonorDashboard');
-        }).catch(err => {
+        schema.validate({
+            feedback: this.state.feedback,
+        }).then(() => {
 
-        });
+            firestore().collection('Feedback').add(this.state).then(res => {
+                this.props.navigation.navigate('DonorDashboard');
+            }).catch(err => {
+
+            });
+        }).catch(err => {
+            console.log(err);
+            Alert.alert(
+                "Alert Title",
+                err.errors[0],
+                [
+                     { text: "OK", onPress: () => console.log("OK Pressed") }
+                ],
+                { cancelable: false }
+            );
+        })
+
     }
 
     render() {

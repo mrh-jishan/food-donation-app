@@ -5,12 +5,19 @@ import { ScrollView, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 import { Button, TextInput } from 'react-native-paper';
 import RNFetchBlob from 'rn-fetch-blob';
+import * as yup from 'yup';
 
 const getPathForFirebaseStorage = async uri => {
     if (Platform.OS === "ios") return uri
     const stat = await RNFetchBlob.fs.stat(uri)
     return stat.path
 }
+
+const schema = yup.object().shape({
+    description: yup.string().min(6).required(),
+    neededDateVal: yup.date().required(),
+
+});
 
 class RequestDonation extends React.Component {
 
@@ -47,23 +54,40 @@ class RequestDonation extends React.Component {
     }
 
     requestDonationHandle = () => {
-        firestore().collection('DonationRequest').add({
-            oName: this.state.user.oName,
-            name: this.state.user.name,
-            dateRequested: this.state.dateRequested,
+        schema.validate({
             description: this.state.description,
             neededDateVal: this.state.neededDateVal,
-            email: auth().currentUser.email //detect current user
-        }).then(res => {
-            this.props.navigation.navigate('ReceiverDashboard');
+        }).then(() => {
+
+            firestore().collection('DonationRequest').add({
+                oName: this.state.user.oName,
+                name: this.state.user.name,
+                dateRequested: this.state.dateRequested,
+                description: this.state.description,
+                neededDateVal: this.state.neededDateVal,
+                email: auth().currentUser.email //detect current user
+            }).then(res => {
+                this.props.navigation.navigate('ReceiverDashboard');
+            }).catch(err => {
+                console.log('err: ', err);
+            }).catch(err => {
+                console.log('err: ', err);
+                // }).catch(err => {
+                //     console.log('err: ', err);
+            })
+            //})
+
         }).catch(err => {
-            console.log('err: ', err);
-        }).catch(err => {
-            console.log('err: ', err);
-            // }).catch(err => {
-            //     console.log('err: ', err);
+            console.log(err);
+            Alert.alert(
+                "Alert Title",
+                err.errors[0],
+                [
+                    { text: "OK", onPress: () => console.log("OK Pressed") }
+                ],
+                { cancelable: false }
+            );
         })
-        //})
 
     }
 
