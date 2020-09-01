@@ -1,5 +1,6 @@
 import firestore from '@react-native-firebase/firestore';
 import React from 'react';
+import * as yup from 'yup';
 import { ScrollView, StyleSheet, Text } from 'react-native';
 import { Button, TextInput } from 'react-native-paper';
 
