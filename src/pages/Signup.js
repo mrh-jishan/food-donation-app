@@ -1,13 +1,19 @@
 import { Picker } from '@react-native-community/picker';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
+import storage from '@react-native-firebase/storage';
 import React from 'react';
 import { Alert, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
 import { Button, TextInput } from 'react-native-paper';
+import RNFetchBlob from 'rn-fetch-blob';
 import * as yup from 'yup';
 import Logo from '../components/Logo';
 import { AuthContext } from './../navigation/AuthProvider';
+
+
+const imageRef = storage().ref('users')
+
 
 const options = {
     title: 'Select Avatar',
@@ -18,7 +24,30 @@ const options = {
     },
 };
 
-const schema = yup.object().shape({
+// const schema = yup.object().shape({
+//     email: yup.string().email().required(),
+//     name: yup.string().min(6).required(),
+//     contact: yup.number().min(8).required(),
+//     password: yup.string().min(6).required(),
+//     type: yup.string().required(),
+//     oName: yup.string().min(6).required(),
+//     address: yup.string().required(),
+//     zipcode: yup.string().required(),
+//     country: yup.string().required(),
+//     bankName: yup.string().required(),
+//     accountNum: yup.number().min(5).required(),
+//     accountHolder: yup.string().min(6).required(),
+// });
+
+const donorSchema = yup.object().shape({
+    email: yup.string().email().required(),
+    name: yup.string().min(6).required(),
+    contact: yup.number().min(8).required(),
+    password: yup.string().min(6).required(),
+    type: yup.string().required(),
+});
+
+const receiverSchema = yup.object().shape({
     email: yup.string().email().required(),
     name: yup.string().min(6).required(),
     contact: yup.number().min(8).required(),
@@ -51,7 +80,7 @@ class Signup extends React.Component {
             contact: '',
             email: '',
             password: '',
-            type: '',
+            type: 'donor',
             oName: '',
             coords: {},
             address: '',
@@ -60,12 +89,10 @@ class Signup extends React.Component {
             bankName: '',
             accountNum: '',
             accountHolder: '',
-            icFilePath: {},
             ic: {},
+            icFilePath: '',
             licence: {},
-            licenceFilePath: {}
-
-            //avatarSource: {}
+            licenceFilePath: ''
         }
     }
 
@@ -81,8 +108,27 @@ class Signup extends React.Component {
             } else {
                 this.setState({
                     ic: { uri: 'data:image/jpeg;base64,' + response.data },
-                    icFilePath: { uri: response.uri }
+                    // icFilePath: { uri: response.uri }
                 });
+
+                getPathForFirebaseStorage(response.uri)
+                    .then(fileUri => {
+                        const sessionId = new Date().getTime();
+                        console.log('SESSION: ', sessionId);
+                        imageRef.child(`${sessionId}`)
+                            .putFile(fileUri).then(img => {
+                                console.log('full path: ', img.metadata.fullPath);
+                                this.setState({
+                                    icFilePath: img.metadata.fullPath
+                                });
+
+                                console.log('IC PATH: ', this.state.icFilePath);
+                            })
+                    }).catch(err => {
+                        console.log('err', err);
+                    })
+
+                // console.log('ic path: ', response.uri);
             }
         });
     };
@@ -99,8 +145,23 @@ class Signup extends React.Component {
             } else {
                 this.setState({
                     licence: { uri: 'data:image/jpeg;base64,' + response.data },
-                    licenceFilePath: { uri: response.uri }
+                    // licenceFilePath: { uri: response.uri }
                 });
+
+                if (this.state.type == 'receiver') {
+                    getPathForFirebaseStorage(response.uri)
+                        .then(fileUri => {
+                            const sessionId = new Date().getTime();
+                            imageRef.child(`${sessionId}`)
+                                .putFile(fileUri)
+                                .then(img => {
+                                    console.log('full path: ', img);
+                                    this.setState({ licenceFilePath: img.metadata.fullPath });
+                                })
+                        }).catch(err => {
+                            console.log('Err 2: ', err);
+                        })
+                }
             }
         });
     };
@@ -113,9 +174,18 @@ class Signup extends React.Component {
         this.setState({ address: data.stnumber + ' - ' + data.staddress + ', ' + data.city + ', ' + data.state, zipcode: data.postal, country: data.country })
     }
 
+
+    getSchema = () => {
+        if (this.state.type == 'receiver') {
+            return receiverSchema;
+        } else {
+            return donorSchema;
+        }
+    }
+
     handleFormSubmit = () => {
 
-        schema.validate({
+        this.getSchema().validate({
             name: this.state.name,
             email: this.state.email,
             password: this.state.password,
@@ -129,39 +199,66 @@ class Signup extends React.Component {
             accountNum: this.state.accountNum,
             accountHolder: this.state.accountHolder,
         }).then(() => {
-
             auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
                 .then(({ user }) => {
-                    const imageRef = storage().ref('users')
-                    getPathForFirebaseStorage(this.state.icFilePath.uri)
-                        .then(fileUri => {
-                            const sessionId = new Date().getTime();
-                            imageRef.child(`${sessionId}`).putFile(fileUri).then(img => {
-                                this.setState({ ic: img.metadata.fullPath })
-                            })
-                        }).then(() => {
-                            getPathForFirebaseStorage(this.state.licenceFilePath.uri).then(fileUri => {
-                                const sessionId = new Date().getTime();
-                                imageRef.child(`${sessionId}`).putFile(fileUri).then(img => {
-                                    this.setState({ licence: img.metadata.fullPath })
-                                })
-                            })
-                        }).then(() => {
-                            firestore().collection('Users').add({ ...this.state, uid: user.uid })
-                                .then(res => {
-                                    // this.props.navigation.navigate('Login');
-                                }).catch(err => {
-                                    console.log('error: ', err);
-                                    Alert.alert(
-                                        "Alert - Message",
-                                        "Sorry! Something went wrong!!",
-                                        [
-                                            { text: "OK", onPress: () => console.log("OK Pressed") }
-                                        ],
-                                        { cancelable: false }
-                                    );
-                                })
+                    firestore().collection('Users')
+                        .add({ ...this.state, uid: user.uid })
+                        .then(res => {
+                            // this.props.navigation.navigate('Login');
+                        }).catch(err => {
+                            console.log('error: ', err);
+                            Alert.alert(
+                                "Alert - Message",
+                                "Sorry! Something went wrong!!",
+                                [
+                                    { text: "OK", onPress: () => console.log("OK Pressed") }
+                                ],
+                                { cancelable: false }
+                            );
                         })
+
+
+                    // const imageRef = storage().ref('users')
+                    // getPathForFirebaseStorage(this.state.icFilePath.uri)
+                    //     .then(fileUri => {
+                    //         const sessionId = new Date().getTime();
+                    //         console.log('SESSION: ', sessionId);
+                    //         imageRef.child(`${sessionId}`).putFile(fileUri).then(img => {
+                    //             console.log('full path: ', img.metadata.fullPath);
+                    //             this.setState({
+                    //                 icPath: img.metadata.fullPath
+                    //             });
+
+                    //             console.log('IC PATH: ', this.state.icPath);
+                    //         })
+                    //     }).then(() => {
+                    //         // if (this.state.type == 'receiver') {
+                    //         //     getPathForFirebaseStorage(this.state.licenceFilePath.uri).then(fileUri => {
+                    //         //         const sessionId = new Date().getTime();
+                    //         //         imageRef.child(`${sessionId}`).putFile(fileUri).then(img => {
+                    //         //             console.log('full path: ', img);
+                    //         //             this.setState({ licencePath: img.metadata.fullPath });
+                    //         //         })
+                    //         //     })
+                    //         // }
+                    //     }).then(() => {
+                    //         // firestore().collection('Users')
+                    //         //     .add({ ...this.state, uid: user.uid })
+                    //         //     .then(res => {
+                    //         //         // this.props.navigation.navigate('Login');
+                    //         //     }).catch(err => {
+                    //         //         console.log('error: ', err);
+                    //         //         Alert.alert(
+                    //         //             "Alert - Message",
+                    //         //             "Sorry! Something went wrong!!",
+                    //         //             [
+                    //         //                 { text: "OK", onPress: () => console.log("OK Pressed") }
+                    //         //             ],
+                    //         //             { cancelable: false }
+                    //         //         );
+                    //         //     })
+
+                    //     })
 
                 })
                 .catch(error => {
@@ -247,11 +344,11 @@ class Signup extends React.Component {
                             source={this.state.ic}
                             style={{ width: 360, height: 100 }}
                         />
-                        <Button style={styles.textInput} color='#FFF'
-                        onPress={this.chooseFile1}>Upload IC</Button>
+                        <Button style={styles.textInput}
+                            onPress={this.chooseFile1}>Upload IC</Button>
                     </View>
-                    
-                    
+
+
 
 
                     <TextInput
@@ -293,7 +390,7 @@ class Signup extends React.Component {
                                 onChangeText={text => this.setState({ oName: text })}
                             />
 
-                            
+
                             <View style={styles.container1}>
                                 <Image
                                     source={this.state.licence}
