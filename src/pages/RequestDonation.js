@@ -1,7 +1,7 @@
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import React from 'react';
-import { ScrollView, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { ScrollView, StyleSheet, Text, TouchableOpacity, Alert} from 'react-native';
 import { Calendar } from 'react-native-calendars';
 import { Button, TextInput } from 'react-native-paper';
 import RNFetchBlob from 'rn-fetch-blob';
@@ -101,7 +101,7 @@ class RequestDonation extends React.Component {
 
                 <TextInput placeholder="Orphanage Home Name"
                     disabled={true}
-                    onChangeText={value=>this.setState({user: {oName: value}})}
+                    onChangeText={value => this.setState({ user: { oName: value } })}
                     value={this.state.user.oName}
                     style={styles.textInput}
                     underlineColorAndroid='rgba(0,0,0,0)' />
@@ -110,12 +110,14 @@ class RequestDonation extends React.Component {
                 <TextInput
                     placeholder="Care Taker Name"
                     disabled={true}
-                    onChangeText={value=>this.setState({user: {name: value}})}
+                    onChangeText={value => this.setState({ user: { name: value } })}
                     value={this.state.user.name}
                     style={styles.textInput}
                     underlineColorAndroid='rgba(0,0,0,0)' />
 
-                <TextInput style={styles.textInput} multiline={true} numberOfLines={4}
+                <TextInput style={styles.textInput}
+                    multiline={true}
+                    numberOfLines={4}
                     placeholder="Donation Description"
                     onChangeText={text => this.setState({ description: text })}
                 />
