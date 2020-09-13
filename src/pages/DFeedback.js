@@ -1,8 +1,9 @@
 import firestore from '@react-native-firebase/firestore';
 import React from 'react';
 import * as yup from 'yup';
-import { ScrollView, StyleSheet, Text } from 'react-native';
+import { ScrollView, StyleSheet, Text, Alert } from 'react-native';
 import { Button, TextInput } from 'react-native-paper';
+import auth from '@react-native-firebase/auth';
 
 
 const schema = yup.object().shape({
@@ -27,7 +28,10 @@ class DFeedback extends React.Component {
             feedback: this.state.feedback,
         }).then(() => {
 
-            firestore().collection('Feedback').add(this.state).then(res => {
+            firestore().collection('Feedback').add({
+                feedback: this.state.feedback,
+                email: auth().currentUser.email //detect current user
+            }).then(res => {
                 this.props.navigation.navigate('DonorDashboard');
             }).catch(err => {
 
