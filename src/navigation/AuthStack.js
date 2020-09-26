@@ -8,9 +8,9 @@ const Stack = createStackNavigator();
 
 export default function AuthStack() {
   return (
-    <Stack.Navigator initialRouteName='Home'>
+    <Stack.Navigator initialRouteName='Login'>
       <Stack.Screen name="Login" component={Login} options={{ title: 'Login Page' }} />
-      <Stack.Screen name="Home" component={Home} options={{ title: 'Home Page' }} />
+      {/* <Stack.Screen name="Home" component={Home} options={{ title: 'Home Page' }} /> */}
       <Stack.Screen name="Signup" component={Signup} options={{ title: 'Signup Page' }} />
     </Stack.Navigator>
   );

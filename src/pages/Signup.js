@@ -80,7 +80,7 @@ class Signup extends React.Component {
             contact: '',
             email: '',
             password: '',
-            type: 'donor',
+            type: '',
             oName: '',
             coords: {},
             address: '',
@@ -344,8 +344,8 @@ class Signup extends React.Component {
                             source={this.state.ic}
                             style={{ width: 360, height: 100 }}
                         />
-                        <Button style={styles.textInput}
-                            onPress={this.chooseFile1}>Upload IC</Button>
+                        <Button color="#05554B" style={styles.textInput}
+                            onPress={this.chooseFile1}>Upload IC / Passport</Button>
                     </View>
 
 
@@ -380,6 +380,29 @@ class Signup extends React.Component {
                         onChangeText={text => this.setState({ contact: text })}
                     />
 
+                    <TextInput
+                        label="Address"
+                        style={styles.textInput}
+                        multiline={true}
+                        numberOfLines={3}
+                        value={this.state.address}
+                        onChangeText={text => this.setState({ address: text })}
+                    />
+
+                    <TextInput
+                        label="Zip Code"
+                        style={styles.textInput}
+                        value={this.state.zipcode}
+                        onChangeText={text => this.setState({ zipcode: text })}
+                    />
+
+                    <TextInput
+                        label="Country"
+                        style={styles.textInput}
+                        value={this.state.country}
+                        onChangeText={text => this.setState({ country: text })}
+                    />
+
 
                     {this.state.type == 'receiver' && (
                         <>
@@ -396,31 +419,10 @@ class Signup extends React.Component {
                                     source={this.state.licence}
                                     style={{ width: 360, height: 100 }}
                                 />
-                                <Button onPress={this.chooseFile2}>Upload Orphanage Home Licence</Button>
+                                <Button color="#05554B" onPress={this.chooseFile2}>Upload Orphanage Home Licence</Button>
                             </View>
 
-                            <TextInput
-                                label="Address"
-                                style={styles.textInput}
-                                multiline={true}
-                                numberOfLines={3}
-                                value={this.state.address}
-                                onChangeText={text => this.setState({ address: text })}
-                            />
-
-                            <TextInput
-                                label="Zip Code"
-                                style={styles.textInput}
-                                value={this.state.zipcode}
-                                onChangeText={text => this.setState({ zipcode: text })}
-                            />
-
-                            <TextInput
-                                label="Country"
-                                style={styles.textInput}
-                                value={this.state.country}
-                                onChangeText={text => this.setState({ country: text })}
-                            />
+                            
 
                             <TextInput
                                 label="Bank Name"
@@ -486,7 +488,7 @@ const styles = StyleSheet.create({
     textInput: {
         width: "100%",
         marginVertical: 10,
-        backgroundColor: '#fffeee'
+        // backgroundColor: '#fff'
 
     },
     signupTextCont: {

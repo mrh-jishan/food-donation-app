@@ -15,7 +15,6 @@ export default function Routes() {
   const [loading, setLoading] = useState(true);
   const [initializing, setInitializing] = useState(true);
 
-  // Handle user state changes
   function onAuthStateChanged(user) {
     setUser(user);
     if (user) {
@@ -28,7 +27,9 @@ export default function Routes() {
         })
     }
     if (initializing) setInitializing(false);
-    setLoading(false)
+    setTimeout(()=>{
+      setLoading(false)
+    }, 3000);
 
     Geolocation.getCurrentPosition(info => {
       setCoords(info.coords);

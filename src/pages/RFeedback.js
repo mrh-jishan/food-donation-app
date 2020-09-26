@@ -1,8 +1,9 @@
 import firestore from '@react-native-firebase/firestore';
 import React from 'react';
-import { ScrollView, StyleSheet, Text } from 'react-native';
+import { ScrollView, StyleSheet, Text, Alert } from 'react-native';
 import { Button, TextInput } from 'react-native-paper';
 import * as yup from 'yup';
+import auth from '@react-native-firebase/auth';
 
 const schema = yup.object().shape({
     feedback: yup.string().required(),
@@ -26,7 +27,10 @@ class RFeedback extends React.Component {
             feedback: this.state.feedback,
         }).then(() => {
 
-            firestore().collection('Feedback').add(this.state).then(res => {
+            firestore().collection('Feedback').add({
+                feedback: this.state.feedback,
+                email: auth().currentUser.email //detect current user
+            }).then(res => {
                 this.props.navigation.navigate('ReceiverDashboard');
             }).catch(err => {
 
