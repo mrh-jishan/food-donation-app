@@ -1,9 +1,17 @@
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import React from 'react';
-import { ScrollView, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { ScrollView, StyleSheet, Text, TouchableOpacity, Alert } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 import { Button, TextInput } from 'react-native-paper';
+import * as yup from 'yup';
+
+
+const schema = yup.object().shape({
+    description: yup.string().required().typeError("All field is required!"),
+    neededDateVal: yup.date().required().typeError("All field is required!"),
+
+});
 
 class UpdateDonationRequest extends React.Component {
     constructor(props) {
@@ -23,6 +31,11 @@ class UpdateDonationRequest extends React.Component {
     }
 
     updateDonationRequest = () => {
+        schema.validate({
+            description: this.state.description,
+            neededDateVal: this.state.neededDateVal,
+        }).then(() => {
+
         const { dRequestsId } = this.props.route.params;
         firestore().collection('DonationRequest')
             .doc(dRequestsId)
@@ -34,10 +47,22 @@ class UpdateDonationRequest extends React.Component {
                 neededDateVal: this.state.neededDateVal,
                 email: auth().currentUser.email //detect current user
             }).then(success => {
-                this.props.navigation.navigate('ReceiverDashboard');
+                this.props.navigation.navigate('ViewDonationRequest');
             }).catch(err => {
                 console.log(err);
             });
+
+        }).catch(err => {
+            console.log(err);
+            Alert.alert(
+                "Alert Title",
+                err.errors[0],
+                [
+                    { text: "OK", onPress: () => console.log("OK Pressed") }
+                ],
+                { cancelable: false }
+            );
+        })
     }
 
     componentDidMount() {
@@ -53,14 +78,13 @@ class UpdateDonationRequest extends React.Component {
     render() {
         return (
             <ScrollView style={styles.container}>
-                <Text style={{ padding: 20, fontSize: 22, textAlign: 'center' }}>
-                    Update Requested Donation
-                </Text>
+
                 <Text style={{ ...styles.textInput, textAlign: 'center' }}>
                     Requested Date : {this.state.dateRequested}
                 </Text>
 
                 <TextInput placeholder="Orphanage Home Name"
+                    disabled={true}
                     value={this.state.oName}
                     onChangeText={text => this.setState({ oName: text })}
                     style={styles.textInput}
@@ -68,6 +92,7 @@ class UpdateDonationRequest extends React.Component {
 
                 <TextInput
                     placeholder="Care Taker Name"
+                    disabled={true}
                     value={this.state.name}
                     onChangeText={text => this.setState({ name: text })}
                     style={styles.textInput}
@@ -95,7 +120,7 @@ class UpdateDonationRequest extends React.Component {
                 )}
 
                 <Button mode="contained" style={styles.button} onPress={this.updateDonationRequest}>
-                    <Text style={styles.buttonText}>Update Request Donation</Text>
+                    <Text style={styles.buttonText}>Update Requested Donation</Text>
                 </Button>
             </ScrollView>
         )

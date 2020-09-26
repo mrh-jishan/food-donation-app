@@ -23,37 +23,23 @@ class Loading extends React.Component {
             tension: 10,
             friction: 2,
             duration: 1000,
+            // useNativeDriver: true,
           }).start(),
     
           Animated.timing(LogoText, {
             toValue: 1,
             duration: 1200,
+            // useNativeDriver: true,
           }),
+          
+          
         ]).start(() => {
           this.setState({
-            loadingSpinner: true,
+            loadingSpinner: false,
           });
           // code here
 
-          // console.log('user: ', user);
-          // if (user == null){
-          //   this.props.navigation.navigate('Login')
-          // }else{
 
-          //   console.log('context: ',this.context);
-          // }
-          //log(context)
-          // this.context.user
-          // if (user.type == 'donor'){
-          //   this.props.navigation.navigate('DonorDashboard')
-          // }
-          // else{
-          //   this.props.navigation.navigate('ReceiverDashboard')
-          // }
-
-          // this.props.navigation.navigate('Login')
-        //   navigation={this.props.navigation.navigate('Login')}
-          //setTimeout(switchToAuth, 1500);
         });
       }
 

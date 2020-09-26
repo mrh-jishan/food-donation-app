@@ -1,9 +1,10 @@
 import firestore from '@react-native-firebase/firestore';
 import React from 'react';
 import * as yup from 'yup';
-import { ScrollView, StyleSheet, Text, Alert } from 'react-native';
+import { ScrollView, StyleSheet, Text, Alert, Linking } from 'react-native';
 import { Button, TextInput } from 'react-native-paper';
 import auth from '@react-native-firebase/auth';
+//import call from 'react-native-phone-call';
 
 
 const schema = yup.object().shape({
@@ -21,6 +22,15 @@ class DFeedback extends React.Component {
         }
     }
 
+
+    // call = () => {
+    //     const args = {
+    //         number: '01133080788',
+    //         prompt: false,
+    //     };
+
+    //     this.call(args).catch(console.error);
+    // }
 
 
     feedbackHandle = () => {
@@ -69,8 +79,13 @@ class DFeedback extends React.Component {
 
                 <Text style={{ ...styles.textInput, fontSize: 22, textAlign: 'center' }}>OR</Text>
 
-                <Button mode="contained" style={styles.button}>
-                    <Text style={styles.buttonText}>Call Support</Text>
+                <Button mode="contained" style={styles.button}
+                onPress={() => Linking.openURL(`tel:${'01133080788'}`)}>
+                    <Text
+                    style={styles.buttonText}>
+                    {/* onPress={this.call}> */}
+                        Call Support
+                    </Text>
                 </Button>
 
             </ScrollView>

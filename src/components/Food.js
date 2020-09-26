@@ -19,13 +19,13 @@ const Food = ({ food, deleteFood, navigation }) => {
     return (
         <Card style={{  marginVertical: 15, backgroundColor: "#e6e6e6"}}>
             <Card.Content>
-                <Title>Name: {food.name}</Title>
-                <Title>Date Posted: {food.dataPosted}</Title>
-                <Title>Manuf date: {food.manfDateVal}</Title>
-                <Title>Exp date: {food.expDateVal}</Title>
-                <Title>Type: {food.type}</Title>
-                <Title>Coverage: {food.coverage}</Title>
-                <Title>Description: {food.description}</Title>
+                <Title style={{fontSize:18}}>Name: {food.name}</Title>
+                <Title style={{fontSize:18}}>Date Posted: {food.dataPosted}</Title>
+                <Title style={{fontSize:18}}>Manuf date: {food.manfDateVal}</Title>
+                <Title style={{fontSize:18}}>Exp date: {food.expDateVal}</Title>
+                <Title style={{fontSize:18}}>Type: {food.type}</Title>
+                <Title style={{fontSize:18}}>Coverage: {food.coverage}</Title>
+                <Title style={{fontSize:18}}>Description: {food.description}</Title>
             </Card.Content>
             <Card.Cover source={{ uri: uri }} />
             <Card.Actions>

@@ -1,7 +1,7 @@
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import React from 'react';
-import { ScrollView, StyleSheet, Text } from 'react-native';
+import { ScrollView, StyleSheet, Text, Alert } from 'react-native';
 import DrequestDonor from '../components/DrequestDonor';
 
 class ViewDonationRequestDonor extends React.Component {
@@ -37,7 +37,15 @@ class ViewDonationRequestDonor extends React.Component {
             .doc(res.key)
             .update({ accepted: true, acceptedBy: auth().currentUser.email })
             .then(() => {
-                console.log('Request Accepted!');
+                //console.log('Donation has been Accepted!!');
+                Alert.alert(
+                    "Message",
+                    "Donation Request has been Accepted!!",
+                    [
+                        { text: "OK", onPress: () => console.log("OK Pressed") }
+                    ],
+                    { cancelable: false }
+                );
             });
     }
 

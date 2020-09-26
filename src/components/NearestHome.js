@@ -11,16 +11,16 @@ const NearestHome = ({ vHome, acceptRequest }) => {
     return (
         <Card style={{ marginVertical: 15, backgroundColor: "#e6e6e6"}}>
             <Card.Content>
-                <Title>Orphanage Home Name: {vHome.oName}</Title>
-                <Title>Care Taker Name: {vHome.name}</Title>
-                <Title>Email: {vHome.email}</Title>
-                <Title>Contact: {vHome.contact}</Title>
-                <Title>Address: {vHome.address}</Title>
-                <Title>Distance: {vHome.distance} KM</Title>
-                <Title>Coords: {vHome.coords.longitude}, {vHome.coords.latitude}</Title>
-                <Title>Account Holder Name: {vHome.accountHolder}</Title>
-                <Title>Bank Name: {vHome.bankName}</Title>
-                <Title>Account Number: {vHome.accountNum}</Title>
+                <Title style={{fontSize:15}}>Orphanage Home Name: {vHome.oName}</Title>
+                <Title style={{fontSize:15}}>Care Taker Name: {vHome.name}</Title>
+                <Title style={{fontSize:15}}>Email: {vHome.email}</Title>
+                <Title style={{fontSize:15}}>Contact: {vHome.contact}</Title>
+                <Title style={{fontSize:15}}>Address: {vHome.address}</Title>
+                <Title style={{fontSize:15}}>Distance: {vHome.distance} KM</Title>
+                <Title style={{fontSize:15}}>Coords: {vHome.coords.longitude}, {vHome.coords.latitude}</Title>
+                <Title style={{fontSize:15}}>Account Holder Name: {vHome.accountHolder}</Title>
+                <Title style={{fontSize:15}}>Bank Name: {vHome.bankName}</Title>
+                <Title style={{fontSize:15}}>Account Number: {vHome.accountNum}</Title>
             </Card.Content>
             <Card.Actions>
                     <Button style={{width: "60%",

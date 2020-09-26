@@ -55,7 +55,7 @@ class ReceiverReceived extends React.Component {
                 <Text style={{
                     textAlign: 'center',
                     fontSize: 22
-                }}>Accept Donation Request</Text>
+                }}>Received Donation Requests</Text>
 
                 {/* <Button mode="contained" style={{ margin: 10 }} onPress={()=>this.props.navigation.navigate('QRscannerDRPage')}>Scan QR</Button> */}
 

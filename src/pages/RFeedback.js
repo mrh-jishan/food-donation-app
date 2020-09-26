@@ -1,6 +1,6 @@
 import firestore from '@react-native-firebase/firestore';
 import React from 'react';
-import { ScrollView, StyleSheet, Text, Alert } from 'react-native';
+import { ScrollView, StyleSheet, Text, Alert , Linking} from 'react-native';
 import { Button, TextInput } from 'react-native-paper';
 import * as yup from 'yup';
 import auth from '@react-native-firebase/auth';
@@ -70,7 +70,8 @@ class RFeedback extends React.Component {
 
                 <Text style={{ ...styles.textInput, fontSize: 22, textAlign: 'center' }}>OR</Text>
 
-                <Button mode="contained" style={styles.button}>
+                <Button mode="contained" style={styles.button}
+                onPress={() => Linking.openURL(`tel:${'01133080788'}`)}>
                     <Text style={styles.buttonText}>Call Support</Text>
                 </Button>
 

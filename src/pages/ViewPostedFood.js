@@ -28,12 +28,9 @@ class ViewPostedFood extends React.Component {
                             key: food.id
                         }
                     })
-                //.filter(data => data.approved == undefined)
+
+                .filter(data => data.accepted == undefined && data.isApproved == undefined)
                 .filter(data => new Date(data.expDateVal).getTime() > nowTime)
-                // .forEach(r=>{
-                //     console.log(r);
-                //     food.push(r)
-                // });
                 this.setState({ foods: foods.sort((obj1, obj2) => new Date(obj1.expDateVal).getTime() - new Date(obj2.expDateVal).getTime()) })
             })
     }

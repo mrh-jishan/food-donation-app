@@ -31,6 +31,7 @@ class ViewDonationRequest extends React.Component {
                             key: res.id
                         }
                     })
+                    .filter(data => data.accepted == undefined && data.isApproved == undefined)
                     .filter(data => new Date(data.neededDateVal).getTime() > nowTime)
                     .forEach(r=>{
                         console.log(r);
@@ -56,9 +57,7 @@ class ViewDonationRequest extends React.Component {
     render() {
         return (
             <ScrollView style={styles.container}>
-                <Text style={{ textAlign: 'center', fontSize: 22 }}>
-                    View Donation Request
-                </Text>
+
 
                 {this.state.donationR.length > 0 && (
                     this.state.donationR.map((res, index) => (

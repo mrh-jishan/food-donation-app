@@ -102,25 +102,25 @@ export default function ReceiverStack() {
         name="Receiver"
         component={ReceiverTabs}
         options={{
-          title: 'Receiver Page',
-          headerLeft: () => { disabled: true },
-          headerTitleAlign: 'center'
+          headerShown:false
+          // title: 'Receiver Page',
+          // headerLeft: () => { disabled: true },
+          // headerTitleAlign: 'center'
         }} />
 
-      <Stack.Screen name="ChangePassword" component={ChangePassword} options={{ title: 'Receiver Change Password' }} />
-      <Stack.Screen name="Verify" component={Verify} options={{ title: 'Verify' }} />
-      <Stack.Screen name="RequestDonation" component={RequestDonation} options={{ title: 'Request Donation' }} />
-      <Stack.Screen name="ViewDonationRequest" component={ViewDonationRequest} options={{ title: 'View Requested Donation' }} />
-      <Stack.Screen name="UpdateDonationRequest" component={UpdateDonationRequest} options={{ title: 'Update Requested Donation' }} />
+      <Stack.Screen name="ChangePassword" component={ChangePassword} options={{ title: '' }} />
+      <Stack.Screen name="Verify" component={Verify} options={{ title: '' }} />
+      <Stack.Screen name="RequestDonation" component={RequestDonation} options={{ title: '' }} />
+      <Stack.Screen name="ViewDonationRequest" component={ViewDonationRequest} options={{ title: '' }} />
+      <Stack.Screen name="UpdateDonationRequest" component={UpdateDonationRequest} options={{ title: '' }} />
 
-      <Stack.Screen name="ViewPostReceiver" component={ViewPostReceiver} options={{ title: 'View Posted Receiver' }} />
+      <Stack.Screen name="ViewPostReceiver" component={ViewPostReceiver} options={{ title: '' }} />
 
-      <Stack.Screen name="QRscannerPage" component={QRscanner} options={{ title: 'Scan QR Code' }} />
-      <Stack.Screen name="QRscannerDRPage" component={QRscannerDR} options={{ title: 'Scan QR Code' }} />
+      <Stack.Screen name="QRscannerPage" component={QRscanner} options={{ title: '' }} />
+      <Stack.Screen name="QRscannerDRPage" component={QRscannerDR} options={{ title: '' }} />
+      <Stack.Screen name="ReceiverAcceptedFood" component={ReceiverAcceptedFood} options={{ title: '' }} />
 
-      <Stack.Screen name="ReceiverAcceptedFood" component={ReceiverAcceptedFood} options={{ title: 'Receiver Accepted Food' }} />
-
-      <Stack.Screen name="ReceiverViewAcceptedRequest" component={ReceiverViewAcceptedRequest} options={{ title: 'Receiver View Accepted Request' }} />
+      <Stack.Screen name="ReceiverViewAcceptedRequest" component={ReceiverViewAcceptedRequest} options={{ title: '' }} />
     </Stack.Navigator>
   );
 }

@@ -6,7 +6,7 @@ import { Button, Card, Paragraph, Title } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
 // import QRdialog from './QRdialog';
 
-const ReceiverViewFoodReceiverAccepted = ({ food }) => {
+const ReceiverViewFoodReceiverAccepted = ({ food,  navigation}) => {
 
     const [visible, setVisible] = React.useState(false);
 
@@ -16,7 +16,8 @@ const ReceiverViewFoodReceiverAccepted = ({ food }) => {
 
 
     const [uri, setUri] = useState();
-    const [receiver, setReceiver] = useState({
+    // const [receiver, setReceiver] = useState({
+    const [donor, setDonor] = useState({
         contact: '',
         coords: {
             latitude: '',
@@ -33,7 +34,7 @@ const ReceiverViewFoodReceiverAccepted = ({ food }) => {
             .where('email', '==', food.acceptedBy).get()
             .then(snap => {
                 const profile = snap.docs[0].data();
-                setReceiver(profile)
+                setDonor(profile)
             })
     }, [food]);
 
@@ -41,15 +42,15 @@ const ReceiverViewFoodReceiverAccepted = ({ food }) => {
     return (
         <Card style={{ marginVertical: 15 }}>
             <Card.Content>
-                <Title>Name: {food.name}</Title>
-                <Title>Date Posted: {food.dataPosted}</Title>
-                <Title>Manuf date: {food.manfDateVal}</Title>
-                <Title>Exp date: {food.expDateVal}</Title>
-                <Title>Type: {food.type}</Title>
-                <Title>Accepted: {food.accepted ? 'YES' : 'NO'}</Title>
-                <Title>Accepted By: {food.acceptedBy}</Title>
-                <Title>Delivered: {food.isApproved == undefined? 'NO': 'YES'}</Title>
-                <Title>Description: {food.description}</Title>
+                <Title style={{fontSize:18}}>Name: {food.name}</Title>
+                <Title style={{fontSize:18}}>Date Posted: {food.dataPosted}</Title>
+                <Title style={{fontSize:18}}>Manuf date: {food.manfDateVal}</Title>
+                <Title style={{fontSize:18}}>Exp date: {food.expDateVal}</Title>
+                <Title style={{fontSize:18}}>Type: {food.type}</Title>
+                <Title style={{fontSize:18}}>Accepted: {food.accepted ? 'YES' : 'NO'}</Title>
+                <Title style={{fontSize:18}}>Posted By: {food.email}</Title>
+                <Title style={{fontSize:18}}>Delivery Check-in: {food.isApproved == undefined? 'Not Delivered': 'Delivered'}</Title>
+                <Title style={{fontSize:18}}>Description: {food.description}</Title>
             </Card.Content>
             <Card.Cover source={{ uri: uri }} />
             <Card.Actions>
@@ -60,7 +61,7 @@ const ReceiverViewFoodReceiverAccepted = ({ food }) => {
                                     marginVertical: 16,
                                     paddingVertical: 12,
                                     marginRight: 5}} 
-                                    onPress={() => Linking.openURL('google.navigation:q=' + receiver.coords.latitude + '+' + receiver.coords.longitude)}>
+                                    onPress={() => Linking.openURL('google.navigation:q=' + donor.coords.latitude + '+' + donor.coords.longitude)}>
                         
                             <Icon name="map-o" size={15} style={{ color: 'white', marginRight: '20' }} />
                             <Text style={{fontSize: 14,
@@ -75,7 +76,7 @@ const ReceiverViewFoodReceiverAccepted = ({ food }) => {
                                     marginVertical: 16,
                                     paddingVertical: 12,
                                     marginRight: 5}} 
-                                    onPress={() => Linking.openURL(`tel:${receiver.contact}`)}>
+                                    onPress={() => Linking.openURL(`tel:${donor.contact}`)}>
                         
                             <Icon name="phone" size={15} style={{ color: 'white', marginRight: '20' }} />
                             <Text style={{fontSize: 14,
@@ -91,7 +92,7 @@ const ReceiverViewFoodReceiverAccepted = ({ food }) => {
                                     marginVertical: 16,
                                     paddingVertical: 12,
                                     marginRight: 5}}
-                                    onPress={()=>this.props.navigation.navigate('QRscannerPage')}>
+                                    onPress={()=>navigation.navigate('QRscannerPage')}>
                         
                             <Icon name="qrcode" size={15} style={{ color: 'white', marginRight: '20' }} />
                             <Text style={{fontSize: 14,

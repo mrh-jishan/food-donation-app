@@ -37,16 +37,16 @@ const DrequestDonorAccepted = ({ dRequests}) => {
     return (
         <Card style={{  marginVertical: 15, backgroundColor: "#e6e6e6"}}>
             <Card.Content>
-                <Title>Date Requested: {dRequests.dateRequested}</Title>
-                <Title>Orphanage Home Name: {dRequests.oName}</Title>
-                <Title>Care Taker Email: {dRequests.email}</Title>
-                <Title>Needed date: {dRequests.neededDateVal}</Title>
-                <Title>Accepted: {dRequests.accepted? 'YES': 'NO'}</Title>
-                <Title>Accepted By: {dRequests.acceptedBy}</Title>
-                <Title>Delivered: {dRequests.isApproved == undefined? 'NO': 'YES'}</Title>
-                <Title>Description: {dRequests.description}</Title>
+                <Title style={{fontSize:18}}>Date Requested: {dRequests.dateRequested}</Title>
+                <Title style={{fontSize:18}}>Orphanage Home Name: {dRequests.oName}</Title>
+                <Title style={{fontSize:18}}>Care Taker Email: {dRequests.email}</Title>
+                <Title style={{fontSize:18}}>Needed date: {dRequests.neededDateVal}</Title>
+                <Title style={{fontSize:18}}>Accepted: {dRequests.accepted? 'YES': 'NO'}</Title>
+                <Title style={{fontSize:18}}>Posted By: {dRequests.email}</Title>
+                <Title style={{fontSize:18}}>Delivery Status: {dRequests.isApproved == undefined? 'Not Delivered': 'Delivered'}</Title>
+                <Title style={{fontSize:18}}>Description: {dRequests.description}</Title>
             </Card.Content>
-            <Card.Cover source={{ uri: uri }} />
+            {/* <Card.Cover source={{ uri: uri }} /> */}
             <Card.Actions>
                 
                 
