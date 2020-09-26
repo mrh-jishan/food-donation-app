@@ -26,6 +26,7 @@ export default function Routes() {
           setProfile(profile);
         })
     }
+
     if (initializing) setInitializing(false);
     setTimeout(()=>{
       setLoading(false)

@@ -44,7 +44,7 @@ class DonorDashboard extends React.Component {
 
 
 
-                    <Button onPress={this.logout}>Logout</Button>
+                    {/* <Button onPress={this.logout}>Logout</Button> */}
                 </View>
             </ScrollView>
         )

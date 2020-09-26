@@ -53,10 +53,7 @@ class DonorViewNearestHome extends React.Component {
     render() {
         return (
             <ScrollView style={styles.container}>
-                <Text style={{
-                    textAlign: 'center',
-                    fontSize: 22
-                }}>View Nearest Orphanage Home</Text>
+
 
                 {this.state.nearestH.length > 0 && (
                     this.state.nearestH.map((res, index) => (

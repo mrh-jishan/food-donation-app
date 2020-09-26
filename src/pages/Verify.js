@@ -112,7 +112,7 @@ class Verify extends React.Component {
 
         var success = false;
 
-        console.log('stat: ', this.state);
+        console.log('state: ', this.state);
         console.log('code in state: ', this.state.code);
 
 
@@ -150,7 +150,7 @@ class Verify extends React.Component {
                 success = true;
                 Alert.alert(
                     "Alert Title",
-                    "Success!!",
+                    "Verification Success!!",
                     [
                         { text: "OK", onPress: () => console.log("OK Pressed") }
                     ],
@@ -176,7 +176,7 @@ class Verify extends React.Component {
         if (!success) {
             Alert.alert(
                 "Alert Title",
-                "Code is not valid!!",
+                "Invalid Code!!",
                 [
                     { text: "OK", onPress: () => console.log("OK Pressed") }
                 ],
@@ -195,7 +195,7 @@ class Verify extends React.Component {
 
     sendSMS = (code) => {
         var data = JSON.stringify({
-            "from": "Food Donation",
+            "from": "eFeed Application",
             "text": code + " Use this code for verification",
             "to": this.state.user.contact,
             "api_key": "4d8c8223",
@@ -226,8 +226,8 @@ class Verify extends React.Component {
         var axios = require('axios');
         var data = JSON.stringify({
             "to": this.state.user.email.replace(/(\r\n|\n|\r)/gm, ""),
-            "subject": "Verify your email",
-            "html": "Plese use the code for verification, " + code
+            "subject": "Email Verification from eFeed",
+            "html": "Hi. Plese use the code and key in into the system to verify your email, " + code
         });
 
         var config = {
@@ -293,6 +293,7 @@ class Verify extends React.Component {
                     <View style={{ flexDirection: "row" }}>
                         <View style={{ width: '70%', flex: 1, paddingRight: 15 }}>
                             <TextInput placeholder="Contact Number"
+                                disabled={true}
                                 value={this.state.user.contact}
                                 onChangeText={(value) => this.setState({ user: { contact: value } })}
                                 style={{
@@ -307,11 +308,13 @@ class Verify extends React.Component {
                                 flex: 1,
                                 paddingRight: 15,
                                 paddingLeft: 15
-                            }} onPress={this.verifyPhone.bind(this)}>
+                            }} onPress={this.verifyPhone.bind(this)}
+                                disabled={this.state.user.contactVerification?.isVerified}>
                                 <Text style={{
                                     ...styles.signupButton,
 
-                                }}>Verify</Text>
+                                }}>
+                                {this.state.user.contactVerification?.isVerified == true? 'Verified': 'Verify'}</Text>
                             </TouchableOpacity>
                         </View>
                     </View>

@@ -41,25 +41,28 @@ const options = {
 
 const donorSchema = yup.object().shape({
     email: yup.string().email().required(),
-    name: yup.string().min(6).required(),
-    contact: yup.number().min(8).required(),
+    name: yup.string().required().typeError("All field is required!"),
+    contact: yup.number().min(8).required().typeError("All field is required!"),
     password: yup.string().min(6).required(),
-    type: yup.string().required(),
+    type: yup.string().required().typeError("All field is required!"),
+    address: yup.string().required().typeError("All field is required!"),
+    zipcode: yup.string().required().typeError("All field is required!"),
+    country: yup.string().required().typeError("All field is required!"),
 });
 
 const receiverSchema = yup.object().shape({
     email: yup.string().email().required(),
-    name: yup.string().min(6).required(),
-    contact: yup.number().min(8).required(),
+    name: yup.string().required().typeError("All field is required!"),
+    contact: yup.number().min(8).required().typeError("All field is required!"),
     password: yup.string().min(6).required(),
-    type: yup.string().required(),
-    oName: yup.string().min(6).required(),
-    address: yup.string().required(),
-    zipcode: yup.string().required(),
-    country: yup.string().required(),
-    bankName: yup.string().required(),
-    accountNum: yup.number().min(5).required(),
-    accountHolder: yup.string().min(6).required(),
+    type: yup.string().required().typeError("All field is required!"),
+    oName: yup.string().required().typeError("All field is required!"),
+    address: yup.string().required().typeError("All field is required!"),
+    zipcode: yup.string().required().typeError("All field is required!"),
+    country: yup.string().required().typeError("All field is required!"),
+    bankName: yup.string().required().typeError("All field is required!"),
+    accountNum: yup.number().min(5).required().typeError("All field is required!"),
+    accountHolder: yup.string().required().typeError("All field is required!"),
 });
 
 
@@ -204,7 +207,7 @@ class Signup extends React.Component {
                     firestore().collection('Users')
                         .add({ ...this.state, uid: user.uid })
                         .then(res => {
-                            // this.props.navigation.navigate('Login');
+                            this.props.navigation.navigate('Verify');
                         }).catch(err => {
                             console.log('error: ', err);
                             Alert.alert(
@@ -218,54 +221,14 @@ class Signup extends React.Component {
                         })
 
 
-                    // const imageRef = storage().ref('users')
-                    // getPathForFirebaseStorage(this.state.icFilePath.uri)
-                    //     .then(fileUri => {
-                    //         const sessionId = new Date().getTime();
-                    //         console.log('SESSION: ', sessionId);
-                    //         imageRef.child(`${sessionId}`).putFile(fileUri).then(img => {
-                    //             console.log('full path: ', img.metadata.fullPath);
-                    //             this.setState({
-                    //                 icPath: img.metadata.fullPath
-                    //             });
-
-                    //             console.log('IC PATH: ', this.state.icPath);
-                    //         })
-                    //     }).then(() => {
-                    //         // if (this.state.type == 'receiver') {
-                    //         //     getPathForFirebaseStorage(this.state.licenceFilePath.uri).then(fileUri => {
-                    //         //         const sessionId = new Date().getTime();
-                    //         //         imageRef.child(`${sessionId}`).putFile(fileUri).then(img => {
-                    //         //             console.log('full path: ', img);
-                    //         //             this.setState({ licencePath: img.metadata.fullPath });
-                    //         //         })
-                    //         //     })
-                    //         // }
-                    //     }).then(() => {
-                    //         // firestore().collection('Users')
-                    //         //     .add({ ...this.state, uid: user.uid })
-                    //         //     .then(res => {
-                    //         //         // this.props.navigation.navigate('Login');
-                    //         //     }).catch(err => {
-                    //         //         console.log('error: ', err);
-                    //         //         Alert.alert(
-                    //         //             "Alert - Message",
-                    //         //             "Sorry! Something went wrong!!",
-                    //         //             [
-                    //         //                 { text: "OK", onPress: () => console.log("OK Pressed") }
-                    //         //             ],
-                    //         //             { cancelable: false }
-                    //         //         );
-                    //         //     })
-
-                    //     })
+                   
 
                 })
                 .catch(error => {
                     if (error.code === 'auth/email-already-in-use') {
                         Alert.alert(
                             "Alert - Message",
-                            "That email address is already in use!",
+                            "This email address is already in use!",
                             [
                                 { text: "OK", onPress: () => console.log("OK Pressed") }
                             ],
@@ -274,17 +237,17 @@ class Signup extends React.Component {
                     } else if (error.code === 'auth/invalid-email') {
                         Alert.alert(
                             "Alert - Message",
-                            "That email address is invalid!",
+                            "This email address is invalid!",
                             [
                                 { text: "OK", onPress: () => console.log("OK Pressed") }
                             ],
                             { cancelable: false }
                         );
-                        console.log('That email address is invalid!');
+                        console.log('This email address is invalid!');
                     } else {
                         Alert.alert(
                             "Alert Title",
-                            "Sorry! Something went wrong!!",
+                            "Sorry! Unable to register!!",
                             [
                                 { text: "OK", onPress: () => console.log("OK Pressed") }
                             ],
@@ -352,14 +315,14 @@ class Signup extends React.Component {
 
 
                     <TextInput
-                        label="Name"
+                        label="Name as per IC/Passport"
                         style={styles.textInput}
                         value={this.state.name}
                         onChangeText={text => this.setState({ name: text })}
                     />
 
                     <TextInput
-                        label="Email"
+                        label="Valid Email"
                         style={styles.textInput}
                         value={this.state.email}
                         onChangeText={text => this.setState({ email: text })}
@@ -374,7 +337,7 @@ class Signup extends React.Component {
                     />
 
                     <TextInput
-                        label="Contact"
+                        label="Valid Contact"
                         style={styles.textInput}
                         value={this.state.contact}
                         onChangeText={text => this.setState({ contact: text })}
@@ -432,7 +395,7 @@ class Signup extends React.Component {
                             />
 
                             <TextInput
-                                label="Account Holder Name"
+                                label="Account Holder Name should be same as IC"
                                 style={styles.textInput}
                                 value={this.state.accountHolder}
                                 onChangeText={text => this.setState({ accountHolder: text })}

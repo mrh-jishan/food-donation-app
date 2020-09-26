@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Alert } from 'react-native';
+import { StyleSheet, Alert, Text, View } from 'react-native';
 import { RNCamera } from 'react-native-camera';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import firestore from '@react-native-firebase/firestore';
@@ -27,10 +27,14 @@ class QRscanner extends Component {
 
     render() {
         return (
-            <QRCodeScanner
+            <View>
+                <Text>Hello</Text>
+<QRCodeScanner
                 onRead={this.onSuccess}
                 flashMode={RNCamera.Constants.FlashMode.torch}
             />
+            </View>
+            
         );
     }
 }

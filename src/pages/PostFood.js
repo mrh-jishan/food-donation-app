@@ -28,12 +28,12 @@ const getPathForFirebaseStorage = async uri => {
 }
 
 const schema = yup.object().shape({
-    name: yup.string().required().typeError("Food name is required!"),
-    type: yup.string().required().typeError("Food type is required!"),
-    coverage: yup.string().required().typeError("Food Coverage is required!"),
-    description: yup.string().required().typeError("Food Description is required!"),
-    manfDateVal: yup.date().required().typeError("Manufactured date is required!"),
-    expDateVal: yup.date().required().typeError("Expiry date is required!"),
+    name: yup.string().required().typeError("All field is required!"),
+    type: yup.string().required().typeError("All field is required!"),
+    coverage: yup.string().required().typeError("All field is required!"),
+    description: yup.string().required().typeError("All field is required!"),
+    manfDateVal: yup.date().required().typeError("All field is required!"),
+    expDateVal: yup.date().required().typeError("All field is required!"),
 
 });
 

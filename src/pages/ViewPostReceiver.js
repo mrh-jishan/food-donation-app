@@ -1,7 +1,7 @@
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import React from 'react';
-import { ScrollView, StyleSheet, Text } from 'react-native';
+import { ScrollView, StyleSheet, Text, Alert } from 'react-native';
 import FoodReceiver from '../components/FoodReceiver';
 
 class ViewPostReceiver extends React.Component {
@@ -54,7 +54,15 @@ class ViewPostReceiver extends React.Component {
             .doc(food.key)
             .update({ accepted: true, acceptedBy: auth().currentUser.email })
             .then(() => {
-                console.log('Food Accepted!');
+                //console.log('Food Accepted!');
+                Alert.alert(
+                    "Message",
+                    "Donation has been Accepted!!",
+                    [
+                        { text: "OK", onPress: () => console.log("OK Pressed") }
+                    ],
+                    { cancelable: false }
+                );
             });
     }
 

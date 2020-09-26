@@ -41,16 +41,16 @@ const FoodReceiverAccepted = ({ food }) => {
     return (
         <Card style={{  marginVertical: 15, backgroundColor: "#e6e6e6"}}>
             <Card.Content>
-                <Title>Name: {food.name}</Title>
-                <Title>Date Posted: {food.dataPosted}</Title>
-                <Title>Manuf date: {food.manfDateVal}</Title>
-                <Title>Exp date: {food.expDateVal}</Title>
-                <Title>Type: {food.type}</Title>
-                <Title>Accepted: {food.accepted ? 'YES' : 'NO'}</Title>
-                <Title>Accepted By: {food.acceptedBy}</Title>
-                <Title>Delivered: {food.isApproved ? 'YES' : 'NO'}</Title>
+                <Title style={{fontSize:18}}>Name: {food.name}</Title>
+                <Title style={{fontSize:18}}>Date Posted: {food.dataPosted}</Title>
+                <Title style={{fontSize:18}}>Manuf date: {food.manfDateVal}</Title>
+                <Title style={{fontSize:18}}>Exp date: {food.expDateVal}</Title>
+                <Title style={{fontSize:18}}>Type: {food.type}</Title>
+                <Title style={{fontSize:18}}>Accepted: {food.accepted ? 'YES' : 'NO'}</Title>
+                <Title style={{fontSize:18}}>Accepted By: {food.acceptedBy}</Title>
+                <Title style={{fontSize:18}}>Delivery Status: {food.isApproved == undefined? 'Not Delivered': 'Delivered'}</Title>
                 {/* <Title>Delivered: {food.isApproved == undefined? 'NO': 'YES'}</Title> */}
-                <Title>Description: {food.description}</Title>
+                <Title style={{fontSize:18}}>Description: {food.description}</Title>
             </Card.Content>
             <Card.Cover source={{ uri: uri }} />
             <Card.Actions>
@@ -95,7 +95,7 @@ const FoodReceiverAccepted = ({ food }) => {
                                     marginRight: 5}}
                                     onPress={showDialog}>
 
-                        <Icon name="edit" size={15} style={{ color: 'white', marginRight: '20' }} />
+                        <Icon name="qrcode" size={15} style={{ color: 'white', marginRight: '20' }} />
                         <Text style={{fontSize: 14,
                                         fontWeight: '500',
                                         color: 'white',

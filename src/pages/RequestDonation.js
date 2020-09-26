@@ -14,8 +14,8 @@ const getPathForFirebaseStorage = async uri => {
 }
 
 const schema = yup.object().shape({
-    description: yup.string().min(6).required(),
-    neededDateVal: yup.date().required(),
+    description: yup.string().required().typeError("All field is required!"),
+    neededDateVal: yup.date().required().typeError("All field is required!"),
 
 });
 

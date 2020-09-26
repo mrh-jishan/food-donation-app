@@ -8,8 +8,8 @@ import Logo from '../components/Logo';
 
 
 const schema = yup.object().shape({
-    email: yup.string().email().required(),
-    password: yup.string().min(6).required(),
+    email: yup.string().email().required().typeError("Email and Password with atleast 6 characters is required!"),
+    password: yup.string().min(6).required().typeError("Email and Password with atleast 6 characters is required!"),
 });
 
 class Login extends React.Component {

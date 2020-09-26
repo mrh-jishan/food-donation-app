@@ -2,11 +2,12 @@ import { Picker } from '@react-native-community/picker';
 import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
 import React from 'react';
-import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View, Alert  } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 import ImagePicker from 'react-native-image-picker';
 import { Button, TextInput } from 'react-native-paper';
 import RNFetchBlob from 'rn-fetch-blob';
+import * as yup from 'yup';
 
 const getPathForFirebaseStorage = async uri => {
     if (Platform.OS === "ios") return uri
@@ -23,6 +24,15 @@ const options = {
     },
 };
 
+const schema = yup.object().shape({
+    name: yup.string().required().typeError("All field is required!"),
+    type: yup.string().required().typeError("All field is required!"),
+    coverage: yup.string().required().typeError("All field is required!"),
+    description: yup.string().required().typeError("All field is required!"),
+    manfDateVal: yup.date().required().typeError("All field is required!"),
+    expDateVal: yup.date().required().typeError("All field is required!"),
+
+});
 
 class UpdateFood extends React.Component {
     constructor(props) {
@@ -51,6 +61,15 @@ class UpdateFood extends React.Component {
     }
 
     updateFoodReq = () => {
+        schema.validate({
+            name: this.state.name,
+            type: this.state.type,
+            manfDateVal: this.state.manfDateVal,
+            expDateVal: this.state.expDateVal,
+            coverage: this.state.coverage,
+            description: this.state.description,
+        }).then(() => {
+
         const sessionId = new Date().getTime();
         const imageRef = storage().ref('foods').child(`${sessionId}`);
         getPathForFirebaseStorage(this.state.filePath.uri).then(fileUri => {
@@ -68,11 +87,22 @@ class UpdateFood extends React.Component {
                         description: this.state.description,
                         img: img.metadata.fullPath,
                     }).then(success => {
-                        this.props.navigation.navigate('DonorDashboard');
+                        this.props.navigation.navigate('ViewPostedFood');
                     });
             })
 
         })
+    }).catch(err => {
+        console.log(err);
+        Alert.alert(
+            "Alert Title",
+            err.errors[0],
+            [
+                { text: "OK", onPress: () => console.log("OK Pressed") }
+            ],
+            { cancelable: false }
+        );
+    })
     }
 
     //Image Picker
@@ -105,7 +135,7 @@ class UpdateFood extends React.Component {
     render() {
         return (
             <ScrollView style={styles.container}>
-                <Text style={{ padding: 20 }}>This is Post Food Update Page</Text>
+                
                 <Text style={{ ...styles.textInput, textAlign: 'center' }}> Date Posted :  {this.state.dataPosted}</Text>
 
                 <View style={styles.container1}>
@@ -141,8 +171,9 @@ class UpdateFood extends React.Component {
                             this.setState({ type: itemValue })
                         }>
                         <Picker.Item label="Select Food Type" value="" />
-                        <Picker.Item label="Raw" value="raw" />
-                        <Picker.Item label="Cooked" value="cooked" />
+                        <Picker.Item label="Raw" value="Raw" />
+                        <Picker.Item label="Cooked" value="Cooked" />
+                        <Picker.Item label="Event Food" value="Event Food" />
                     </Picker>
                 </View>
 
