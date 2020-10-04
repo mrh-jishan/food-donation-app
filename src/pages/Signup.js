@@ -172,8 +172,10 @@ class Signup extends React.Component {
 
     async componentDidMount() {
         this.setState({ coords: this.context.coords })
-        const loc = await fetch('https://geocode.xyz/37.4219873,-122.0838832?geoit=json');
+        console.log(this.context.coords);
+        const loc = await fetch('https://geocode.xyz/' + this.context.coords.latitude + ',' + this.context.coords.longitude + '?geoit=json');
         const data = await loc.json();
+        console.log('loca: ',data);
         this.setState({ address: data.stnumber + ' - ' + data.staddress + ', ' + data.city + ', ' + data.state, zipcode: data.postal, country: data.country })
     }
 
@@ -221,7 +223,7 @@ class Signup extends React.Component {
                         })
 
 
-                   
+
 
                 })
                 .catch(error => {
@@ -385,7 +387,7 @@ class Signup extends React.Component {
                                 <Button color="#05554B" onPress={this.chooseFile2}>Upload Orphanage Home Licence</Button>
                             </View>
 
-                            
+
 
                             <TextInput
                                 label="Bank Name"
