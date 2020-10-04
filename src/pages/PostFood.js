@@ -10,7 +10,7 @@ import auth from '@react-native-firebase/auth';
 import RNFetchBlob from 'rn-fetch-blob';
 import * as yup from 'yup';
 
-
+const imageRef = storage().ref('foods')
 const options = {
     title: 'Select Avatar',
     customButtons: [{ name: 'fb', title: 'Choose Photo from Facebook' }],
@@ -77,7 +77,10 @@ class PostFood extends React.Component {
             const sessionId = new Date().getTime();
             const imageRef = storage().ref('foods').child(`${sessionId}`);
             getPathForFirebaseStorage(this.state.filePath.uri).then(fileUri => {
-                imageRef.putFile(fileUri).then(img => {
+                imageRef.putFile(fileUri)
+                .then(_ => imageRef.getDownloadURL())
+                .then(img => {
+                        
                     firestore().collection('Foods').add({
                         name: this.state.name,
                         dataPosted: this.state.dataPosted,
@@ -86,7 +89,7 @@ class PostFood extends React.Component {
                         expDateVal: this.state.expDateVal,
                         coverage: this.state.coverage,
                         description: this.state.description,
-                        img: img.metadata.fullPath, //image
+                        img: img, //image
                         email: auth().currentUser.email //detect current user
                     }).then(res => {
                         this.props.navigation.navigate('DonorDashboard');

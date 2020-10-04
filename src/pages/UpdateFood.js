@@ -73,7 +73,9 @@ class UpdateFood extends React.Component {
         const sessionId = new Date().getTime();
         const imageRef = storage().ref('foods').child(`${sessionId}`);
         getPathForFirebaseStorage(this.state.filePath.uri).then(fileUri => {
-            imageRef.putFile(fileUri).then(img => {
+            imageRef.putFile(fileUri)
+            .then(_=> imageRef.getDownloadURL())
+            .then(img => {
                 const { foodId } = this.props.route.params;
                 firestore().collection('Foods')
                     .doc(foodId)
@@ -85,7 +87,7 @@ class UpdateFood extends React.Component {
                         expDateVal: this.state.expDateVal,
                         coverage: this.state.coverage,
                         description: this.state.description,
-                        img: img.metadata.fullPath,
+                        img: img,
                     }).then(success => {
                         this.props.navigation.navigate('ViewPostedFood');
                     });
@@ -139,8 +141,9 @@ class UpdateFood extends React.Component {
                 <Text style={{ ...styles.textInput, textAlign: 'center' }}> Date Posted :  {this.state.dataPosted}</Text>
 
                 <View style={styles.container1}>
+                    {console.log(this.state.img)}
                     <Image
-                        source={this.state.avatarSource}
+                        source={{uri: this.state.img}}
                         style={{ width: 100, height: 100 }}
                     />
                     <Button onPress={this.chooseFile}>Choose File</Button>
@@ -199,11 +202,30 @@ class UpdateFood extends React.Component {
                     <Calendar onDayPress={value => this.toggleExpDate(value)} />
                 )}
 
-                <TextInput
-                    placeholder="Food Coverage"
-                    value={this.state.coverage}
-                    onChangeText={text => this.setState({ coverage: text })}
-                    style={styles.textInput} />
+                    <Picker
+                        selectedValue={this.state.coverage}
+                        style={{
+                            ...styles.textInput,
+                            color: '#595959',
+                            marginVertical: 0,
+                            background: '#ccc'
+                        }}
+                        mode='dropdown'
+                        onValueChange={(itemValue, itemIndex) =>
+                            this.setState({ coverage: itemValue })
+                        }>
+                         <Picker.Item label="Select Food Coverage" value="" />
+                        <Picker.Item label="1 - 10 Pax" value="1 - 10 Pax" />
+                        <Picker.Item label="11 - 20 Pax" value="11 - 20 Pax" />
+                        <Picker.Item label="21 - 30 Pax" value="21 - 30 Pax" />
+                        <Picker.Item label="31 - 40 Pax" value="31 - 40 Pax" />
+                        <Picker.Item label="41 - 50 Pax" value="41 - 50 Pax" />
+                        <Picker.Item label="51 - 60 Pax" value="51 - 60 Pax" />
+                        <Picker.Item label="61 - 70 Pax" value="61 - 70 Pax" />
+                        <Picker.Item label="71 - 80 Pax" value="71 - 80 Pax" />
+                        <Picker.Item label="81 - 90 Pax" value="81 - 90 Pax" />
+                        <Picker.Item label="91 - 100 Pax" value="91 - 100 Pax" />
+                    </Picker>
 
                 <TextInput style={styles.textInput} multiline={true} numberOfLines={4}
                     placeholder="Food Description"

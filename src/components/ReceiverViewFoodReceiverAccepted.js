@@ -25,11 +25,11 @@ const ReceiverViewFoodReceiverAccepted = ({ food,  navigation}) => {
         }
     })
     useEffect(() => {
-        storage()
-            .ref(food.img)
-            .getDownloadURL().then(url => {
-                setUri(url)
-            });
+        // storage()
+        //     .ref(food.img)
+        //     .getDownloadURL().then(url => {
+        //         setUri(url)
+        //     });
         firestore().collection('Users')
             .where('email', '==', food.acceptedBy).get()
             .then(snap => {
@@ -52,7 +52,7 @@ const ReceiverViewFoodReceiverAccepted = ({ food,  navigation}) => {
                 <Title style={{fontSize:18}}>Delivery Check-in: {food.isApproved == undefined? 'Not Delivered': 'Delivered'}</Title>
                 <Title style={{fontSize:18}}>Description: {food.description}</Title>
             </Card.Content>
-            <Card.Cover source={{ uri: uri }} />
+            <Card.Cover source={{ uri: food.img}} />
             <Card.Actions>
                 
                         <Button  style={{width: "30%",

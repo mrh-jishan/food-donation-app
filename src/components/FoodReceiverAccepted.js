@@ -24,11 +24,11 @@ const FoodReceiverAccepted = ({ food }) => {
         }
     })
     useEffect(() => {
-        storage()
-            .ref(food.img)
-            .getDownloadURL().then(url => {
-                setUri(url)
-            });
+        // storage()
+        //     .ref(food.img)
+        //     .getDownloadURL().then(url => {
+        //         setUri(url)
+        //     });
         firestore().collection('Users')
             .where('email', '==', food.acceptedBy).get()
             .then(snap => {
@@ -52,7 +52,7 @@ const FoodReceiverAccepted = ({ food }) => {
                 {/* <Title>Delivered: {food.isApproved == undefined? 'NO': 'YES'}</Title> */}
                 <Title style={{fontSize:18}}>Description: {food.description}</Title>
             </Card.Content>
-            <Card.Cover source={{ uri: uri }} />
+            <Card.Cover source={{ uri: food.img}} />
             <Card.Actions>
                 <Button style={{width: "27%",
                                     backgroundColor: "#006666",

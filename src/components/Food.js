@@ -7,13 +7,13 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 const Food = ({ food, deleteFood, navigation }) => {
 
     const [uri, setUri] = useState()
-    useEffect(() => {
-        storage()
-            .ref(food.img)
-            .getDownloadURL().then(url => {
-                setUri(url)
-            })
-    });
+    // useEffect(() => {
+    //     storage()
+    //         .ref(food.uri)
+    //         .getDownloadURL().then(url => {
+    //             setUri(url)
+    //         })
+    // });
 
 
     return (
@@ -27,7 +27,8 @@ const Food = ({ food, deleteFood, navigation }) => {
                 <Title style={{fontSize:18}}>Coverage: {food.coverage}</Title>
                 <Title style={{fontSize:18}}>Description: {food.description}</Title>
             </Card.Content>
-            <Card.Cover source={{ uri: uri }} />
+            <Card.Cover source={{ uri: food.img}} />
+
             <Card.Actions>
                     <Button style={{width: "49%",
                                     backgroundColor: "#006666",
