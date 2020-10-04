@@ -2,14 +2,14 @@ import { Picker } from '@react-native-community/picker';
 import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
 import React from 'react';
-import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View, Alert  } from 'react-native';
+import { Alert, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 import ImagePicker from 'react-native-image-picker';
 import { Button, TextInput } from 'react-native-paper';
 import RNFetchBlob from 'rn-fetch-blob';
 import * as yup from 'yup';
 
-const getPathForFirebaseStorage = async uri => {
+const getPathForFirebaseStorage = async (uri) => {
     if (Platform.OS === "ios") return uri
     const stat = await RNFetchBlob.fs.stat(uri)
     return stat.path
@@ -69,42 +69,57 @@ class UpdateFood extends React.Component {
             coverage: this.state.coverage,
             description: this.state.description,
         }).then(() => {
+            const sessionId = new Date().getTime();
+            const imageRef = storage().ref('foods').child(`${sessionId}`);
+            if (this.state.filePath.uri) {
+                getPathForFirebaseStorage(this.state.filePath.uri)
+                    .then(fileUri => {
+                        imageRef.putFile(fileUri).then((ref) => {
+                            console.log('ref: ', ref);
+                            return imageRef.getDownloadURL();
+                        }).then(img => {
+                            const { foodId } = this.props.route.params;
+                            firestore().collection('Foods').doc(foodId).update({
+                                name: this.state.name,
+                                dataPosted: this.state.dataPosted,
+                                type: this.state.type,
+                                manfDateVal: this.state.manfDateVal,
+                                expDateVal: this.state.expDateVal,
+                                coverage: this.state.coverage,
+                                description: this.state.description,
+                                img: img,
+                            }).then(success => {
+                                this.props.navigation.navigate('ViewPostedFood');
+                            });
+                        })
 
-        const sessionId = new Date().getTime();
-        const imageRef = storage().ref('foods').child(`${sessionId}`);
-        getPathForFirebaseStorage(this.state.filePath.uri).then(fileUri => {
-            imageRef.putFile(fileUri)
-            .then(_=> imageRef.getDownloadURL())
-            .then(img => {
+                    })
+            } else {
                 const { foodId } = this.props.route.params;
-                firestore().collection('Foods')
-                    .doc(foodId)
-                    .update({
-                        name: this.state.name,
-                        dataPosted: this.state.dataPosted,
-                        type: this.state.type,
-                        manfDateVal: this.state.manfDateVal,
-                        expDateVal: this.state.expDateVal,
-                        coverage: this.state.coverage,
-                        description: this.state.description,
-                        img: img,
-                    }).then(success => {
-                        this.props.navigation.navigate('ViewPostedFood');
-                    });
-            })
+                firestore().collection('Foods').doc(foodId).update({
+                    name: this.state.name,
+                    dataPosted: this.state.dataPosted,
+                    type: this.state.type,
+                    manfDateVal: this.state.manfDateVal,
+                    expDateVal: this.state.expDateVal,
+                    coverage: this.state.coverage,
+                    description: this.state.description,
+                }).then(success => {
+                    this.props.navigation.navigate('ViewPostedFood');
+                });
+            }
 
+        }).catch(err => {
+            console.log(err);
+            Alert.alert(
+                "Alert Title",
+                err.errors[0],
+                [
+                    { text: "OK", onPress: () => console.log("OK Pressed") }
+                ],
+                { cancelable: false }
+            );
         })
-    }).catch(err => {
-        console.log(err);
-        Alert.alert(
-            "Alert Title",
-            err.errors[0],
-            [
-                { text: "OK", onPress: () => console.log("OK Pressed") }
-            ],
-            { cancelable: false }
-        );
-    })
     }
 
     //Image Picker
@@ -137,13 +152,13 @@ class UpdateFood extends React.Component {
     render() {
         return (
             <ScrollView style={styles.container}>
-                
+
                 <Text style={{ ...styles.textInput, textAlign: 'center' }}> Date Posted :  {this.state.dataPosted}</Text>
 
                 <View style={styles.container1}>
                     {console.log(this.state.img)}
                     <Image
-                        source={{uri: this.state.img}}
+                        source={{ uri: this.state.img }}
                         style={{ width: 100, height: 100 }}
                     />
                     <Button onPress={this.chooseFile}>Choose File</Button>
@@ -202,30 +217,30 @@ class UpdateFood extends React.Component {
                     <Calendar onDayPress={value => this.toggleExpDate(value)} />
                 )}
 
-                    <Picker
-                        selectedValue={this.state.coverage}
-                        style={{
-                            ...styles.textInput,
-                            color: '#595959',
-                            marginVertical: 0,
-                            background: '#ccc'
-                        }}
-                        mode='dropdown'
-                        onValueChange={(itemValue, itemIndex) =>
-                            this.setState({ coverage: itemValue })
-                        }>
-                         <Picker.Item label="Select Food Coverage" value="" />
-                        <Picker.Item label="1 - 10 Pax" value="1 - 10 Pax" />
-                        <Picker.Item label="11 - 20 Pax" value="11 - 20 Pax" />
-                        <Picker.Item label="21 - 30 Pax" value="21 - 30 Pax" />
-                        <Picker.Item label="31 - 40 Pax" value="31 - 40 Pax" />
-                        <Picker.Item label="41 - 50 Pax" value="41 - 50 Pax" />
-                        <Picker.Item label="51 - 60 Pax" value="51 - 60 Pax" />
-                        <Picker.Item label="61 - 70 Pax" value="61 - 70 Pax" />
-                        <Picker.Item label="71 - 80 Pax" value="71 - 80 Pax" />
-                        <Picker.Item label="81 - 90 Pax" value="81 - 90 Pax" />
-                        <Picker.Item label="91 - 100 Pax" value="91 - 100 Pax" />
-                    </Picker>
+                <Picker
+                    selectedValue={this.state.coverage}
+                    style={{
+                        ...styles.textInput,
+                        color: '#595959',
+                        marginVertical: 0,
+                        background: '#ccc'
+                    }}
+                    mode='dropdown'
+                    onValueChange={(itemValue, itemIndex) =>
+                        this.setState({ coverage: itemValue })
+                    }>
+                    <Picker.Item label="Select Food Coverage" value="" />
+                    <Picker.Item label="1 - 10 Pax" value="1 - 10 Pax" />
+                    <Picker.Item label="11 - 20 Pax" value="11 - 20 Pax" />
+                    <Picker.Item label="21 - 30 Pax" value="21 - 30 Pax" />
+                    <Picker.Item label="31 - 40 Pax" value="31 - 40 Pax" />
+                    <Picker.Item label="41 - 50 Pax" value="41 - 50 Pax" />
+                    <Picker.Item label="51 - 60 Pax" value="51 - 60 Pax" />
+                    <Picker.Item label="61 - 70 Pax" value="61 - 70 Pax" />
+                    <Picker.Item label="71 - 80 Pax" value="71 - 80 Pax" />
+                    <Picker.Item label="81 - 90 Pax" value="81 - 90 Pax" />
+                    <Picker.Item label="91 - 100 Pax" value="91 - 100 Pax" />
+                </Picker>
 
                 <TextInput style={styles.textInput} multiline={true} numberOfLines={4}
                     placeholder="Food Description"
