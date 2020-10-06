@@ -173,13 +173,13 @@ class Signup extends React.Component {
     async componentDidMount() {
         this.setState({ coords: this.context.coords })
         console.log(this.context.coords);
-        const loc = await fetch('https://maps.googleapis.com/maps/api/geocode/json?latlng=' + this.context.coords.latitude + ',' + this.context.coords.longitude +'&key=AIzaSyBbZyQKvPAzOEyD_SmYklj9x0PZtKi1_8A');
-        const {results} = await loc.json();
-        console.log('local: ',results);
-        
+        const loc = await fetch('https://maps.googleapis.com/maps/api/geocode/json?latlng=' + this.context.coords.latitude + ',' + this.context.coords.longitude + '&key=AIzaSyBbZyQKvPAzOEyD_SmYklj9x0PZtKi1_8A');
+        const { results } = await loc.json();
+        console.log('local: ', results);
+
         const address = results[0].formatted_address.split(',').slice(0, 3).join(" ");
-        const zipCode = results[0].address_components.find(address=> address.types.includes("postal_code"));
-        const country = results[0].address_components.find(address=> address.types.includes("country"));
+        const zipCode = results[0].address_components.find(address => address.types.includes("postal_code"));
+        const country = results[0].address_components.find(address => address.types.includes("country"));
         this.setState({ address: address, zipcode: zipCode.long_name, country: country.long_name })
 
         // this.setState({ address: data.stnumber + ' - ' + data.staddress + ', ' + data.city + ', ' + data.state, zipcode: data.postal, country: data.country })
@@ -212,72 +212,70 @@ class Signup extends React.Component {
         }).then(() => {
 
             console.log(this.context.coords);
-            fetch('https://maps.googleapis.com/maps/api/geocode/json?address='+this.state.address+'&key=AIzaSyBbZyQKvPAzOEyD_SmYklj9x0PZtKi1_8A').then(loc=>loc.json()).then(data=>{
-            
-                console.log('address after geocode: ',data.results);
-    
-                const location = data.results.geometry.location;
-    //            latitude + ',' + this.context.coords.longitude
-                this.setState({coords: {latitude: location.lat,latitude: longitude.lng, }})
+            fetch('https://maps.googleapis.com/maps/api/geocode/json?address=' + this.state.address + '&key=AIzaSyBbZyQKvPAzOEyD_SmYklj9x0PZtKi1_8A').then(loc => loc.json()).then(data => {
+
+                console.log('address after geocode: ', data.results[0]);
+
+                const location = data.results[0].geometry.location;
+                const coords = {
+                    latitude: location.lat, longitude: location.lng
+                }
+                this.setState({ coords: coords })
 
                 auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
-                .then(({ user }) => {
-                    firestore().collection('Users')
-                        .add({ ...this.state, uid: user.uid })
-                        .then(res => {
-                            this.props.navigation.navigate('Verify');
-                        }).catch(err => {
-                            console.log('error: ', err);
+                    .then(({ user }) => {
+                        firestore().collection('Users')
+                            .add({ ...this.state, uid: user.uid })
+                            .then(res => {
+                                this.props.navigation.navigate('Verify');
+                            }).catch(err => {
+                                console.log('error: ', err);
+                                Alert.alert(
+                                    "Alert - Message",
+                                    "Sorry! Something went wrong!!",
+                                    [
+                                        { text: "OK", onPress: () => console.log("OK Pressed") }
+                                    ],
+                                    { cancelable: false }
+                                );
+                            })
+                    })
+                    .catch(error => {
+                        if (error.code === 'auth/email-already-in-use') {
                             Alert.alert(
                                 "Alert - Message",
-                                "Sorry! Something went wrong!!",
+                                "This email address is already in use!",
                                 [
                                     { text: "OK", onPress: () => console.log("OK Pressed") }
                                 ],
                                 { cancelable: false }
                             );
-                        })
-
-
-
-
-                })
-                .catch(error => {
-                    if (error.code === 'auth/email-already-in-use') {
-                        Alert.alert(
-                            "Alert - Message",
-                            "This email address is already in use!",
-                            [
-                                { text: "OK", onPress: () => console.log("OK Pressed") }
-                            ],
-                            { cancelable: false }
-                        );
-                    } else if (error.code === 'auth/invalid-email') {
-                        Alert.alert(
-                            "Alert - Message",
-                            "This email address is invalid!",
-                            [
-                                { text: "OK", onPress: () => console.log("OK Pressed") }
-                            ],
-                            { cancelable: false }
-                        );
-                        console.log('This email address is invalid!');
-                    } else {
-                        Alert.alert(
-                            "Alert Title",
-                            "Sorry! Unable to register!!",
-                            [
-                                { text: "OK", onPress: () => console.log("OK Pressed") }
-                            ],
-                            { cancelable: false }
-                        );
-                    }
-                });
+                        } else if (error.code === 'auth/invalid-email') {
+                            Alert.alert(
+                                "Alert - Message",
+                                "This email address is invalid!",
+                                [
+                                    { text: "OK", onPress: () => console.log("OK Pressed") }
+                                ],
+                                { cancelable: false }
+                            );
+                            console.log('This email address is invalid!');
+                        } else {
+                            Alert.alert(
+                                "Alert Title",
+                                "Sorry! Unable to register!!",
+                                [
+                                    { text: "OK", onPress: () => console.log("OK Pressed") }
+                                ],
+                                { cancelable: false }
+                            );
+                        }
+                    });
 
 
             });
 
-                   }).catch(err => {
+        }).catch(err => {
             console.log(err);
             Alert.alert(
                 "Alert Title",
